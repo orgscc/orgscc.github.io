@@ -482,3 +482,15 @@ button:hover,
     width: 500px;
     height: auto;
 }
+img {
+  width: 90vw;        /* العرض الافتراضي: 90% من عرض الشاشة */
+  height: auto;
+  border-radius: 0;
+}
+
+/* لأجهزة الكمبيوتر (شاشات أكبر من 768px) */
+@media (min-width: 768px) {
+  img {
+    width: 600px;      /* تثبيت العرض على 600px */
+  }
+}
