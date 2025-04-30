@@ -14,13 +14,40 @@
             background-color: #d3d3d3;
             margin: 0;
             padding: 0;
+            direction: rtl;
         }
+         .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+      background-color: #222;
+      color: white;
+    }
+
+    .navbar .title {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .navbar .cart-btn {
+      background-color: #00aaff;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .navbar .cart-btn:hover {
+      background-color: #008ecc;
+    }
         body {
       -webkit-user-select: none;
       -moz-user-select: none;
       user-select: none;
     }
-
         .responsive-img {
       max-width: 100%;
       height: auto;
