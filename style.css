@@ -19,7 +19,7 @@ header {
     background: #ffffff;
     padding: 15px;
     display: flex;
-    justify-content: space-between;
+    justify-content: justify-content: flex-end;
     align-items: center;
     color: #000;
 }
