@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الصفحة الرئيسية</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="https://cdn.discordapp.com/attachments/1186721878363091031/1364956400609918976/1.png?ex=680b8e35&is=680a3cb5&hm=41412d66a0fcfc68c768d377a215f598347ecffae1ea03b4fb5cb0b3b38cd48c&">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
+            font-weight: bold;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+    </style>    
+</head>
+<body>
+
+    <!-- شاشة الترحيب -->
+    <div id="splash-screen">
+        <img id="splash-logo" src="https://i.postimg.cc/fLxzPSPz/image.png" alt="شعار ترحيبي">
+        <div class="loader"><div class="bar"></div></div>
+    </div>
+
+    <!-- المحتوى الأساسي -->
+    <div id="main-content" style="display: none;">
+        <header>
+            <h1>الصفحة الرئيسية</h1>
+
+            <div class="cart-icon" onclick="window.location.href='cart.html'">
+                <img id="cart-icon" src="images/شعار المجلس" 
+                alt="سلة التسوق" style="width: 30px;">
+                <span id="cart-count">0</span>
+            </div>
+        </header>
+
+        <main id="products-container" class="products-grid">
+            <!-- المنتجات ستظهر هنا -->
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // بعد 10 ثواني يختفي الترحيب ويظهر الموقع
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('splash-screen').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+            }, 10000);
+        });
+    </script>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <img src="https://drive.google.com/file/d/1GIrsr71VJgVQQCbbo26rhkeNHfR8nrQd/view?usp=drive_link" alt="شعار الموقع" class="protected-image">
+    
+           <div class="footer-buttons">
+                <a href="رابط-سياسة-الخصوصية.html" class="footer-btn">سياسة الخصوصية</a>
+                <a href="رابط-القوانين-واdfلاحكام.html" class="footer-btn">القوانين والأحكام</a>
+            </div>
+    
+            <p class="footer-text">
+                &copy; <span id="year"></span> جميع الحقوق محفوظة | 2025
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>
