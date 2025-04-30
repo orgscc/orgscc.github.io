@@ -34,64 +34,99 @@
       pointer-events: none;
       user-select: none;
     }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .product {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .product-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .add-to-cart-btn {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #00aaff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .add-to-cart-btn:hover {
+            background-color: #008ecc;
+        }
+
+        footer {
+            background-color: #333;
+            padding: 20px;
+            color: white;
+            text-align: center;
+        }
+        .footer-buttons a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            margin: 5px;
+            background-color: #00aaff;
+            border-radius: 5px;
+        }
+        .footer-buttons a:hover {
+            background-color: #008ecc;
+        }
     </style>    
 </head>
 <body>
-  <script>
-    // منع كليك يمين
-    document.addEventListener("contextmenu", e => e.preventDefault());
 
-    // منع F12 و Ctrl+Shift+I و Ctrl+U
-    document.addEventListener("keydown", e => {
-      if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I") || (e.ctrlKey && e.key === "u")) {
-        e.preventDefault();
-      }
-    });
-  </script>
-    </div>
+  <!-- المحتوى الأساسي -->
+  <div id="main-content">
+    <header>
+        <h1>الصفحة الرئيسية</h1>
 
-    <!-- المحتوى الأساسي -->
-    <div id="main-content" style="display: none;">
-        <header>
-            <h1>الصفحة الرئيسية</h1>
-
-            <div class="cart-icon" onclick="window.location.href='cart.html'">
-                <img id="cart-icon" src="images/شعار المجلس" 
-                alt="السلة" style="width: 30px;">
-                <span id="cart-count">0</span>
-            </div>
-        </header>
-
-        <main id="products-container" class="products-grid">
-            <!-- المنتجات ستظهر هنا -->
-        </main>
-    </div>
-
-    <script src="script.js">
-    </script>
-
-    <footer class="footer">
-        <div class="footer-content">
-            <img src="https://i.postimg.cc/fLxzPSPz/image.png" alt="شعار الموقع" class="protected-image">
-    
-           <div class="footer-buttons">
-                <a href="privacy.html" class="footer-btn">سياسة الخصوصية</a>
-                <a href="rules.html" class="footer-btn">القوانين والأحكام</a>
-</div>
-               <!-- شريط التنقل في الأعلى -->
-  <div class="navbar">
-    <button class="link-btn" onclick="window.location.href='page2.html'">الذهاب إلى صفحة أخرى</button>
-            </div>
-     <!-- محتوى الصفحة -->
-  <div class="content">
-    <h1>مرحبًا بك في متجرنا</h1>
-    <p>هنا يمكنك شراء جميع المنتجات المميزة.</p>
-  </div>
-            <p class="footer-text">
-                &copy; <span id="year"></span> جميع الحقوق محفوظة | 2025
-            </p>
+        <div class="cart-icon" onclick="window.location.href='cart.html'">
+            <img id="cart-icon" src="images/شعار المجلس" alt="السلة" style="width: 30px;">
+            <span id="cart-count">0</span>
         </div>
-    </footer>
+    </header>
+
+    <main id="products-container" class="products-grid">
+        <!-- المنتجات ستظهر هنا -->
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+
+  <footer class="footer">
+    <div class="footer-content">
+        <img src="https://i.postimg.cc/fLxzPSPz/image.png" alt="شعار الموقع" class="protected-image">
+    
+        <div class="footer-buttons">
+            <a href="privacy.html" class="footer-btn">سياسة الخصوصية</a>
+            <a href="rules.html" class="footer-btn">القوانين والأحكام</a>
+        </div>
+
+        <div class="navbar">
+            <button class="link-btn" onclick="window.location.href='index.html'">رجوع</button>
+        </div>
+
+        <p class="footer-text">
+            &copy; <span id="year"></span> جميع الحقوق محفوظة | 2025
+        </p>
+    </div>
+  </footer>
 
 </body>
 </html>
