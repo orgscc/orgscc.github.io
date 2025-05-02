@@ -513,50 +513,50 @@ body, html {
   padding: 0;
 }
 
+/* تصفير كل شيء */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+}
+
+/* الشريط العلوي */
 .header-titles {
   background-color: white;
   padding: 5px 25px;
-  border: none;
-  border-radius: 0;
   display: flex;
-  justify-content: flex-start;
+  flex-direction: row;
+  justify-content: flex-start; /* لأن الاتجاه RTL، هذا يخليهم يمين */
   align-items: center;
-  width: 100%; /* مضبوط على عرض الصفحة بدون زيادة */
+  width: 100%;
   height: 50px;
-  direction: rtl;
+  direction: rtl; /* مهم عشان الكلمات تبدأ من اليمين */
   position: fixed;
   top: 0;
   left: 0;
   z-index: 999;
-  box-shadow: none;
 }
 
-.header-titles h1,
-.header-titles h2 {
-  margin: 0 10px;
-  padding: 0;
+/* الصفحة الرئيسية */
+.main-title {
+  font-size: 24px; /* أكبر */
+  font-weight: bold;
+  margin-left: 15px; /* مسافة بين الكلمتين */
+  color: black;
   border: none;
-  box-shadow: none;
-  text-shadow: none;
-  font-size: 18px;
-  font-weight: bold;
-}
-/* كبر حجم الصفحة الرئيسية */
-.header-titles h1 {
-  font-size: 22px;
-}
-/* المتجر حجم أصغر شوي */
-.header-titles h2 {
-  font-size: 16px;
-}
-.header-titles .title {
-  font-size: 18px;
-  font-weight: bold;
-  padding-right: 15px;
+  padding: 0;
 }
 
-
-/* لتحديد اتجاه النص إلى اليمين */
-.header-titles {
-  direction: rtl; /* تحديد الاتجاه من اليمين لليسار */
+/* المتجر */
+.sub-title {
+  font-size: 16px; /* أصغر */
+  font-weight: normal;
+  color: black;
+  border: none;
+  padding: 0;
 }
