@@ -528,19 +528,20 @@ body, html {
 /* الشريط العلوي */
 .header-titles {
   background-color: white;
-  padding: 25px 100px; /* زيدنا البادينغ ليوسع المستطيل */
+  padding: 25px 100px; /* زيادة البادينغ ليوسع المستطيل */
   display: flex;
   flex-direction: row;
   justify-content: flex-start; /* لأن الاتجاه RTL، هذا يخليهم يمين */
   align-items: center;
-  width: 100%;
-  height: 70px; /* زيدنا الارتفاع */
+  width: 100vw; /* تأكد من أن العرض يمتد لعرض الشاشة بالكامل */
+  height: 70px; /* زيادة الارتفاع */
   direction: rtl; /* مهم عشان الكلمات تبدأ من اليمين */
   position: fixed;
   top: 0;
   left: 0;
   z-index: 999;
 }
+
 
 /* الصفحة الرئيسية */
 .main-title {
