@@ -544,7 +544,7 @@ body, html {
 
 /* الصفحة الرئيسية */
 .main-title {
-  font-size: 24px; /* أكبر */
+  font-size: 36px; /* أكبر */
   font-weight: bold;
   margin-left: 15px; /* مسافة بين الكلمتين */
   color: black;
@@ -554,7 +554,7 @@ body, html {
 
 /* المتجر */
 .sub-title {
-  font-size: 16px; /* أصغر */
+  font-size: 28px; /* أصغر */
   font-weight: normal;
   color: black;
   border: none;
