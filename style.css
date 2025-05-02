@@ -505,28 +505,32 @@ img {
 .header-titles {
   background-color: white;
   padding: 5px 25px;
-  border-radius: 0px; /* حواف المستطيل هنا */
-  border: none; /* إزالة الحواف الخارجية من المستطيل */
+  border-radius: 10px;
+  border: none;
   margin: 0;
   display: flex;
-  justify-content: space-between; /* توزيع المسافة بين الكلمات */
+  justify-content: space-between;
   align-items: center;
-  width: 100vw;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100vw; /* عرض المستطيل = عرض الشاشة بالضبط */
+  height: 50px;
+  direction: rtl;
 }
 
-.header-titles h1, .header-titles h2 {
+.header-titles h1,
+.header-titles h2 {
   margin: 0;
-  padding: 0; /* إزالة الحواف حول الكلمات */
-  border: none; /* لا حواف حول الكلمة نفسها */
+  padding: 0;
+  border: none;
+  box-shadow: none;
+  text-shadow: none;
 }
 
 .header-titles .title {
   font-size: 18px;
   font-weight: bold;
-  padding-right: 15px; /* المسافة بين الكلمتين */
+  padding-right: 15px;
 }
+
 
 /* لتحديد اتجاه النص إلى اليمين */
 .header-titles {
