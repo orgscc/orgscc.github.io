@@ -1,8 +1,8 @@
 const products = [
-        { name: "بوت سيستم", priceSAR: convertPrice("5.75"), priceCredit: convertPrice("20m"), image: "https://cdn.discordapp.com/attachments/1186721878363091031/1348932000475648002/discotools-xyz-icon_1.png?ex=68040412&is=6802b292&hm=762f446c712a74b4823b882d427440f8b27a342833e180696666c202d1cbceb6&" },
-        { name: "بوت إدارة", priceSAR: convertPrice("25.75"), priceCredit: convertPrice("1.5m"), image: "https://cdn.discordapp.com/attachments/1186721878363091031/1348937486759362591/discotools-xyz-icon_3.png?ex=6804092e&is=6802b7ae&hm=f87be6aa1c41e608506f2b9202f7ac2019ba05bf7b3ae3cf5b49c0e3a8570832&" },
-        { name: "بوت تكت", priceSAR: convertPrice("15.00"), priceCredit: convertPrice("2.5m"), image: "https://cdn.discordapp.com/attachments/1186721878363091031/1348938332213743668/discotools-xyz-icon_4.png?ex=680409f8&is=6802b878&hm=9bda54a28bfd341db7c6127aa3ca3b5d9406942eaeb8357c8e8b572d6a358aba&" },
-        { name: "بوت لعبة تحدي العائلات", priceSAR: convertPrice("7.50"), priceCredit: convertPrice("100000k"), image: "https://cdn.discordapp.com/attachments/1186721878363091031/1348938332213743668/discotools-xyz-icon_4.png?ex=680409f8&is=6802b878&hm=9bda54a28bfd341db7c6127aa3ca3b5d9406942eaeb8357c8e8b572d6a358aba&" }
+        { name: "بوت سيستم", priceSAR: convertPrice("5.75"), priceCredit: convertPrice("20m"), image: "https://i.postimg.cc/yYhtDQbX/image.png" },
+        { name: "بوت إدارة", priceSAR: convertPrice("25.75"), priceCredit: convertPrice("1.5m"), image: "https://i.postimg.cc/QCQ4WC0x/image.png" },
+        { name: "بوت تكت", priceSAR: convertPrice("15.00"), priceCredit: convertPrice("2.5m"), image: "https://i.postimg.cc/VkDhRS1J/image.png" },
+        { name: "بوت لعبة تحدي العائلات", priceSAR: convertPrice("7.50"), priceCredit: convertPrice("100000k"), image: "https://i.postimg.cc/7LRQFp5D/image.png" }
     ];
 
     const productsContainer = document.getElementById("products-container");
@@ -15,11 +15,11 @@ const products = [
             <img src="${product.image}" alt="${product.name}">
             <h3>${product.name}</h3>
             <p>
-                <img src="https://cdn.discordapp.com/attachments/1186721878363091031/1348942342140465193/Saudi_Riyal_Symbol-1.png?ex=680b4df4&is=6809fc74&hm=bfa18473461f34d4e4a2b18fa0bcd077e0c4290b7086a80fdaa34aa1aa842e00&" style="width: 19px; vertical-align: middle;"> 
+                <img src="https://i.postimg.cc/7P0QRtw8/image.png" style="width: 19px; vertical-align: middle;"> 
                 <span style="font-weight: bold; font-size: 19px;">${formatPrice(product.priceSAR)} </span>
             </p>
             <p>
-                <img src="https://cdn.discordapp.com/attachments/1186721878363091031/1349643586026868747/cedi.png?ex=680b380a&is=6809e68a&hm=791dcd24ad2b20f090affb9d8a10ef75be9e487384d20f71cc60ed018f04ec62&" style="width: 21px; vertical-align: middle;"> 
+                <img src="https://i.postimg.cc/3RPVvPh9/image.png" style="width: 21px; vertical-align: middle;"> 
                 <span>${formatPrice(product.priceCredit)}</span>
             </p>
             <button onclick="addToCart('${product.name}', ${product.priceSAR}, ${product.priceCredit}, 'SAR')">أضف للسلة</button>
