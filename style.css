@@ -505,13 +505,13 @@ img {
 .header-titles {
   background-color: white;
   padding: 0px 25px;
-  border-radius: 10px;
+  border-radius: 0px;
   border: none;
   margin: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 80vw; /* عرض المستطيل = عرض الشاشة بالضبط */
+  width: 70vw; /* عرض المستطيل = عرض الشاشة بالضبط */
   height: 50px;
   direction: rtl;
 }
