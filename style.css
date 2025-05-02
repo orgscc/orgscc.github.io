@@ -528,7 +528,7 @@ body, html {
 /* الشريط العلوي */
 .header-titles {
   background-color: white;
-  padding: 25px 250px; /* زيادة البادينغ ليوسع المستطيل */
+  padding: 500px 250px; /* زيادة البادينغ ليوسع المستطيل */
   display: flex;
   flex-direction: row;
   justify-content: flex-start; /* لأن الاتجاه RTL، هذا يخليهم يمين */
@@ -545,7 +545,7 @@ body, html {
 
 /* الصفحة الرئيسية */
 .main-title {
-  font-size: 36px; /* أكبر */
+  font-size: 30px; /* أكبر */
   font-weight: bold;
   margin-left: 15px; /* مسافة بين الكلمتين */
   color: black;
