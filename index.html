@@ -16,13 +16,22 @@
       padding: 20px;
     }
 
+    .header-titles h1,
+    .header-titles h2 {
+      background-color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      margin: 0;
+    }
+
     .header-titles a {
-      text-decoration: none; /* يشيل الخط */
-      color: black; /* نفس لون العنوان */
+      text-decoration: none;
+      color: black;
     }
 
     .header-titles a:hover {
-      color: #007bff; /* تأثير عند المرور */
+      color: #007bff;
     }
   </style>
 </head>
@@ -47,51 +56,45 @@
             direction: rtl;
         }
         body {
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      user-select: none;
-    }
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
         .responsive-img {
-      max-width: 100%;
-      height: auto;
-      margin-top: 20px;
-    }
-         img {
-      max-width: 100%;
-      width: 90vw;
-      max-height: 100vh;
-      height: auto;
-      pointer-events: none;
-      user-select: none;
-    }
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+        }
+        img {
+            max-width: 100%;
+            width: 90vw;
+            max-height: 100vh;
+            height: auto;
+            pointer-events: none;
+            user-select: none;
+        }
     </style>    
 </head>
 <body>
   <script>
-    // منع كليك يمين
     document.addEventListener("contextmenu", e => e.preventDefault());
-
-    // منع F12 و Ctrl+Shift+I و Ctrl+U
     document.addEventListener("keydown", e => {
       if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I") || (e.ctrlKey && e.key === "u")) {
         e.preventDefault();
       }
     });
   </script>
-    <!-- شاشة الترحيب -->
     <div id="splash-screen">
         <img id="splash-logo" src="https://i.postimg.cc/fLxzPSPz/image.png" alt="شعار ترحيبي" loading="eager"
-    decoding="sync" class="responsive-img">
+        decoding="sync" class="responsive-img">
         <div class="loader"><div class="bar"></div></div>
     </div>
 
-    <!-- المحتوى الأساسي -->
     <div id="main-content" style="display: none;">
-            </div>
+    </div>
       
     <script src="script.js"></script>
     <script>
-        // بعد 10 ثواني يختفي الترحيب ويظهر الموقع
         window.addEventListener('load', () => {
             setTimeout(() => {
                 document.getElementById('splash-screen').style.display = 'none';
@@ -100,25 +103,24 @@
         });
     </script>
 
-<!-- شريط التنقل في الأعلى -->
   <div class="navbar">
-      <!-- تم حذف زر المتجر الرمادي هنا بناءً على طلبك -->
+      <!-- زر المتجر تم حذفه -->
   </div>
     
-    <footer class="footer">
-        <div class="footer-content">
-            <img src="https://i.postimg.cc/fLxzPSPz/image.png" alt="شعار الموقع" class="protected-image">
-    
-           <div class="footer-buttons">
-                <a href="رابط-سياسة-الخصوصية.html" class="footer-btn">سياسة الخصوصية</a>
-                <a href="رابط-القوانين-واdfلاحكام.html" class="footer-btn">القوانين والأحكام</a>
-            </div>
-    
-            <p class="footer-text">
-                &copy; <span id="year"></span> جميع الحقوق محفوظة | 2025
-            </p>
-        </div>
-    </footer>
+  <footer class="footer">
+      <div class="footer-content">
+          <img src="https://i.postimg.cc/fLxzPSPz/image.png" alt="شعار الموقع" class="protected-image">
+  
+          <div class="footer-buttons">
+              <a href="رابط-سياسة-الخصوصية.html" class="footer-btn">سياسة الخصوصية</a>
+              <a href="رابط-القوانين-واdfلاحكام.html" class="footer-btn">القوانين والأحكام</a>
+          </div>
+  
+          <p class="footer-text">
+              &copy; <span id="year"></span> جميع الحقوق محفوظة | 2025
+          </p>
+      </div>
+  </footer>
 
 </body>
 </html>
