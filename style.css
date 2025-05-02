@@ -519,7 +519,7 @@ body, html {
   border: none;
   border-radius: 0;
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
   width: 100%; /* مضبوط على عرض الصفحة بدون زيادة */
   height: 50px;
@@ -541,7 +541,14 @@ body, html {
   font-size: 18px;
   font-weight: bold;
 }
-
+/* كبر حجم الصفحة الرئيسية */
+.header-titles h1 {
+  font-size: 22px;
+}
+/* المتجر حجم أصغر شوي */
+.header-titles h2 {
+  font-size: 16px;
+}
 .header-titles .title {
   font-size: 18px;
   font-weight: bold;
