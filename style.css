@@ -502,3 +502,13 @@ img {
 .link-text:hover {
   color: #007bff;
 }
+.header-titles h1,
+.header-titles h2 {
+  background-color: white;
+  padding: 10px 25px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  margin: 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
