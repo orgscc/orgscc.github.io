@@ -508,7 +508,6 @@ img {
   border-radius: 0px; /* حواف المستطيل هنا */
   border: none; /* إزالة الحواف الخارجية من المستطيل */
   margin: 0;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: space-between; /* توزيع المسافة بين الكلمات */
   align-items: center;
