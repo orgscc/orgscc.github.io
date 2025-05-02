@@ -504,14 +504,14 @@ img {
 }
 .header-titles {
   background-color: white;
-  padding: 5px 25px;
+  padding: 0px 25px;
   border-radius: 10px;
   border: none;
   margin: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100vw; /* عرض المستطيل = عرض الشاشة بالضبط */
+  width: 80vw; /* عرض المستطيل = عرض الشاشة بالضبط */
   height: 50px;
   direction: rtl;
 }
