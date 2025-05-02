@@ -555,7 +555,7 @@ body, html {
 /* المتجر */
 .sub-title {
   font-size: 28px; /* أصغر */
-  font-weight: normal;
+  font-weight: bold;
   color: black;
   border: none;
   padding: 0;
