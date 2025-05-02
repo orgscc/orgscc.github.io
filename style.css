@@ -504,35 +504,32 @@ img {
 }
 .header-titles {
   background-color: white;
-  border-radius: 10px;
-  border: 1px solid #ccc;
+  padding: 10px 25px;
+  border-radius: 10px; /* حواف المستطيل هنا */
+  border: none; /* إزالة الحواف الخارجية من المستطيل */
   margin: 0;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* توزيع المسافة بين الكلمات */
   align-items: center;
-  width: 100%; /* هنا يمكنك تحديد عرض المستطيل */
+  width: 80%;
   margin-left: auto;
-  margin-right: auto; /* هذا يجعل المستطيل في المنتصف */
+  margin-right: auto;
 }
 
 .header-titles h1, .header-titles h2 {
   margin: 0;
   padding: 0; /* إزالة الحواف حول الكلمات */
+  border: none; /* لا حواف حول الكلمة نفسها */
 }
 
 .header-titles .title {
   font-size: 18px;
   font-weight: bold;
+  padding-right: 15px; /* المسافة بين الكلمتين */
 }
 
-/* لتغيير اتجاه النص داخل العناوين */
-.header-titles h1 {
-  text-align: right; /* يمكن تغييره إلى 'left' أو 'center' حسب الاتجاه الذي تريده */
+/* لتحديد اتجاه النص إلى اليمين */
+.header-titles {
+  direction: rtl; /* تحديد الاتجاه من اليمين لليسار */
 }
-
-.header-titles h2 {
-  text-align: right; /* نفس الشيء هنا */
-}
-
-
