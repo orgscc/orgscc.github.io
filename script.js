@@ -1,5 +1,5 @@
 const products = [
-        { name: "بوت سيستم", priceSAR: convertPrice("5.75"), priceCredit: convertPrice("20m"), image: "https://i.postimg.cc/yYhtDQbX/image.png" },
+        { name: "بوت سيستم", priceSAR: convertPrice("5.75"), priceCredit: convertPrice("20m"), image: "https://postimg.cc/ygyLqpkS" },
         { name: "بوت إدارة", priceSAR: convertPrice("25.75"), priceCredit: convertPrice("1.5m"), image: "https://i.postimg.cc/QCQ4WC0x/image.png" },
         { name: "بوت تكت", priceSAR: convertPrice("15.00"), priceCredit: convertPrice("2.5m"), image: "https://i.postimg.cc/VkDhRS1J/image.png" },
         { name: "بوت لعبة تحدي العائلات", priceSAR: convertPrice("7.50"), priceCredit: convertPrice("100000k"), image: "https://i.postimg.cc/7LRQFp5D/image.png" }
