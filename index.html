@@ -1,35 +1,38 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        .nav-bar {
-            position: absolute;
-            top: 10px;
-            left: 15px;
-            z-index: 999;
-            display: flex;
-            gap: 15px;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
 
-        .link-text {
-            text-decoration: none; /* يشيل الخط السفلي */
-            color: black;          /* لون النص */
-            font-size: 20px;       /* حجم مناسب */
-            font-weight: bold;     /* عريض مثل العنوان */
-        }
+    .header-titles {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 20px;
+    }
 
-        .link-text:hover {
-            color: #007bff;        /* تغيير لون عند التحويم إذا تحب */
-        }
-    </style>
+    .header-titles a {
+      text-decoration: none; /* يشيل الخط */
+      color: black; /* نفس لون العنوان */
+    }
+
+    .header-titles a:hover {
+      color: #007bff; /* تأثير عند المرور */
+    }
+  </style>
 </head>
 <body>
-    <div class="nav-bar">
-        <a href="index.html" class="link-text">الصفحة الرئيسية</a>
-        <a href="store.html" class="link-text">المتجر</a>
-    </div>
+
+  <div class="header-titles">
+    <h1>الصفحة الرئيسية</h1>
+    <h2><a href="store.html">المتجر</a></h2>
+  </div>
+
 </body>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/png" href="https://cdn.discordapp.com/attachments/1186721878363091031/1364956400609918976/1.png?ex=680b8e35&is=680a3cb5&hm=41412d66a0fcfc68c768d377a215f598347ecffae1ea03b4fb5cb0b3b38cd48c&">
@@ -84,12 +87,8 @@
 
     <!-- المحتوى الأساسي -->
     <div id="main-content" style="display: none;">
-        <header>
-            <h1>الصفحة الرئيسية</h1>
-            
             </div>
-        </header>
-
+      
     <script src="script.js"></script>
     <script>
         // بعد 10 ثواني يختفي الترحيب ويظهر الموقع
