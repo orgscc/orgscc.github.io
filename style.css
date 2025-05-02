@@ -528,13 +528,13 @@ body, html {
 /* الشريط العلوي */
 .header-titles {
   background-color: white;
-  padding: 500px 250px; /* زيادة البادينغ ليوسع المستطيل */
+  padding: 250px 500px; /* زيادة البادينغ ليوسع المستطيل */
   display: flex;
   flex-direction: row;
   justify-content: flex-start; /* لأن الاتجاه RTL، هذا يخليهم يمين */
   align-items: center;
   width: 100vw; /* تأكد من أن العرض يمتد لعرض الشاشة بالكامل */
-  height: 70px; /* زيادة الارتفاع */
+  height: 120px; /* زيادة الارتفاع */
   direction: rtl; /* مهم عشان الكلمات تبدأ من اليمين */
   position: fixed;
   top: 0;
@@ -545,7 +545,7 @@ body, html {
 
 /* الصفحة الرئيسية */
 .main-title {
-  font-size:27px; /* أكبر */
+  font-size:15px; /* أكبر */
   font-weight: bold;
   margin-left: 15px; /* مسافة بين الكلمتين */
   color: black;
@@ -555,7 +555,7 @@ body, html {
 
 /* المتجر */
 .sub-title {
-  font-size: 26px;
+  font-size: 13px;
   font-weight: normal;
   color: black;
   border: none;
