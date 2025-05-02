@@ -528,7 +528,7 @@ body, html {
 /* الشريط العلوي */
 .header-titles {
   background-color: white;
-  padding: 25px 100px; /* زيادة البادينغ ليوسع المستطيل */
+  padding: 25px 250px; /* زيادة البادينغ ليوسع المستطيل */
   display: flex;
   flex-direction: row;
   justify-content: flex-start; /* لأن الاتجاه RTL، هذا يخليهم يمين */
