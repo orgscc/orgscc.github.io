@@ -545,7 +545,7 @@ body, html {
 
 /* الصفحة الرئيسية */
 .main-title {
-  font-size: 30px; /* أكبر */
+  font-size:27px; /* أكبر */
   font-weight: bold;
   margin-left: 15px; /* مسافة بين الكلمتين */
   color: black;
