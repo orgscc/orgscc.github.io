@@ -512,7 +512,7 @@ img {
   display: flex;
   justify-content: space-between; /* توزيع المسافة بين الكلمات */
   align-items: center;
-  width: 50%;
+  width: 65%;
   margin-left: auto;
   margin-right: auto;
 }
