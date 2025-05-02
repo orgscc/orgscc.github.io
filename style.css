@@ -528,7 +528,7 @@ body, html {
 /* الشريط العلوي */
 .header-titles {
   background-color: white;
-  padding: 5px 25px;
+  padding: 25px 25px;
   display: flex;
   flex-direction: row;
   justify-content: flex-start; /* لأن الاتجاه RTL، هذا يخليهم يمين */
@@ -568,3 +568,11 @@ body, html {
   max-width: 100%;        /* يمنع تجاوز الشاشة */
   margin: 0 auto;         /* يوسّط العنصر */
 }
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;  /* يضمن أن الصورة تغطي كامل العنصر */
+  display: block;     /* إزالة المسافة البيضاء أسفل الصورة */
+  pointer-events: none;  /* لمنع تفاعل المستخدم مع الصورة (اختياري) */
+}
+
