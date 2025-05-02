@@ -528,13 +528,13 @@ body, html {
 /* الشريط العلوي */
 .header-titles {
   background-color: white;
-  padding: 25px 70px;
+  padding: 25px 100px; /* زيدنا البادينغ ليوسع المستطيل */
   display: flex;
   flex-direction: row;
   justify-content: flex-start; /* لأن الاتجاه RTL، هذا يخليهم يمين */
   align-items: center;
   width: 100%;
-  height: 50px;
+  height: 70px; /* زيدنا الارتفاع */
   direction: rtl; /* مهم عشان الكلمات تبدأ من اليمين */
   position: fixed;
   top: 0;
@@ -562,5 +562,4 @@ body, html {
   text-decoration: none; /* عشان ما يطلع تحته خط */
   cursor: pointer; /* يعطي شكل اليد */
 }
-
 
