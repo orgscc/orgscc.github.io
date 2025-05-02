@@ -562,4 +562,9 @@ body, html {
   text-decoration: none; /* عشان ما يطلع تحته خط */
   cursor: pointer; /* يعطي شكل اليد */
 }
-
+/* ✅ كود خاص لتكبير عرض المستطيل */
+.wide-container {
+  width: 1200px;          /* العرض المطلوب */
+  max-width: 100%;        /* يمنع تجاوز الشاشة */
+  margin: 0 auto;         /* يوسّط العنصر */
+}
