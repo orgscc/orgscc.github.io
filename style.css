@@ -511,7 +511,7 @@ img {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 70vw; /* عرض المستطيل = عرض الشاشة بالضبط */
+  width: 85vw; /* عرض المستطيل = عرض الشاشة بالضبط */
   height: 50px;
   direction: rtl;
 }
