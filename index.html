@@ -3,10 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- خطوط واستايلات -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="https://i.postimg.cc/7P2pkY1R/image.png">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet">
+
   <style>
     body {
       margin: 0;
-      font-family: IBM Plex Sans Arabic, sans-serif;
+      padding: 0;
+      font-family: 'IBM Plex Sans Arabic', sans-serif;
+      font-weight: bold;
+      background-color: #d3d3d3;
+      direction: rtl;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
     }
 
     .header-titles {
@@ -39,34 +52,37 @@
       max-width: 1200px;
     }
 
-    /* إضافة منع التحديد أو النسخ للصورة */
     img {
       max-width: 100%;
       width: 90vw;
       max-height: 100vh;
       height: auto;
-      pointer-events: none; /* يمنع التفاعل مع الصورة */
-      user-select: none; /* يمنع تحديد الصورة */
-    }
-
-    body {
-      font-family: 'IBM Plex Sans Arabic', sans-serif;
-      font-weight: bold;
-      background-color: #d3d3d3;
-      margin: 0;
-      padding: 0;
-      direction: rtl;
-    }
-
-    body {
-      -webkit-user-select: none;
-      -moz-user-select: none;
+      pointer-events: none;
       user-select: none;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .footer-content {
+      text-align: center;
+    }
+
+    .footer-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 10px;
+    }
+
+    .footer-text {
+      margin-top: 10px;
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
 
+  <!-- عنوان الصفحة -->
   <div class="container">
     <div class="header-titles">
       <h1 class="main-title">الصفحة الرئيسية</h1>
@@ -74,6 +90,7 @@
     </div>
   </div>
 
+  <!-- منع الضغط بالزر اليمين وF12 -->
   <script>
     document.addEventListener("contextmenu", e => e.preventDefault());
     document.addEventListener("keydown", e => {
@@ -83,6 +100,7 @@
     });
   </script>
 
+  <!-- شاشة ترحيبية -->
   <div class="container">
     <div id="splash-screen">
       <img id="splash-logo" src="https://i.postimg.cc/fLxzPSPz/image.png" alt="شعار ترحيبي" class="responsive-img">
@@ -90,6 +108,7 @@
     </div>
   </div>
 
+  <!-- محتوى الصفحة -->
   <div class="container">
     <div id="main-content" style="display: none;"></div>
   </div>
@@ -104,12 +123,14 @@
     });
   </script>
 
+  <!-- شريط تنقل -->
   <div class="container">
     <div class="navbar">
       <!-- زر المتجر تم حذفه -->
     </div>
   </div>
 
+  <!-- الفوتر -->
   <div class="container">
     <footer class="footer">
       <div class="footer-content">
@@ -123,4 +144,12 @@
         </p>
       </div>
     </footer>
-</div>
+  </div>
+
+  <script>
+    // تحديث سنة الفوتر تلقائيًا
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
