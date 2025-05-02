@@ -502,27 +502,44 @@ img {
 .link-text:hover {
   color: #007bff;
 }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+}
+
 .header-titles {
   background-color: white;
-  padding: 0px 25px;
-  border-radius: 0px;
+  padding: 5px 25px;
   border: none;
-  margin: 0;
+  border-radius: 0;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
-  width: 100vw; /* عرض المستطيل = عرض الشاشة بالضبط */
+  width: 100%; /* مضبوط على عرض الصفحة بدون زيادة */
   height: 50px;
   direction: rtl;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  box-shadow: none;
 }
 
 .header-titles h1,
 .header-titles h2 {
-  margin: 0;
+  margin: 0 10px;
   padding: 0;
   border: none;
   box-shadow: none;
   text-shadow: none;
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .header-titles .title {
