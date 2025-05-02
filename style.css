@@ -494,3 +494,11 @@ img {
     width: 600px;      /* تثبيت العرض على 600px */
   }
 }
+.link-text {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+.link-text:hover {
+  color: #007bff;
+}
