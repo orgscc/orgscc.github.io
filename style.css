@@ -602,7 +602,7 @@ body {
 
 /* العنوان الرئيسي */
 .main-title {
-  font-size: 36px;
+  font-size: 18px;
   font-weight: bold;
   margin-left: 15px;
   color: #000000;
@@ -611,7 +611,7 @@ body {
 
 /* الرابط الفرعي (المتجر) */
 .sub-title {
-  font-size: 26px;
+  font-size: 17px;
   color: #000000;
   text-decoration: none;
   cursor: pointer;
