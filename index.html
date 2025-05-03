@@ -145,6 +145,23 @@
         document.getElementById('main-content').style.display = 'block';
       }, 10000);
     });
+    
+    window.addEventListener('load', () => {
+  // نمنع التمرير
+  document.body.classList.add('noscroll');
+
+  setTimeout(() => {
+    // نخفي شاشة الترحيب
+    document.getElementById('splash-screen').style.display = 'none';
+
+    // نظهر المحتوى الرئيسي
+    document.getElementById('main-content').style.display = 'block';
+
+    // نسمح بالتمرير مرة ثانية
+    document.body.classList.remove('noscroll');
+  }, 10000);
+});
+
   </script>
 
   <!-- شريط تنقل -->
