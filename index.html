@@ -171,26 +171,67 @@
     </div>
   </div>
 
-  <!-- الفوتر -->
-  <div class="container">
-    <footer class="footer">
-      <div class="footer-content">
-        <img src="https://i.postimg.cc/fLxzPSPz/image.png" alt="شعار الموقع" class="protected-image">
-        <div class="footer-buttons">
-          <a href="privacy.html" class="footer-btn">سياسة الخصوصية</a>
-          <a href="rules.html" class="footer-btn">القوانين والأحكام</a>
-        </div>
-        <p class="footer-text">
-          &copy; <span id="year"></span> | جميع الحقوق محفوظة 
-        </p>
+<!-- الفوتر -->
+<div class="container">
+  <footer class="footer">
+    <div class="footer-content">
+      <img src="https://i.postimg.cc/fLxzPSPz/image.png" alt="شعار الموقع" class="protected-image">
+      
+      <div class="footer-buttons">
+        <a href="privacy.html" class="footer-btn">سياسة الخصوصية</a>
+        <a href="rules.html" class="footer-btn">القوانين والأحكام</a>
       </div>
-    </footer>
-  </div>
+      
+      <p class="footer-text">
+        &copy; <span id="year"></span> | جميع الحقوق محفوظة 
+      </p>
+    </div>
+  </footer>
+</div>
 
-  <script>
-    // تحديث سنة الفوتر تلقائيًا
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
+<!-- CSS الخاص بالأزرار -->
+<style>
+  .footer-btn {
+    background-color: transparent;
+    color: black;
+    padding: 10px 20px;
+    border: 1px solid black;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    display: inline-block;
+    margin: 5px;
+  }
+
+  .footer-btn:hover {
+    background-color: black;
+    color: white;
+  }
+
+  .footer {
+    text-align: center;
+    padding: 40px 0;
+    border-top: 1px solid #ccc;
+    margin-top: 50px;
+  }
+
+  .footer-content img {
+    width: 100px;
+    margin-bottom: 20px;
+  }
+
+  .footer-text {
+    font-size: 14px;
+    color: #333;
+    margin-top: 20px;
+  }
+</style>
+
+<!-- جافاسكربت لتحديث السنة -->
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
 
 </body>
 </html>
