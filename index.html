@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-   <title>الصفحة الرئيسية - مجلس التنسيق الأعلى</title>
+  <title>الصفحة الرئيسية - مجلس التنسيق الأعلى</title>
   <!-- خطوط واستايلات -->
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="https://i.postimg.cc/7P2pkY1R/image.png">
@@ -78,6 +78,95 @@
       margin-top: 10px;
       font-size: 14px;
     }
+
+    /* بطاقة معلومات الرئيس */
+    .president-card {
+      background-color: #f5f5f5;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 300px;
+      text-align: center;
+    }
+
+    .president-info {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+
+    .president-image {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 2px solid #ccc;
+    }
+
+    .president-name {
+      font-weight: bold;
+      font-size: 18px;
+      color: black;
+    }
+
+    .president-name:empty::before {
+      content: "قيد التصويت";
+      font-weight: normal;
+      color: #777;
+    }
+
+    .vote-button {
+      background-color: black;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      display: inline-block;
+      transition: background-color 0.3s;
+    }
+
+    .vote-button:hover {
+      background-color: #333;
+    }
+
+    .footer-btn {
+      background-color: transparent;
+      color: black;
+      padding: 10px 20px;
+      border: 1px solid black;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-weight: bold;
+      display: inline-block;
+      margin: 5px;
+    }
+
+    .footer-btn:hover {
+      background-color: black;
+      color: white;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 40px 0;
+      border-top: 1px solid #ccc;
+      margin-top: 50px;
+    }
+
+    .footer-content img {
+      width: 500px;
+      margin-bottom: 65px;
+    }
+
+    .footer-text {
+      font-size: 12px;
+      color: #333;
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
@@ -89,27 +178,40 @@
       <a href="store.html" class="sub-title">المتجر</a>
     </div>
   </div>
-<div class="container main-home-content" style="padding-top: 100px;">
-  <section class="hero-section" style="text-align: center; padding: 60px 20px;">
-    <h1 style="font-size: 40px; margin-bottom: 20px;">أهلاً بك في مجلس التنسيق الأعلى</h1>
-    <p style="font-size: 20px; margin-bottom: 40px;">
-     المجلس الذي يقدم جميع الخدمات الإلكترونية 
-    </p>
-  <section class="features" style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; margin-top: 60px;">
-    <div class="feature-card" style="background-color: white; padding: 20px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 300px;">
-      <h3>ماهو مجلس التنسيق الأعلى ؟ </h3>
-      <p> هو مجلس تابع لمنظمة أوبك تم تأسيسه بأول مرة بتاريخ 13 نوفمبر 2021 بيد الرئيس السابق محمد بن طارق وتم إغلاقه في تاريخ 23 سبتمبر 2022 لسبب مجهول من الرئيس وتمت إعادته في تاريخ 26 أكتوبر 2023 بيد الرئيس السابق فهد بن محمد الغامدي و تم تحسينه و إضافة له مزايا عديدة بأمر منه وقدًّم إستقالته في 5 ديسمبر 2023 وعاد رئيسه من جديد محمد بن طارق بتاريخ 12 مايو 2024 حتى قدم إستقالته كرئيس بتاريخ 19 سبتمبر 2024 والمجلس الآن يحوي أكثر من +170 عضو و 30+ منه  بإدارة مجلس التنسيق الأعلى  </p>
-    </div>
-    <div class="feature-card" style="background-color: white; padding: 20px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 300px;">
-      <h3>ماهي الخدمات التي يقدمها المجلس؟</h3>
-      <p>هي خدمات عبر الديسكورد و هي خدمات استضافة البوتات سواء بالريال أو الكريدت ( عملة الديسكورد أو بروبوت ) وقريباً سيتم إضافة المزيد</p>
-    </div>
-    <div class="feature-card" style="background-color: white; padding: 20px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 300px;">
-      <h3>ماهي طرق الدفع التي يقبلها المجلس ؟</h3>
-      <p>الآن المجلس يقبل فقط STC Pay و ProBot Credit ( عبر الديسكورد ) وقريباً , سيتم إضافة المزيد </p>
-    </div>
-  </section>
-</div>
+
+  <div class="container main-home-content" style="padding-top: 100px;">
+    <section class="hero-section" style="text-align: center; padding: 60px 20px;">
+      <h1 style="font-size: 40px; margin-bottom: 20px;">أهلاً بك في مجلس التنسيق الأعلى</h1>
+      <p style="font-size: 20px; margin-bottom: 40px;">المجلس الذي يقدم جميع الخدمات الإلكترونية</p>
+
+      <section class="features" style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; margin-top: 60px;">
+        <div class="feature-card" style="background-color: white; padding: 20px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 300px;">
+          <h3>ماهو مجلس التنسيق الأعلى ؟ </h3>
+          <p>هو مجلس تابع لمنظمة أوبك تم تأسيسه بأول مرة بتاريخ 13 نوفمبر 2021 بيد الرئيس السابق محمد بن طارق وتم إغلاقه في تاريخ 23 سبتمبر 2022 لسبب مجهول من الرئيس وتمت إعادته في تاريخ 26 أكتوبر 2023 بيد الرئيس السابق فهد بن محمد الغامدي و تم تحسينه و إضافة له مزايا عديدة بأمر منه وقدًّم إستقالته في 5 ديسمبر 2023 وعاد رئيسه من جديد محمد بن طارق بتاريخ 12 مايو 2024 حتى قدم إستقالته كرئيس بتاريخ 19 سبتمبر 2024 والمجلس الآن يحوي أكثر من +170 عضو و 30+ منه بإدارة مجلس التنسيق الأعلى</p>
+        </div>
+
+        <div class="feature-card" style="background-color: white; padding: 20px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 300px;">
+          <h3>ماهي الخدمات التي يقدمها المجلس؟</h3>
+          <p>هي خدمات عبر الديسكورد و هي خدمات استضافة البوتات سواء بالريال أو الكريدت (عملة الديسكورد أو بروبوت) وقريباً سيتم إضافة المزيد</p>
+        </div>
+
+        <div class="feature-card" style="background-color: white; padding: 20px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 300px;">
+          <h3>ماهي طرق الدفع التي يقبلها المجلس ؟</h3>
+          <p>الآن المجلس يقبل فقط STC Pay و ProBot Credit (عبر الديسكورد) وقريباً , سيتم إضافة المزيد</p>
+        </div>
+
+        <!-- مربع الرئيس -->
+        <div class="feature-card president-card">
+          <h3 style="margin-bottom: 15px;">الرئيس</h3>
+          <div class="president-info">
+            <img src="رابط_صورة_الرئيس" alt="صورة الرئيس" class="president-image" />
+            <strong class="president-name">محمد بن طارق</strong> <!-- أو اتركها فاضية ليظهر "قيد التصويت" -->
+          </div>
+          <a href="vote.html" class="vote-button">تصويت</a>
+        </div>
+      </section>
+    </section>
+  </div>
 
   <!-- منع الضغط بالزر اليمين وF12 -->
   <script>
@@ -137,28 +239,13 @@
   <script src="script.js"></script>
   <script>
     window.addEventListener('load', () => {
+      document.body.classList.add('noscroll');
       setTimeout(() => {
         document.getElementById('splash-screen').style.display = 'none';
         document.getElementById('main-content').style.display = 'block';
+        document.body.classList.remove('noscroll');
       }, 10000);
     });
-    
-    window.addEventListener('load', () => {
-  // نمنع التمرير
-  document.body.classList.add('noscroll');
-
-  setTimeout(() => {
-    // نخفي شاشة الترحيب
-    document.getElementById('splash-screen').style.display = 'none';
-
-    // نظهر المحتوى الرئيسي
-    document.getElementById('main-content').style.display = 'block';
-
-    // نسمح بالتمرير مرة ثانية
-    document.body.classList.remove('noscroll');
-  }, 10000);
-});
-
   </script>
 
   <!-- شريط تنقل -->
@@ -168,67 +255,24 @@
     </div>
   </div>
 
-<!-- الفوتر -->
-<div class="container">
-  <footer class="footer">
-    <div class="footer-content">
-      <img src="https://i.postimg.cc/fLxzPSPz/image.png" alt="شعار الموقع" class="protected-image">
-      
-      <div class="footer-buttons">
-        <a href="privacy.html" class="footer-btn">سياسة الخصوصية</a>
-        <a href="rules.html" class="footer-btn">القوانين والأحكام</a>
+  <!-- الفوتر -->
+  <div class="container">
+    <footer class="footer">
+      <div class="footer-content">
+        <img src="https://i.postimg.cc/fLxzPSPz/image.png" alt="شعار الموقع" class="protected-image">
+        <div class="footer-buttons">
+          <a href="privacy.html" class="footer-btn">سياسة الخصوصية</a>
+          <a href="rules.html" class="footer-btn">القوانين والأحكام</a>
+        </div>
+        <p class="footer-text">&copy; <span id="year"></span> | جميع الحقوق محفوظة</p>
       </div>
-      
-      <p class="footer-text">
-        &copy; <span id="year"></span> | جميع الحقوق محفوظة 
-      </p>
-    </div>
-  </footer>
-</div>
+    </footer>
+  </div>
 
-<!-- CSS الخاص بالأزرار -->
-<style>
-  .footer-btn {
-    background-color: transparent;
-    color: black;
-    padding: 10px 20px;
-    border: 1px solid black;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    font-weight: bold;
-    display: inline-block;
-    margin: 5px;
-  }
-
-  .footer-btn:hover {
-    background-color: black;
-    color: white;
-  }
-
-  .footer {
-    text-align: center;
-    padding: 40px 0;
-    border-top: 1px solid #ccc;
-    margin-top: 50px;
-  }
-
-  .footer-content img {
-    width: 500px;
-    margin-bottom: 65px;
-  }
-
-  .footer-text {
-    font-size: 12px;
-    color: #333;
-    margin-top: 20px;
-  }
-</style>
-
-<!-- جافاسكربت لتحديث السنة -->
-<script>
-  document.getElementById("year").textContent = new Date().getFullYear();
-</script>
+  <!-- جافاسكربت لتحديث السنة -->
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 
 </body>
 </html>
