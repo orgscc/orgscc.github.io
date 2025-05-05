@@ -169,6 +169,19 @@
       color: #333;
       margin-top: 20px;
     }
+
+    /* تصميم العداد */
+    .countdown {
+      text-align: center;
+      font-size: 24px;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin-top: 40px;
+      display: inline-block;
+    }
+
   </style>
 </head>
 <body>
@@ -185,6 +198,12 @@
     <section class="hero-section" style="text-align: center; padding: 60px 20px;">
       <h1 style="font-size: 40px; margin-bottom: 20px;">أهلاً بك في مجلس التنسيق الأعلى</h1>
       <p style="font-size: 20px; margin-bottom: 40px;">المجلس الذي يقدم جميع الخدمات الإلكترونية</p>
+
+      <!-- إضافة العداد هنا -->
+      <div class="countdown" id="countdown-timer">
+        <h3>انتهاء التصويت : </h3>
+        <p id="timer"></p>
+      </div>
 
       <section class="features" style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; margin-top: 60px;">
         <div class="feature-card" style="background-color: white; padding: 20px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 300px;">
@@ -256,6 +275,27 @@
     if (presidentName.innerText.trim() === '') {
       voteButton.style.display = 'inline-block';
     }
+
+    // إعداد العداد
+    const countdownDate = new Date("May 23, 2025 00:00:00").getTime();
+    const timerElement = document.getElementById("timer");
+
+    const countdown = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = countdownDate - now;
+
+      if (distance < 0) {
+        clearInterval(countdown);
+        timerElement.innerHTML = "انتهى وقت التصويت !!";
+      } else {
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        timerElement.innerHTML = `${days} أيام ${hours} ساعات ${minutes} دقائق ${seconds} ثواني`;
+      }
+    }, 1000);
   </script>
 
   <!-- شريط تنقل -->
