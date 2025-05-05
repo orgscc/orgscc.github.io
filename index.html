@@ -96,6 +96,7 @@
       gap: 15px;
       margin-bottom: 15px;
       flex-wrap: wrap;
+      direction: rtl; /* لضبط الكتابة من اليمين لليسار */
     }
 
     .president-image {
@@ -107,9 +108,9 @@
     }
 
     .president-name {
-      font-weight: bold;
-      font-size: 18px;
+      font-size: 16px; /* تصغير حجم الخط */
       color: black;
+      font-weight: normal; /* إزالة العريض */
     }
 
     .president-name:empty::before {
@@ -126,6 +127,7 @@
       text-decoration: none;
       display: inline-block;
       transition: background-color 0.3s;
+      display: none; /* إخفاء زر التصويت بشكل افتراضي */
     }
 
     .vote-button:hover {
@@ -205,9 +207,9 @@
           <h3 style="margin-bottom: 15px;">الرئيس</h3>
           <div class="president-info">
             <img src="رابط_صورة_الرئيس" alt="صورة الرئيس" class="president-image" />
-            <strong class="president-name">محمد بن طارق</strong> <!-- أو اتركها فاضية ليظهر "قيد التصويت" -->
+            <strong class="president-name" id="president-name">محمد بن طارق</strong> <!-- أو اتركها فاضية ليظهر "قيد التصويت" -->
           </div>
-          <a href="vote.html" class="vote-button">تصويت</a>
+          <a href="vote.html" class="vote-button" id="vote-button">تصويت</a>
         </div>
       </section>
     </section>
@@ -246,6 +248,14 @@
         document.body.classList.remove('noscroll');
       }, 10000);
     });
+
+    // إظهار زر التصويت فقط إذا كان اسم الرئيس فارغًا
+    const presidentName = document.getElementById('president-name');
+    const voteButton = document.getElementById('vote-button');
+    
+    if (presidentName.innerText.trim() === '') {
+      voteButton.style.display = 'inline-block';
+    }
   </script>
 
   <!-- شريط تنقل -->
