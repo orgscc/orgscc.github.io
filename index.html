@@ -181,7 +181,6 @@
       margin-top: 40px;
       display: inline-block;
     }
-
   </style>
 </head>
 <body>
@@ -265,7 +264,7 @@
         document.getElementById('splash-screen').style.display = 'none';
         document.getElementById('main-content').style.display = 'block';
         document.body.classList.remove('noscroll');
-      }, 10000);
+      }, 10000); // عرض الشاشة الترحيبية لمدة 10 ثوانٍ
     });
 
     // إظهار زر التصويت فقط إذا كان اسم الرئيس فارغًا
@@ -276,35 +275,30 @@
       voteButton.style.display = 'inline-block';
     }
 
- const countdownDate = new Date("May 10, 2025 00:00:00").getTime();
+    const countdownDate = new Date("May 10, 2025 00:00:00").getTime();
 
-  // تحديث العداد كل ثانية
-  const x = setInterval(function() {
-    const now = new Date().getTime();
-    const distance = countdownDate - now;
+    // تحديث العداد كل ثانية
+    const x = setInterval(function() {
+      const now = new Date().getTime();
+      const distance = countdownDate - now;
 
-    // حساب الوقت المتبقي
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      // حساب الوقت المتبقي
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-    // عرض النتيجة في العنصر
-    document.getElementById("countdown").innerHTML = days + " يوم " + hours + " ساعة "
-    + minutes + " دقيقة " + seconds + " ثانية ";
+      // عرض النتيجة في العنصر
+      document.getElementById("timer").innerHTML = days + " يوم " + hours + " ساعة "
+      + minutes + " دقيقة " + seconds + " ثانية ";
 
-    // إذا انتهى العداد
-    if (distance < 0) {
-      clearInterval(x);
-      document.getElementById("countdown").innerHTML = "انتهى الوقت!";
-    }
-  }, 1000);
-  <!-- شريط تنقل -->
-  <div class="container">
-    <div class="navbar">
-      <!-- زر المتجر تم حذفه -->
-    </div>
-  </div>
+      // إذا انتهى العداد
+      if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("timer").innerHTML = "انتهى الوقت!";
+      }
+    }, 1000);
+  </script>
 
   <!-- الفوتر -->
   <div class="container">
