@@ -15,20 +15,10 @@
     header {
       background: #fff;
       padding: 20px;
-      text-align: left; /* تعديل هنا لجعل كلمة التصويت على اليسار */
     }
     h1 {
       margin: 0;
-    }
-    #timer {
-      font-family: 'Digital-7 Mono', monospace;
-      font-size: 48px;
-      color: #fff;
-      margin-top: 10px;
-    }
-    @font-face {
-      font-family: 'Digital-7 Mono';
-      src: url('https://fonts.cdnfonts.com/s/16063/Digital7Mono-1Y6d.ttf') format('truetype');
+      text-align: right;
     }
     #candidates-container {
       display: flex;
@@ -37,7 +27,7 @@
       padding: 20px;
     }
     .candidate {
-      background: black;
+      background: white;
       border-radius: 10px;
       width: 90%;
       max-width: 500px;
@@ -63,7 +53,7 @@
       margin: 0 0 5px;
     }
     .candidate .info p {
-      color: #00000;
+      color: #03040E;
       font-size: 14px;
       margin: 0;
     }
@@ -113,15 +103,15 @@
       margin-top: 30px;
       cursor: pointer;
     }
-    .admin-panel {
-      margin: 30px;
-      padding: 20px;
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      max-width: 500px;
-      margin-inline: auto;
-      display: none; /* إخفاء لوحة التحكم عن المستخدمين */
+    #countdown {
+      background-color: #03040E;
+      color: white;
+      font-family: 'monospace';
+      font-size: 20px;
+      padding: 10px;
+      border-radius: 6px;
+      width: 200px;
+      margin: 20px auto;
     }
   </style>
 </head>
@@ -130,19 +120,13 @@
   <header>
     <h1>التصويت</h1>
     <p>اختر مرشحك بعناية</p>
-    <div id="timer">7:00:00</div>
   </header>
+
+  <div id="countdown"></div>
 
   <main id="main-content">
     <div id="candidates-container"></div>
   </main>
-
-  <div class="admin-panel">
-    <h3>لوحة تحكم الأصوات (تعديل يدوي)</h3>
-    <input type="number" id="candidateId" placeholder="1">
-    <input type="number" id="fakeVotes" placeholder="13">
-    <button onclick="addFakeVotes()">إضافة أصوات وهمية</button>
-  </div>
 
   <script>
     const candidates = [
@@ -158,33 +142,30 @@
       { id: 10, name: "أحمد بن راكان الشريف", date: "1 مايو 2022", img: "https://i.postimg.cc/pVGccR9L/image.png" }
     ];
 
+    const votes = JSON.parse(localStorage.getItem('votes') || '{}');
     let selectedCandidateId = null;
     const main = document.getElementById("main-content");
 
-    fetchVotes();
+    const countdownTarget = new Date("May 15, 2025 00:00:00").getTime();
 
-    function fetchVotes() {
-      fetch("/votes.json")
-        .then(res => res.json())
-        .then(votes => {
-          if (localStorage.getItem('hasVoted') === 'true') showResults(votes);
-          else renderCandidates(votes);
-        });
+    if (localStorage.getItem('hasVoted') === 'true') {
+      showResults();
+    } else {
+      renderCandidates();
     }
 
-    function renderCandidates(votes) {
+    function renderCandidates() {
       const container = document.getElementById("candidates-container");
       container.innerHTML = "";
       candidates.forEach(candidate => {
         const div = document.createElement("div");
         div.className = "candidate";
-        div.innerHTML = `
-          <img src="${candidate.img}" alt="${candidate.name}">
+        div.innerHTML = 
+          `<img src="${candidate.img}" alt="${candidate.name}">
           <div class="info">
             <h3>${candidate.name}</h3>
             <p>${candidate.date}</p>
-          </div>
-        `;
+          </div>`;
         div.onclick = () => {
           selectedCandidateId = candidate.id;
           showCaptcha();
@@ -194,69 +175,75 @@
     }
 
     function showCaptcha() {
-      main.innerHTML = `
-        <div class="captcha">
+      main.innerHTML = 
+        `<div class="captcha">
           <h2>تحقق أنك لست روبوت</h2>
           <p><input type="checkbox" id="captcha-check">أنا لست روبوت</p>
           <button onclick="submitVote()">تصويت</button>
-        </div>
-      `;
+        </div>`;
     }
 
     function submitVote() {
-      if (!document.getElementById("captcha-check").checked) return alert("يرجى التحقق أولاً");
-      if (localStorage.getItem('hasVoted') === 'true') return alert("لا يمكنك التصويت مرتين.");
+      const checked = document.getElementById("captcha-check").checked;
+      if (!checked) return alert("يرجى التحقق أولاً");
 
-      fetch(`/vote?id=${selectedCandidateId}`, { method: "POST" })
-        .then(() => {
-          localStorage.setItem('hasVoted', 'true');
-          fetchVotes();
-        });
+      if (localStorage.getItem('hasVoted') === 'true') {
+        alert("لقد قمت بالتصويت مسبقًا. لا يمكنك التصويت مرة أخرى.");
+        return;
+      }
+
+      if (!votes[selectedCandidateId]) votes[selectedCandidateId] = 0;
+      votes[selectedCandidateId]++;
+      localStorage.setItem("votes", JSON.stringify(votes));
+      localStorage.setItem('hasVoted', 'true');
+      showResults();
     }
 
-    function showResults(votes) {
-      const resultArray = candidates.map(c => ({ ...c, vote: votes[c.id] || 0 }))
-        .sort((a, b) => b.vote - a.vote);
+    function showResults() {
+      const resultArray = candidates.map(c => {
+        return {
+          ...c,
+          vote: votes[c.id] || 0
+        };
+      }).sort((a, b) => b.vote - a.vote);
 
       const totalVotes = resultArray.reduce((sum, c) => sum + c.vote, 0) || 1;
 
-      main.innerHTML = `<div class="success">تم التصويت بنجاح</div><h2>نتائج التصويت</h2>`;
+      main.innerHTML = `<div class="success">✅ تم التصويت بنجاح</div><h2>نتائج التصويت</h2>`;
       resultArray.forEach(c => {
         const percent = ((c.vote / totalVotes) * 100).toFixed(1);
-        main.innerHTML += `
-          <div style="margin: 10px auto; width: 80%; text-align: right;">
+        main.innerHTML += 
+          `<div style="margin: 10px auto; width: 80%; text-align: right;">
             <strong>${c.name}</strong> - ${percent}%
             <div class="result-bar">
               <div class="result-bar-fill" style="width:${percent}%;">${c.vote} صوت</div>
             </div>
-          </div>
-        `;
+          </div>`;
       });
 
-      main.innerHTML += `<button class="back-btn" onclick="window.location.href = 'index.html'">رجوع</button>`;
+      main.innerHTML += `<button class="back-btn" onclick="location.reload()">↩️ رجوع</button>`;
     }
 
-    function addFakeVotes() {
-      const id = +document.getElementById("candidateId").value;
-      const count = +document.getElementById("fakeVotes").value;
-      if (!id || !count) return alert("يرجى إدخال بيانات صحيحة");
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = countdownTarget - now;
 
-      fetch(`/fake?id=${id}&count=${count}`, { method: "POST" })
-        .then(() => fetchVotes());
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById("countdown").innerHTML = 
+        `${days} أيام ${hours} ساعات ${minutes} دقائق ${seconds} ثواني`;
+
+      if (distance < 0) {
+        clearInterval(countdownInterval);
+        document.getElementById("countdown").innerHTML = "انتهت فترة التصويت";
+      }
     }
 
-    // Countdown timer to election end
-    const endDate = new Date("2025-05-23T00:00:00");
-    setInterval(() => {
-      const now = new Date();
-      const diff = endDate - now;
-      if (diff < 0) return document.getElementById("timer").innerText = "انتهى الوقت";
-      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const m = Math.floor((diff / (1000 * 60)) % 60);
-      const s = Math.floor((diff / 1000) % 60);
-      document.getElementById("timer").innerText = `${d}:${h}:${m}:${s}`;
-    }, 1000);
+    const countdownInterval = setInterval(updateCountdown, 1000);
+    updateCountdown();
   </script>
 
 </body>
