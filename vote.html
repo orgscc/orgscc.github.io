@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>انتخاب الرئيس 2025 - مجلس التنسيق الأعلى</title>
+  <style>
+    body {
+      font-family: 'IBM Plex Sans Arabic', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #d3d3d3;
+      text-align: center;
+    }
+    header {
+      background: #fff;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    h1 {
+      margin: 0;
+    }
+    #candidates-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 20px;
+    }
+    .candidate {
+      background: white;
+      border-radius: 10px;
+      width: 180px;
+      margin: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .candidate:hover {
+      transform: scale(1.05);
+    }
+    .candidate img {
+      width: 100%;
+      border-radius: 10px 10px 0 0;
+    }
+    .candidate .info {
+      padding: 10px;
+    }
+    .candidate .info h3 {
+      margin: 5px 0;
+    }
+    .candidate .info p {
+      color: #03040E;
+      font-size: 14px;
+      margin: 0;
+    }
+    .result-bar {
+      background: #03040E;
+      border-radius: 20px;
+      height: 20px;
+      margin-top: 5px;
+      overflow: hidden;
+    }
+    .result-bar-fill {
+      background: #03040E;
+      height: 100%;
+      color: white;
+      text-align: right;
+      padding-right: 5px;
+      border-radius: 20px;
+    }
+    .success {
+      background: #03040E;
+      color: #ffffff;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 20px auto;
+      width: fit-content;
+    }
+    .captcha {
+      margin: 30px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background: #03040E;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>أهلاً بك في التصويت</h1>
+    <p>اختر مرشحك بعناية</p>
+  </header>
+
+  <main id="main-content">
+    <div id="candidates-container"></div>
+  </main>
+
+  <script>
+    const candidates = [
+      { id: 1, name: "فهد بن محمد الغامدي", date: "26 اكتوبر 2023", img: "https://via.placeholder.com/200x150" },
+      { id: 2, name: "محمد بن سبيل الهذلي", date: "3 أغسطس 2022", img: "https://via.placeholder.com/200x150" },
+      { id: 3, name: "سعود بن عبدالله العنزي", date: "8 فبراير 2023", img: "https://via.placeholder.com/200x150" },
+      { id: 4, name: "فيصل بن عبدالإله الشريف", date: "29 مايو 2022", img: "https://via.placeholder.com/200x150" },
+      { id: 5, name: "نايف بن سعود المالكي", date: "16 سبتمبر 2023 ", img: "https://via.placeholder.com/200x150" },
+      { id: 6, name: "نايف بن محمد الشريف", date: "7 يناير 2022", img: "https://via.placeholder.com/200x150" },
+      { id: 7, name: "محمد بن طارق", date: "13 نوفمبر 2021 ", img: "https://via.placeholder.com/200x150" },
+      { id: 8, name: "مشاري بن عبدالحميد المظيبري", date: "19 مايو 2022", img: "https://via.placeholder.com/200x150" },
+      { id: 9, name: "ياسر بن فهد الزهراني", date: "29 ديسمبر 2023", img: "https://via.placeholder.com/200x150" },
+      { id: 10, name: "أحمد بن راكان الشريف", date: "1 مايو 2022", img: "https://via.placeholder.com/200x150" }
+    ];
+
+    const votes = JSON.parse(localStorage.getItem('votes') || '{}');
+    let selectedCandidateId = null;
+    const main = document.getElementById("main-content");
+
+    function renderCandidates() {
+      const container = document.getElementById("candidates-container");
+      container.innerHTML = "";
+      candidates.forEach(candidate => {
+        const div = document.createElement("div");
+        div.className = "candidate";
+        div.innerHTML = `
+          <img src="${candidate.img}" alt="${candidate.name}">
+          <div class="info">
+            <h3>${candidate.name}</h3>
+            <p>${candidate.date}</p>
+          </div>
+        `;
+        div.onclick = () => {
+          selectedCandidateId = candidate.id;
+          showCaptcha();
+        };
+        container.appendChild(div);
+      });
+    }
+
+    function showCaptcha() {
+      main.innerHTML = `
+        <div class="captcha">
+          <h2>تحقق أنك لست روبوت</h2>
+          <p><input type="checkbox" id="captcha-check">أنا لست روبوت</p>
+          <button onclick="submitVote()">تصويت</button>
+        </div>
+      `;
+    }
+
+    function submitVote() {
+      const checked = document.getElementById("captcha-check").checked;
+      if (!checked) return alert("يرجى التحقق أولاً");
+      if (!votes[selectedCandidateId]) votes[selectedCandidateId] = 0;
+      votes[selectedCandidateId]++;
+      localStorage.setItem("votes", JSON.stringify(votes));
+      showResults();
+    }
+
+    function showResults() {
+      const resultArray = candidates.map(c => {
+        return {
+          ...c,
+          vote: votes[c.id] || 0
+        };
+      }).sort((a, b) => b.vote - a.vote);
+
+      const totalVotes = resultArray.reduce((sum, c) => sum + c.vote, 0) || 1;
+
+      main.innerHTML = `<div class="success">✅ تم التصويت بنجاح</div><h2>نتائج التصويت</h2>`;
+      resultArray.forEach(c => {
+        const percent = ((c.vote / totalVotes) * 100).toFixed(1);
+        main.innerHTML += `
+          <div style="margin: 10px auto; width: 80%; text-align: right;">
+            <strong>${c.name}</strong> - ${percent}%
+            <div class="result-bar">
+              <div class="result-bar-fill" style="width:${percent}%;">${c.vote} صوت</div>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    renderCandidates();
+    function submitVote() {
+  const checked = document.getElementById("captcha-check").checked;
+  if (!checked) return alert("يرجى التحقق أولاً");
+
+  // 🔒 تحقق إذا المستخدم سبق وصوّت
+  if (localStorage.getItem('hasVoted') === 'true') {
+    alert("لقد قمت بالتصويت مسبقًا. لا يمكنك التصويت مرة أخرى.");
+    return;
+  }
+
+  if (!votes[selectedCandidateId]) votes[selectedCandidateId] = 0;
+  votes[selectedCandidateId]++;
+  localStorage.setItem("votes", JSON.stringify(votes));
+
+  // 🧠 تسجيل أنه تم التصويت
+  localStorage.setItem('hasVoted', 'true');
+
+  showResults();
+}
+
+  </script>
+
+</body>
+</html>
