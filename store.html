@@ -89,6 +89,91 @@
 
     </style>    
 </head>
+    <div class="maintenance-overlay">
+  <div class="maintenance-box">
+    <div class="maintenance-text">
+      <div class="maintenance-title">عذراً ! </div>
+      <div class="maintenance-description">
+       تم حظر الصفحة من قبل مجلس التنسيق الأعلى حتى إشعار آخر
+      </div>
+    </div>
+    <div class="maintenance-image">
+      <img src="your-image.png" alt="https://i.postimg.cc/fLxzPSPz/image.png">
+    </div>
+  </div>
+</div>
+
+<style>
+  .maintenance-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #1a1a1a;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    padding: 2rem;
+  }
+
+  .maintenance-box {
+    display: flex;
+    flex-direction: row;
+    background-color: #2b2b2b;
+    border-radius: 20px;
+    padding: 2rem;
+    max-width: 800px;
+    width: 100%;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  }
+
+  .maintenance-text {
+    flex: 1;
+    padding-right: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .maintenance-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+
+  .maintenance-description {
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: #ccc;
+  }
+
+  .maintenance-image {
+    flex: 0 0 200px;
+    max-width: 200px;
+    height: auto;
+  }
+
+  .maintenance-image img {
+    width: 100%;
+    border-radius: 15px;
+    object-fit: cover;
+  }
+
+  @media (max-width: 600px) {
+    .maintenance-box {
+      flex-direction: column-reverse;
+      align-items: center;
+      text-align: center;
+    }
+    .maintenance-text {
+      padding: 0;
+      margin-top: 1.5rem;
+    }
+  }
+</style>
 <body>
 
   <!-- المحتوى الأساسي -->
