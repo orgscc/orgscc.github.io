@@ -120,6 +120,7 @@
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
       max-width: 500px;
       margin-inline: auto;
+      display: none; /* إخفاء لوحة التحكم عن المستخدمين */
     }
   </style>
 </head>
@@ -139,24 +140,6 @@
     <h3>لوحة تحكم الأصوات (تعديل يدوي)</h3>
     <input type="number" id="candidateId" placeholder="1">
     <input type="number" id="fakeVotes" placeholder="13">
-       <input type="number" id="candidateId" placeholder="2">
-    <input type="number" id="fakeVotes" placeholder="4">
-       <input type="number" id="candidateId" placeholder="3">
-    <input type="number" id="fakeVotes" placeholder="6">
-       <input type="number" id="candidateId" placeholder="4">
-    <input type="number" id="fakeVotes" placeholder="9">
-       <input type="number" id="candidateId" placeholder="5">
-    <input type="number" id="fakeVotes" placeholder="6">
-       <input type="number" id="candidateId" placeholder="6">
-    <input type="number" id="fakeVotes" placeholder="5">
-       <input type="number" id="candidateId" placeholder="7">
-    <input type="number" id="fakeVotes" placeholder="4">
-       <input type="number" id="candidateId" placeholder="8">
-    <input type="number" id="fakeVotes" placeholder="15">
-       <input type="number" id="candidateId" placeholder="9">
-    <input type="number" id="fakeVotes" placeholder="12">
-       <input type="number" id="candidateId" placeholder="10">
-    <input type="number" id="fakeVotes" placeholder="8">
     <button onclick="addFakeVotes()">إضافة أصوات وهمية</button>
   </div>
 
@@ -249,7 +232,7 @@
         `;
       });
 
-     main.innerHTML += `<button class="back-btn" onclick="window.location.href = 'index.html'">رجوع</button>`;
+      main.innerHTML += `<button class="back-btn" onclick="window.location.href = 'index.html'">رجوع</button>`;
     }
 
     function addFakeVotes() {
