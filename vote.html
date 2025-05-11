@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>انتخاب الرئيس 2025 - مجلس التنسيق الأعلى</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'IBM Plex Sans Arabic', sans-serif;
@@ -21,31 +22,35 @@
     }
     #candidates-container {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+      flex-direction: column;
+      align-items: center;
       padding: 20px;
     }
     .candidate {
       background: white;
       border-radius: 10px;
-      width: 180px;
-      margin: 15px;
+      width: 90%;
+      max-width: 500px;
+      margin: 10px 0;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
       cursor: pointer;
-      transition: transform 0.3s ease;
-    }
-    .candidate:hover {
-      transform: scale(1.05);
+      transition: background 0.3s ease;
+      display: flex;
+      align-items: center;
+      text-align: right;
     }
     .candidate img {
-      width: 100%;
-      border-radius: 10px 10px 0 0;
+      width: 150px;
+      height: 100%;
+      border-radius: 10px 0 0 10px;
+      object-fit: cover;
     }
     .candidate .info {
-      padding: 10px;
+      padding: 15px;
+      flex: 1;
     }
     .candidate .info h3 {
-      margin: 5px 0;
+      margin: 0 0 5px;
     }
     .candidate .info p {
       color: #03040E;
@@ -88,6 +93,16 @@
       border-radius: 6px;
       margin-top: 20px;
     }
+    .back-btn {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-size: 16px;
+      margin-top: 30px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -118,6 +133,12 @@
     const votes = JSON.parse(localStorage.getItem('votes') || '{}');
     let selectedCandidateId = null;
     const main = document.getElementById("main-content");
+
+    if (localStorage.getItem('hasVoted') === 'true') {
+      showResults();
+    } else {
+      renderCandidates();
+    }
 
     function renderCandidates() {
       const container = document.getElementById("candidates-container");
@@ -153,9 +174,16 @@
     function submitVote() {
       const checked = document.getElementById("captcha-check").checked;
       if (!checked) return alert("يرجى التحقق أولاً");
+
+      if (localStorage.getItem('hasVoted') === 'true') {
+        alert("لقد قمت بالتصويت مسبقًا. لا يمكنك التصويت مرة أخرى.");
+        return;
+      }
+
       if (!votes[selectedCandidateId]) votes[selectedCandidateId] = 0;
       votes[selectedCandidateId]++;
       localStorage.setItem("votes", JSON.stringify(votes));
+      localStorage.setItem('hasVoted', 'true');
       showResults();
     }
 
@@ -181,29 +209,9 @@
           </div>
         `;
       });
+
+      main.innerHTML += `<button class="back-btn" onclick="location.reload()">↩️ رجوع</button>`;
     }
-
-    renderCandidates();
-    function submitVote() {
-  const checked = document.getElementById("captcha-check").checked;
-  if (!checked) return alert("يرجى التحقق أولاً");
-
-  // 🔒 تحقق إذا المستخدم سبق وصوّت
-  if (localStorage.getItem('hasVoted') === 'true') {
-    alert("لقد قمت بالتصويت مسبقًا. لا يمكنك التصويت مرة أخرى.");
-    return;
-  }
-
-  if (!votes[selectedCandidateId]) votes[selectedCandidateId] = 0;
-  votes[selectedCandidateId]++;
-  localStorage.setItem("votes", JSON.stringify(votes));
-
-  // 🧠 تسجيل أنه تم التصويت
-  localStorage.setItem('hasVoted', 'true');
-
-  showResults();
-}
-
   </script>
 
 </body>
