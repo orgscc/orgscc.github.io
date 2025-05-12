@@ -133,14 +133,14 @@
   <script>
     // إعداد Firebase - استخدم بيانات مشروعك هنا
     const firebaseConfig = {
-  apiKey: "AIzaSyDMP6d630CQnMzS9zcS0wr-NZ81WUP9mX0",
-  authDomain: "scc-d9b9c.firebaseapp.com",
-  databaseURL: "https://scc-d9b9c-default-rtdb.firebaseio.com",
-  projectId: "scc-d9b9c",
-  storageBucket: "scc-d9b9c.firebasestorage.app",
-  messagingSenderId: "176456040598",
-  appId: "1:176456040598:web:d88628418f27a3e61dc2b7",
-  measurementId: "G-23KVHJQXNJ"
+      apiKey: "AIzaSyDMP6d630CQnMzS9zcS0wr-NZ81WUP9mX0",
+      authDomain: "scc-d9b9c.firebaseapp.com",
+      databaseURL: "https://scc-d9b9c-default-rtdb.firebaseio.com",
+      projectId: "scc-d9b9c",
+      storageBucket: "scc-d9b9c.firebasestorage.app",
+      messagingSenderId: "176456040598",
+      appId: "1:176456040598:web:d88628418f27a3e61dc2b7",
+      measurementId: "G-23KVHJQXNJ"
     };
 
     firebase.initializeApp(firebaseConfig);
@@ -156,7 +156,7 @@
       { id: 7, name: "محمد بن طارق", date: "13 نوفمبر 2021 ", img: "https://i.postimg.cc/RhFsCbYm/image.png" },
       { id: 8, name: "مشاري بن عبدالحميد المظيبري", date: "19 مايو 2022", img: "https://i.postimg.cc/6pGPGgp5/image.png" },
       { id: 9, name: "ياسر بن فهد الزهراني", date: "29 ديسمبر 2023", img: "https://i.postimg.cc/PxKVjk2K/image.png" },
-      { id: 10, name: "أحمد بن راكان الشريف", date: "1 مايو 2022", img: "https://i.postimg.cc/pVGccR9L/image.png" }
+      { id: 10, name: "أحمد بن راكان الشريف", date: "1 مايو 202202", img: "https://i.postimg.cc/pVGccR9L/image.png" }
     ];
 
     let selectedCandidateId = null;
@@ -183,67 +183,15 @@
             <p>${candidate.date}</p>
           </div>`;
         div.onclick = () => {
-          selectedCandidateId = candidate.id;
-          showCaptcha();
+          goToVote(candidate.id, candidate.name, candidate.img, candidate.date);
         };
         container.appendChild(div);
       });
     }
 
-    function showCaptcha() {
-      main.innerHTML = 
-        `<div class="captcha">
-          <h2>تحقق أنك لست روبوت</h2>
-          <p><input type="checkbox" id="captcha-check">أنا لست روبوت</p>
-          <button onclick="submitVote()">تصويت</button>
-        </div>`;
-    }
-
-    async function submitVote() {
-      const checked = document.getElementById("captcha-check").checked;
-      if (!checked) return alert("يرجى التحقق أولاً");
-
-      if (localStorage.getItem('hasVoted') === 'true') {
-        alert("لقد قمت بالتصويت مسبقًا. لا يمكنك التصويت مرة أخرى.");
-        return;
-      }
-
-      const docRef = db.collection('votes').doc(selectedCandidateId.toString());
-      await db.runTransaction(async (t) => {
-        const doc = await t.get(docRef);
-        const current = doc.exists ? doc.data().count : 0;
-        t.set(docRef, { count: current + 1 });
-      });
-
-      localStorage.setItem('hasVoted', 'true');
-      showResults();
-    }
-
-    async function showResults() {
-      const snapshot = await db.collection('votes').get();
-      const voteMap = {};
-      snapshot.forEach(doc => voteMap[parseInt(doc.id)] = doc.data().count);
-
-      const resultArray = candidates.map(c => ({
-        ...c,
-        vote: voteMap[c.id] || 0
-      })).sort((a, b) => b.vote - a.vote);
-
-      const totalVotes = resultArray.reduce((sum, c) => sum + c.vote, 0) || 1;
-
-      main.innerHTML = `<div class="success">✅ تم التصويت بنجاح</div><h2>نتائج التصويت</h2>`;
-      resultArray.forEach(c => {
-        const percent = ((c.vote / totalVotes) * 100).toFixed(1);
-        main.innerHTML += 
-          `<div style="margin: 10px auto; width: 80%; text-align: right;">
-            <strong>${c.name}</strong> - ${percent}%
-            <div class="result-bar">
-              <div class="result-bar-fill" style="width:${percent}%;">${c.vote} صوت</div>
-            </div>
-          </div>`;
-      });
-
-      main.innerHTML += `<button class="back-btn" onclick="location.reload()">↩️ رجوع</button>`;
+    function goToVote(id, name, img, date) {
+      const url = `election_vote.html?id=${id}&name=${encodeURIComponent(name)}&img=${encodeURIComponent(img)}&date=${encodeURIComponent(date)}`;
+      window.location.href = url;
     }
 
     function updateCountdown() {
