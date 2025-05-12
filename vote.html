@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <title>انتخاب الرئيس 2025 - مجلس التنسيق الأعلى</title>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic&display=swap" rel="stylesheet">
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
   <style>
     body {
       font-family: 'IBM Plex Sans Arabic', sans-serif;
@@ -129,6 +131,21 @@
   </main>
 
   <script>
+    // إعداد Firebase - استخدم بيانات مشروعك هنا
+    const firebaseConfig = {
+  apiKey: "AIzaSyDMP6d630CQnMzS9zcS0wr-NZ81WUP9mX0",
+  authDomain: "scc-d9b9c.firebaseapp.com",
+  databaseURL: "https://scc-d9b9c-default-rtdb.firebaseio.com",
+  projectId: "scc-d9b9c",
+  storageBucket: "scc-d9b9c.firebasestorage.app",
+  messagingSenderId: "176456040598",
+  appId: "1:176456040598:web:d88628418f27a3e61dc2b7",
+  measurementId: "G-23KVHJQXNJ"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
     const candidates = [
       { id: 1, name: "فهد بن محمد الغامدي", date: "26 اكتوبر 2023", img: "https://i.postimg.cc/Yq0ZthcF/image.png" },
       { id: 2, name: "محمد بن سبيل الهذلي", date: "3 أغسطس 2022", img: "https://i.postimg.cc/d02S5CCb/image.png" },
@@ -142,11 +159,10 @@
       { id: 10, name: "أحمد بن راكان الشريف", date: "1 مايو 2022", img: "https://i.postimg.cc/pVGccR9L/image.png" }
     ];
 
-    const votes = JSON.parse(localStorage.getItem('votes') || '{}');
     let selectedCandidateId = null;
     const main = document.getElementById("main-content");
 
-    const countdownTarget = new Date("May 15, 2025 00:00:00").getTime();
+    const countdownTarget = new Date("May 23, 2025 00:00:00").getTime();
 
     if (localStorage.getItem('hasVoted') === 'true') {
       showResults();
@@ -183,7 +199,7 @@
         </div>`;
     }
 
-    function submitVote() {
+    async function submitVote() {
       const checked = document.getElementById("captcha-check").checked;
       if (!checked) return alert("يرجى التحقق أولاً");
 
@@ -192,20 +208,26 @@
         return;
       }
 
-      if (!votes[selectedCandidateId]) votes[selectedCandidateId] = 0;
-      votes[selectedCandidateId]++;
-      localStorage.setItem("votes", JSON.stringify(votes));
+      const docRef = db.collection('votes').doc(selectedCandidateId.toString());
+      await db.runTransaction(async (t) => {
+        const doc = await t.get(docRef);
+        const current = doc.exists ? doc.data().count : 0;
+        t.set(docRef, { count: current + 1 });
+      });
+
       localStorage.setItem('hasVoted', 'true');
       showResults();
     }
 
-    function showResults() {
-      const resultArray = candidates.map(c => {
-        return {
-          ...c,
-          vote: votes[c.id] || 0
-        };
-      }).sort((a, b) => b.vote - a.vote);
+    async function showResults() {
+      const snapshot = await db.collection('votes').get();
+      const voteMap = {};
+      snapshot.forEach(doc => voteMap[parseInt(doc.id)] = doc.data().count);
+
+      const resultArray = candidates.map(c => ({
+        ...c,
+        vote: voteMap[c.id] || 0
+      })).sort((a, b) => b.vote - a.vote);
 
       const totalVotes = resultArray.reduce((sum, c) => sum + c.vote, 0) || 1;
 
