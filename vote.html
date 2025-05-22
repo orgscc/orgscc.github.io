@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>التصويت - الصفحة الرئيسية</title>
-    <style>  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet">
-        
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet">
+    <style>
         * {
             margin: 0;
             padding: 0;
@@ -14,12 +14,12 @@
 
         body {
             font-family: 'IBM Plex Sans Arabic', sans-serif;
-            background-color: #d3d3d3
+            background-color: #d3d3d3;
             padding: 20px;
             direction: rtl;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
         }
 
         .header {
@@ -113,15 +113,10 @@
         .candidate-image {
             width: 120px;
             height: 120px;
-            background: white;
-            border: 3px solid #fff;
             border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1em;
-            color: #666;
             flex-shrink: 0;
+            object-fit: cover;
+            border: 3px solid #fff;
         }
 
         .candidate-info {
@@ -147,35 +142,35 @@
             .main-title {
                 font-size: 2.5em;
             }
-            
+
             .home-link {
                 font-size: 1.2em;
             }
-            
+
             .header {
                 gap: 20px;
             }
-            
+
             .timer {
                 font-size: 1.8em;
                 letter-spacing: 2px;
                 padding: 10px 15px;
             }
-            
+
             .candidate-card {
                 padding: 20px;
                 gap: 20px;
             }
-            
+
             .candidate-image {
                 width: 100px;
                 height: 100px;
             }
-            
+
             .candidate-name {
                 font-size: 1.6em;
             }
-            
+
             .candidate-date {
                 font-size: 1em;
             }
@@ -187,12 +182,12 @@
                 text-align: right;
                 gap: 15px;
             }
-            
+
             .candidate-image {
                 width: 100px;
                 height: 100px;
             }
-            
+
             .candidate-info {
                 text-align: right;
             }
@@ -216,7 +211,7 @@
                 <div class="candidate-name">فهد بن محمد الغامدي</div>
                 <div class="candidate-date">1 يناير 2022</div>
             </div>
-            <div class="candidate-image">https://i.postimg.cc/Yq0ZthcF/image.png</div>
+            <img class="candidate-image" src="https://i.postimg.cc/Yq0ZthcF/image.png" alt="صورة المرشح">
         </div>
 
         <div class="candidate-card">
@@ -224,55 +219,16 @@
                 <div class="candidate-name">محمد بن طارق</div>
                 <div class="candidate-date">13 نوفمبر 2021</div>
             </div>
-            <div class="candidate-image">https://i.postimg.cc/RhFsCbYm/image.png</div>
+            <img class="candidate-image" src="https://i.postimg.cc/RhFsCbYm/image.png" alt="صورة المرشح">
         </div>
 
+        <!-- بطاقات أخرى فارغة لتعبئتها لاحقاً -->
         <div class="candidate-card">
             <div class="candidate-info">
                 <div class="candidate-name">اسم المرشح</div>
-                <div class="candidate-date">التاريخ لما اجه</div>
+                <div class="candidate-date">التاريخ لما أجه</div>
             </div>
-            <div class="candidate-image">رابط الصورة</div>
-        </div>
-
-        <div class="candidate-card">
-            <div class="candidate-info">
-                <div class="candidate-name">اسم المرشح</div>
-                <div class="candidate-date">التاريخ لما اجه</div>
-            </div>
-            <div class="candidate-image">رابط الصورة</div>
-        </div>
-
-        <div class="candidate-card">
-            <div class="candidate-info">
-                <div class="candidate-name">اسم المرشح</div>
-                <div class="candidate-date">التاريخ لما اجه</div>
-            </div>
-            <div class="candidate-image">رابط الصورة</div>
-        </div>
-
-        <div class="candidate-card">
-            <div class="candidate-info">
-                <div class="candidate-name">اسم المرشح</div>
-                <div class="candidate-date">التاريخ لما اجه</div>
-            </div>
-            <div class="candidate-image">رابط الصورة</div>
-        </div>
-
-        <div class="candidate-card">
-            <div class="candidate-info">
-                <div class="candidate-name">اسم المرشح</div>
-                <div class="candidate-date">التاريخ لما اجه</div>
-            </div>
-            <div class="candidate-image">رابط الصورة</div>
-        </div>
-
-        <div class="candidate-card">
-            <div class="candidate-info">
-                <div class="candidate-name">اسم المرشح</div>
-                <div class="candidate-date">التاريخ لما اجه</div>
-            </div>
-            <div class="candidate-image">رابط الصورة</div>
+            <img class="candidate-image" src="رابط الصورة" alt="صورة المرشح">
         </div>
     </div>
 
@@ -282,14 +238,14 @@
             const timerElement = document.getElementById('countdown');
             let timeString = timerElement.textContent;
             let parts = timeString.split(':');
-            
+
             let days = parseInt(parts[0]);
             let hours = parseInt(parts[1]);
             let minutes = parseInt(parts[2]);
             let seconds = parseInt(parts[3]);
-            
+
             seconds--;
-            
+
             if (seconds < 0) {
                 seconds = 59;
                 minutes--;
@@ -306,14 +262,14 @@
                     }
                 }
             }
-            
-            timerElement.textContent = 
-                days + ':' + 
-                hours.toString().padStart(2, '0') + ':' + 
-                minutes.toString().padStart(2, '0') + ':' + 
+
+            timerElement.textContent =
+                days + ':' +
+                hours.toString().padStart(2, '0') + ':' +
+                minutes.toString().padStart(2, '0') + ':' +
                 seconds.toString().padStart(2, '0');
         }
-        
+
         setInterval(updateTimer, 1000);
     </script>
 </body>
