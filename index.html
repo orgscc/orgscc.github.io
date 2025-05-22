@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
@@ -17,14 +17,14 @@
       padding: 0;
       font-family: 'IBM Plex Sans Arabic', sans-serif;
       font-weight: bold;
-      background-color: #f5f5f5;
+      background-color: #d3d3d3;
       direction: rtl;
       -webkit-user-select: none;
       -moz-user-select: none;
       user-select: none;
     }
 
-    /* الهيدر الجديد */
+    /* الهيدر المعدل */
     .header-container {
       width: 100%;
       background-color: #ffffff;
@@ -48,6 +48,7 @@
       gap: 15px;
     }
     
+    .header-titles h1,
     .header-titles a {
       padding: 8px 15px;
       border-radius: 6px;
@@ -67,82 +68,58 @@
       height: 40px;
     }
 
-    /* المحتوى الرئيسي */
-    .main-content {
-      padding-top: 80px;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 80px 20px 20px;
-    }
-
-    /* المربع الأبيض الكبير */
-    .content-box {
+    /* المحتوى الرئيسي في مربع أبيض */
+    .main-content-box {
       background-color: white;
       border-radius: 15px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
       padding: 30px;
-      margin-top: 20px;
+      margin: 100px auto 50px;
+      max-width: 1200px;
+      width: 90%;
     }
 
-    /* العداد */
+    /* العداد في الوسط مع اتجاه الأرقام لليسار */
     .timer-container {
       background: #000;
       border-radius: 15px;
       padding: 20px;
-      margin: 30px auto;
+      margin: 40px auto;
       width: 90%;
       max-width: 600px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.3);
       text-align: center;
     }
 
-    .timer-label {
-      color: white;
-      font-size: 1.2em;
-      margin-bottom: 10px;
-      font-weight: 500;
-    }
-
-    .timer-units {
-      display: flex;
-      justify-content: center;
-      color: #ccc;
-      font-size: 1em;
-      font-weight: bold;
-      margin-bottom: 5px;
-      gap: 30px;
-      flex-direction: row-reverse;
-    }
-
     .timer {
-      position: relative;
-      font-family: 'DS-Digital', monospace;
-      font-size: 3.5em;
-      color: #ffffff;
-      font-weight: bold;
-      letter-spacing: 3px;
-      background: #000;
-      padding: 15px 30px;
-      border-radius: 10px;
-      text-shadow: 0 0 10px #00ff41;
-      direction: ltr;
-      min-width: 300px;
+      direction: ltr; /* الأرقام تظهر من اليسار */
       text-align: center;
-      margin: 0 auto;
     }
 
-    /* بطاقة الرئيس */
+    /* بطاقة الرئيس والمحتوى */
+    .content-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .feature-card {
+      background-color: #f9f9f9;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+
     .president-card {
       background-color: #f5f5f5;
       padding: 20px;
       border-radius: 12px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      width: 100%;
-      max-width: 300px;
       text-align: center;
-      margin: 0 auto;
     }
 
+    /* بقية الأنماط كما هي */
     .president-info {
       display: flex;
       align-items: center;
@@ -161,26 +138,30 @@
       border: 2px solid #ccc;
     }
 
-    /* الوصف والميزات */
-    .description {
-      text-align: center;
-      margin-bottom: 30px;
+    .president-name {
+      font-size: 16px;
+      color: black;
+      font-weight: normal;
     }
 
-    .features {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: center;
-      margin-top: 30px;
+    .president-name:empty::before {
+      content: "قيد التصويت";
+      font-weight: normal;
+      color: #777;
     }
 
-    .feature-card {
-      background-color: #f9f9f9;
-      padding: 20px;
-      border-radius: 12px;
-      width: 100%;
-      max-width: 300px;
+    .vote-button {
+      background-color: black;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      display: none;
+      transition: background-color 0.3s;
+    }
+
+    .vote-button:hover {
+      background-color: #333;
     }
 
     /* الفوتر */
@@ -189,7 +170,6 @@
       background-color: #ffffff;
       padding: 30px 0;
       border-top: 1px solid #ccc;
-      margin-top: 50px;
     }
     
     .footer-content {
@@ -218,104 +198,131 @@
       color: #333;
     }
 
+    .footer-btn {
+      background-color: #ffffff;
+      color: black;
+      padding: 10px 20px;
+      border: 1px solid black;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    .footer-btn:hover {
+      background-color: black;
+      color: white;
+    }
+
     @media (max-width: 768px) {
-      .header-titles {
-        gap: 10px;
+      .main-content-box {
+        padding: 20px;
+        margin: 80px auto 30px;
       }
       
+      .header-titles h1,
       .header-titles a {
         padding: 6px 12px;
         font-size: 14px;
       }
       
-      .timer {
-        font-size: 2.5em;
-        padding: 10px 20px;
-        min-width: 250px;
-      }
-      
-      .timer-units {
-        font-size: 0.9em;
-        gap: 20px;
-      }
-      
-      .content-box {
-        padding: 20px;
+      .footer-logo {
+        margin-bottom: 20px;
       }
     }
   </style>
 </head>
 <body>
-  <!-- الهيدر -->
-  <div class="header-container">
-    <div class="header-content">
-      <div class="header-titles">
-        <a href="#" class="main-title">الصفحة الرئيسية</a>
-        <a href="store.html" class="sub-title">المتجر</a>
-      </div>
-      <img src="https://i.postimg.cc/7P2pkY1R/image.png" alt="شعار المجلس" class="logo">
-    </div>
+  <!-- شاشة ترحيبية -->
+  <div id="splash-screen">
+    <img id="splash-logo" src="https://i.postimg.cc/fLxzPSPz/image.png" alt="شعار ترحيبي">
+    <div class="loader"><div class="bar"></div></div>
   </div>
 
   <!-- المحتوى الرئيسي -->
-  <div class="main-content">
-    <div class="content-box">
-      <!-- العنوان والوصف -->
-      <div class="description">
-        <h1>أهلاً بك في مجلس التنسيق الأعلى</h1>
-        <p>المجلس الذي يقدم جميع الخدمات الإلكترونية</p>
-      </div>
-
-      <!-- العداد التنازلي -->
-      <div class="timer-container">
-        <div class="timer-label">انتهاء التصويت</div>
-        <div class="timer-units">
-          <div>ثوانٍ</div>
-          <div>دقائق</div>
-          <div>ساعات</div>
-          <div>أيام</div>
+  <div id="main-content" style="display: none;">
+    <!-- الهيدر -->
+    <div class="header-container">
+      <div class="header-content">
+        <div class="header-titles">
+          <h1 class="main-title">الصفحة الرئيسية</h1>
+          <a href="store.html" class="sub-title">المتجر</a>
         </div>
-        <div class="timer" id="countdown">--:--:--:--</div>
-      </div>
-
-      <!-- الميزات -->
-      <div class="features">
-        <div class="feature-card">
-          <h3>ماهو مجلس التنسيق الأعلى؟</h3>
-          <p>هو مجلس تابع لمنظمة أوبك تم تأسيسه بأول مرة بتاريخ 13 نوفمبر 2021 بيد الرئيس السابق محمد بن طارق وتم إغلاقه في تاريخ 23 سبتمبر 2022 لسبب مجهول من الرئيس وتمت إعادته في تاريخ 26 أكتوبر 2023 بيد الرئيس السابق فهد بن محمد الغامدي و تم تحسينه و إضافة له مزايا عديدة بأمر منه وقدًّم إستقالته في 5 ديسمبر 2023 وعاد رئيسه من جديد محمد بن طارق بتاريخ 12 مايو 2024 حتى قدم إستقالته كرئيس بتاريخ 19 سبتمبر 2024 والمجلس الآن يحوي أكثر من +170 عضو و 30+ منه بإدارة مجلس التنسيق الأعلى</p>
-        </div>
-
-        <div class="feature-card">
-          <h3>ماهي الخدمات التي يقدمها المجلس؟</h3>
-          <p>هي خدمات عبر الديسكورد و هي خدمات استضافة البوتات سواء بالريال أو الكريدت (عملة الديسكورد أو بروبوت) وقريباً سيتم إضافة المزيد</p>
-        </div>
-
-        <!-- بطاقة الرئيس -->
-        <div class="president-card">
-          <h3 style="margin-bottom: 15px;">الرئيس</h3>
-          <div class="president-info">
-            <img src="/api/placeholder/60/60" alt="صورة الرئيس" class="president-image" />
-            <strong class="president-name" id="president-name"></strong>
-          </div>
-          <a href="vote.html" class="vote-button" id="vote-button">تصويت</a>
-        </div>
+        <img src="https://i.postimg.cc/7P2pkY1R/image.png" alt="شعار المجلس" class="logo">
       </div>
     </div>
-  </div>
 
-  <!-- الفوتر -->
-  <div class="footer">
-    <div class="footer-content">
-      <img src="https://i.postimg.cc/fLxzPSPz/image.png" alt="شعار الموقع" class="footer-logo">
-      <div class="footer-buttons">
-        <a href="privacy.html" class="footer-btn">سياسة الخصوصية</a>
-        <a href="rules.html" class="footer-btn">القوانين والأحكام</a>
+    <!-- المربع الأبيض الرئيسي -->
+    <div class="main-content-box">
+      <section class="hero-section">
+        <h1 style="font-size: 2em; margin-bottom: 20px;">أهلاً بك في مجلس التنسيق الأعلى</h1>
+        <p style="font-size: 1.2em; margin-bottom: 40px;">المجلس الذي يقدم جميع الخدمات الإلكترونية</p>
+
+        <!-- العداد التنازلي في الوسط -->
+        <div class="timer-container">
+          <div class="timer-label">انتهاء التصويت</div>
+          <div class="timer-units">
+            <div>ثوانٍ</div>
+            <div>دقائق</div>
+            <div>ساعات</div>
+            <div>أيام</div>
+          </div>
+          <div class="timer" id="countdown">--:--:--:--</div>
+        </div>
+
+        <!-- المحتوى في شبكة -->
+        <div class="content-grid">
+          <div class="feature-card">
+            <h3>ماهو مجلس التنسيق الأعلى؟</h3>
+            <p>هو مجلس تابع لمنظمة أوبك تم تأسيسه بأول مرة بتاريخ 13 نوفمبر 2021 بيد الرئيس السابق محمد بن طارق وتم إغلاقه في تاريخ 23 سبتمبر 2022 لسبب مجهول من الرئيس وتمت إعادته في تاريخ 26 أكتوبر 2023 بيد الرئيس السابق فهد بن محمد الغامدي و تم تحسينه و إضافة له مزايا عديدة بأمر منه وقدًّم إستقالته في 5 ديسمبر 2023 وعاد رئيسه من جديد محمد بن طارق بتاريخ 12 مايو 2024 حتى قدم إستقالته كرئيس بتاريخ 19 سبتمبر 2024 والمجلس الآن يحوي أكثر من +170 عضو و 30+ منه بإدارة مجلس التنسيق الأعلى</p>
+          </div>
+
+          <div class="feature-card">
+            <h3>ماهي الخدمات التي يقدمها المجلس؟</h3>
+            <p>هي خدمات عبر الديسكورد و هي خدمات استضافة البوتات سواء بالريال أو الكريدت (عملة الديسكورد أو بروبوت) وقريباً سيتم إضافة المزيد</p>
+          </div>
+
+          <div class="feature-card">
+            <h3>ماهي طرق الدفع التي يقبلها المجلس؟</h3>
+            <p>الآن المجلس يقبل فقط STC Pay و ProBot Credit (عبر الديسكورد) وقريباً، سيتم إضافة المزيد</p>
+          </div>
+
+          <!-- مربع الرئيس -->
+          <div class="president-card">
+            <h3 style="margin-bottom: 15px;">الرئيس</h3>
+            <div class="president-info">
+              <img src="/api/placeholder/60/60" alt="صورة الرئيس" class="president-image" />
+              <strong class="president-name" id="president-name"></strong>
+            </div>
+            <a href="vote.html" class="vote-button" id="vote-button">تصويت</a>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- الفوتر -->
+    <div class="footer">
+      <div class="footer-content">
+        <img src="https://i.postimg.cc/fLxzPSPz/image.png" alt="شعار الموقع" class="footer-logo">
+        <div class="footer-buttons">
+          <a href="privacy.html" class="footer-btn">سياسة الخصوصية</a>
+          <a href="rules.html" class="footer-btn">القوانين والأحكام</a>
+        </div>
+        <p class="footer-text">&copy; <span id="year"></span> | جميع الحقوق محفوظة</p>
       </div>
-      <p class="footer-text">&copy; <span id="year"></span> | جميع الحقوق محفوظة</p>
     </div>
   </div>
 
   <script>
+    // منع الضغط بالزر اليمين وF12
+    document.addEventListener("contextmenu", e => e.preventDefault());
+    document.addEventListener("keydown", e => {
+      if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I") || (e.ctrlKey && e.key === "u")) {
+        e.preventDefault();
+      }
+    });
+
     // العداد التنازلي
     const countdown = document.getElementById('countdown');
     const endDate = new Date('2025-05-25T23:59:59').getTime();
@@ -340,6 +347,16 @@
 
     setInterval(updateCountdown, 1000);
     updateCountdown();
+
+    // شاشة الترحيب
+    window.addEventListener('load', () => {
+      document.body.classList.add('noscroll');
+      setTimeout(() => {
+        document.getElementById('splash-screen').style.display = 'none';
+        document.getElementById('main-content').style.display = 'block';
+        document.body.classList.remove('noscroll');
+      }, 10000);
+    });
 
     // إظهار زر التصويت فقط إذا كان اسم الرئيس فارغًا
     const presidentName = document.getElementById('president-name');
