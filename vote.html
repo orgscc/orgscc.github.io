@@ -6,11 +6,11 @@
     <title>التصويت - الصفحة الرئيسية</title>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet">
     <style>
-@font-face {
-  font-family: 'DS-Digital';
-  src: url('https://cdn.statically.io/gh/AhmedRashad24/fonts/main/DS-DIGI.TTF') format('truetype');
-}
-</style> 
+        @font-face {
+            font-family: 'DS-Digital';
+            src: url('https://cdn.statically.io/gh/AhmedRashad24/fonts/main/DS-DIGI.TTF') format('truetype');
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -76,7 +76,7 @@
         }
 
         .timer {
-            font-family: 'DS-Digital' , monospace;
+            font-family: 'DS-Digital', monospace;
             font-size: 3em;
             color: #ffffff;
             text-align: center;
@@ -207,7 +207,7 @@
 
     <div class="timer-container">
         <div class="timer-label">انتهاء التصويت</div>
-        <div class="timer" id="countdown">11:23:59:59</div>
+        <div class="timer" id="countdown">5:05:58:08</div>
     </div>
 
     <div class="candidates-container">
@@ -227,7 +227,7 @@
             <img class="candidate-image" src="https://i.postimg.cc/RhFsCbYm/image.png" alt="صورة المرشح">
         </div>
 
-        <!-- بطاقات أخرى فارغة لتعبئتها لاحقاً -->
+        <!-- بطاقات أخرى -->
         <div class="candidate-card">
             <div class="candidate-info">
                 <div class="candidate-name">اسم المرشح</div>
@@ -238,7 +238,6 @@
     </div>
 
     <script>
-        // تحديث العداد التنازلي
         function updateTimer() {
             const timerElement = document.getElementById('countdown');
             let timeString = timerElement.textContent;
