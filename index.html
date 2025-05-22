@@ -8,8 +8,11 @@
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="https://i.postimg.cc/7P2pkY1R/image.png">
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet">
   <style>
+    @font-face {
+      font-family: 'DS-Digital';
+      src: url('fonts/DS-DIGIT.TTF') format('truetype');
     body {
       margin: 0;
       padding: 0;
@@ -171,16 +174,114 @@
     }
 
     /* تصميم العداد */
-    .countdown {
-      text-align: center;
-      font-size: 24px;
-      background-color: #fff;
+.timer-container {
+      background: #000;
+      border-radius: 15px;
       padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      margin-top: 40px;
-      display: inline-block;
+      margin: 0 auto;
+      width: fit-content;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      text-align: center;
     }
+
+    .timer-label {
+      color: white;
+      font-size: 1.2em;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    .timer-units {
+      display: flex;
+      justify-content: center;
+      color: #ccc;
+      font-size: 1em;
+      font-weight: bold;
+      margin-bottom: 5px;
+      gap: 30px;
+      flex-direction: row-reverse;
+    }
+
+    .timer {
+      position: relative;
+      font-family: 'DS-Digital', monospace;
+      font-size: 3.5em;
+      color: #ffffff;
+      font-weight: bold;
+      letter-spacing: 3px;
+      background: #000;
+      padding: 15px 30px;
+      border-radius: 10px;
+      text-shadow: 0 0 10px #00ff41;
+      direction: ltr;
+      min-width: 300px;
+      text-align: center;
+    }
+
+    .timer::after {
+      content: "88:88:88:88";
+      visibility: hidden;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      font-size: inherit;
+      font-family: inherit;
+      font-weight: inherit;
+      letter-spacing: inherit;
+    }
+
+    @media (max-width: 768px) {
+      .timer {
+        font-size: 2.5em;
+        padding: 10px 20px;
+        min-width: 250px;
+      }
+
+      .timer-units {
+        font-size: 0.9em;
+        gap: 20px;
+      }
+    }
+
+  <div class="timer-container">
+    <div class="timer-label">انتهاء التصويت</div>
+    <div class="timer-units">
+      <div>ثوانٍ</div>
+      <div>دقائق</div>
+      <div>ساعات</div>
+      <div>أيام</div>
+    </div>
+    <div class="timer" id="countdown">--:--:--:--</div>
+  </div>
+
+  <script>
+    const countdown = document.getElementById('countdown');
+    const endDate = new Date('2025-05-25T23:59:59').getTime(); // غيّر التاريخ هنا لو تبي
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const diff = endDate - now;
+
+      if (diff <= 0) {
+        countdown.textContent = "انتهى";
+        countdown.style.color = "red";
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      countdown.textContent = `${String(days).padStart(2, '0')}:${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+  </script>
+
    
 /* شاشة الترحيب */
 #splash-screen {
@@ -244,8 +345,6 @@
       <p style="font-size: 20px; margin-bottom: 40px;">المجلس الذي يقدم جميع الخدمات الإلكترونية</p>
 
       <!-- إضافة العداد هنا -->
-      <div class="countdown" id="countdown-timer">
-        <h3>انتهاء التصويت : </h3>
         <p id="timer"></p>
       </div>
 
@@ -319,30 +418,6 @@
     if (presidentName.innerText.trim() === '') {
       voteButton.style.display = 'inline-block';
     }
-
-    const countdownDate = new Date("May 23, 2025 00:00:00").getTime();
-
-    // تحديث العداد كل ثانية
-    const x = setInterval(function() {
-      const now = new Date().getTime();
-      const distance = countdownDate - now;
-
-      // حساب الوقت المتبقي
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-      // عرض النتيجة في العنصر
-      document.getElementById("timer").innerHTML = days + " يوم " + hours + " ساعة "
-      + minutes + " دقيقة " + seconds + " ثانية ";
-
-      // إذا انتهى العداد
-      if (distance < 0) {
-        clearInterval(x);
-        document.getElementById("timer").innerHTML = "انتهى الوقت!";
-      }
-    }, 1000);
   </script>
 
   <!-- الفوتر -->
