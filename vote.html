@@ -1,220 +1,409 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <title>انتخاب الرئيس 2025 - مجلس التنسيق الأعلى</title>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic&display=swap" rel="stylesheet">
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-  <style>
-    body {
-      font-family: 'IBM Plex Sans Arabic', sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #d3d3d3;
-      text-align: center;
-    }
-    header {
-      background: #fff;
-      padding: 20px;
-    }
-    h1 {
-      margin: 0;
-      text-align: right;
-    }
-    #candidates-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px;
-    }
-    .candidate {
-      background: white;
-      border-radius: 10px;
-      width: 90%;
-      max-width: 500px;
-      margin: 10px 0;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      cursor: pointer;
-      transition: background 0.3s ease;
-      display: flex;
-      align-items: flex-start;
-      text-align: right;
-    }
-    .candidate img {
-      width: 150px;
-      height: 100%;
-      border-radius: 10px 0 0 10px;
-      object-fit: cover;
-    }
-    .candidate .info {
-      padding: 15px;
-      flex: 1;
-    }
-    .candidate .info h3 {
-      margin: 0 0 5px;
-    }
-    .candidate .info p {
-      color: #03040E;
-      font-size: 14px;
-      margin: 0;
-    }
-    .result-bar {
-      background: #03040E;
-      border-radius: 20px;
-      height: 20px;
-      margin-top: 5px;
-      overflow: hidden;
-    }
-    .result-bar-fill {
-      background: #03040E;
-      height: 100%;
-      color: white;
-      text-align: right;
-      padding-right: 5px;
-      border-radius: 20px;
-    }
-    .success {
-      background: #03040E;
-      color: #ffffff;
-      padding: 15px;
-      border-radius: 8px;
-      margin: 20px auto;
-      width: fit-content;
-    }
-    .captcha {
-      margin: 30px;
-    }
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      background: #03040E;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      margin-top: 20px;
-    }
-    .back-btn {
-      background: #007bff;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 6px;
-      font-size: 16px;
-      margin-top: 30px;
-      cursor: pointer;
-    }
-    #countdown {
-      background-color: #03040E;
-      color: white;
-      font-family: 'monospace';
-      font-size: 20px;
-      padding: 10px;
-      border-radius: 6px;
-      width: 200px;
-      margin: 20px auto;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>التصويت 2025 - مجلس التنسيق الأعلى</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'IBM Plex Sans', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .header h2 {
+            font-size: 1.5rem;
+            color: #7f8c8d;
+            font-weight: normal;
+        }
+
+        .timer-container {
+            background: #000;
+            color: #00ff41;
+            padding: 15px 25px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 30px auto;
+            max-width: 350px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            border: 1px solid #333;
+        }
+
+        .timer-label {
+            color: #fff;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            font-weight: normal;
+        }
+
+        .timer {
+            font-size: 2.2rem;
+            font-weight: normal;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+            color: #00ff41;
+            text-shadow: 0 0 10px #00ff41;
+        }
+
+        .timer-units {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            color: #888;
+            font-size: 0.7rem;
+            padding: 0 10px;
+        }
+
+        .candidates-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .candidate-card {
+            background: #000;
+            color: #fff;
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .candidate-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        .candidate-info {
+            flex: 1;
+        }
+
+        .candidate-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .candidate-date {
+            color: #bbb;
+            font-size: 0.9rem;
+        }
+
+        .candidate-photo {
+            width: 100px;
+            height: 100px;
+            background: #333;
+            border: 3px solid #fff;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #bbb;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .vote-btn {
+            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .vote-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .candidates-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .timer {
+                font-size: 1.8rem;
+            }
+            
+            .candidate-card {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
 </head>
 <body>
+    <div class="header">
+        <h1>التصويت</h1>
+        <h2>الصفحة الرئيسية</h2>
+    </div>
 
-  <header>
-    <h1>التصويت</h1>
-    <p>اختر مرشحك بعناية</p>
-  </header>
+    <div class="timer-container">
+        <div class="timer-label">انتهاء التصويت</div>
+        <div class="timer" id="countdown">5:05:58:08</div>
+        <div class="timer-units">
+            <span>أيام</span>
+            <span>ساعات</span>
+            <span>دقائق</span>
+            <span>ثواني</span>
+        </div>
+    </div>
 
-  <div id="countdown"></div>
+    <div class="candidates-grid">
+        <div class="candidate-card" onclick="selectCandidate(1)">
+            <div class="candidate-info">
+                <div class="candidate-name">اسم المرشح</div>
+                <div class="candidate-date">التاريخ لنا احله</div>
+            </div>
+            <div class="candidate-photo">رابط الصورة</div>
+        </div>
 
-  <main id="main-content">
-    <div id="candidates-container"></div>
-  </main>
+        <div class="candidate-card" onclick="selectCandidate(2)">
+            <div class="candidate-info">
+                <div class="candidate-name">اسم المرشح</div>
+                <div class="candidate-date">التاريخ لنا احله</div>
+            </div>
+            <div class="candidate-photo">رابط الصورة</div>
+        </div>
 
-  <script>
-    // إعداد Firebase - استخدم بيانات مشروعك هنا
-    const firebaseConfig = {
-      apiKey: "AIzaSyDMP6d630CQnMzS9zcS0wr-NZ81WUP9mX0",
-      authDomain: "scc-d9b9c.firebaseapp.com",
-      databaseURL: "https://scc-d9b9c-default-rtdb.firebaseio.com",
-      projectId: "scc-d9b9c",
-      storageBucket: "scc-d9b9c.firebasestorage.app",
-      messagingSenderId: "176456040598",
-      appId: "1:176456040598:web:d88628418f27a3e61dc2b7",
-      measurementId: "G-23KVHJQXNJ"
-    };
+        <div class="candidate-card" onclick="selectCandidate(3)">
+            <div class="candidate-info">
+                <div class="candidate-name">اسم المرشح</div>
+                <div class="candidate-date">التاريخ لنا احله</div>
+            </div>
+            <div class="candidate-photo">رابط الصورة</div>
+        </div>
 
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+        <div class="candidate-card" onclick="selectCandidate(4)">
+            <div class="candidate-info">
+                <div class="candidate-name">اسم المرشح</div>
+                <div class="candidate-date">التاريخ لنا احله</div>
+            </div>
+            <div class="candidate-photo">رابط الصورة</div>
+        </div>
 
-    const candidates = [
-      { id: 1, name: "فهد بن محمد الغامدي", date: "26 اكتوبر 2023", img: "https://i.postimg.cc/Yq0ZthcF/image.png" },
-      { id: 2, name: "محمد بن سبيل الهذلي", date: "3 أغسطس 2022", img: "https://i.postimg.cc/d02S5CCb/image.png" },
-      { id: 3, name: "سعود بن عبدالله العنزي", date: "8 فبراير 2023", img: "https://i.postimg.cc/NMQCS075/image.png" },
-      { id: 4, name: "فيصل بن عبدالإله الشريف", date: "29 مايو 2022", img: "https://i.postimg.cc/Y0sXvzcW/image.png" },
-      { id: 5, name: "نايف بن سعود المالكي", date: "16 سبتمبر 2023 ", img: "https://i.postimg.cc/4N0MysZS/image.png" },
-      { id: 6, name: "نايف بن محمد الشريف", date: "7 يناير 2022", img: "https://i.postimg.cc/QMGygmFg/image.png" },
-      { id: 7, name: "محمد بن طارق", date: "13 نوفمبر 2021 ", img: "https://i.postimg.cc/RhFsCbYm/image.png" },
-      { id: 8, name: "مشاري بن عبدالحميد المظيبري", date: "19 مايو 2022", img: "https://i.postimg.cc/6pGPGgp5/image.png" },
-      { id: 9, name: "ياسر بن فهد الزهراني", date: "29 ديسمبر 2023", img: "https://i.postimg.cc/PxKVjk2K/image.png" },
-      { id: 10, name: "أحمد بن راكان الشريف", date: "1 مايو 202202", img: "https://i.postimg.cc/pVGccR9L/image.png" }
-    ];
+        <div class="candidate-card" onclick="selectCandidate(5)">
+            <div class="candidate-info">
+                <div class="candidate-name">اسم المرشح</div>
+                <div class="candidate-date">التاريخ لنا احله</div>
+            </div>
+            <div class="candidate-photo">رابط الصورة</div>
+        </div>
 
-    let selectedCandidateId = null;
-    const main = document.getElementById("main-content");
+        <div class="candidate-card" onclick="selectCandidate(6)">
+            <div class="candidate-info">
+                <div class="candidate-name">اسم المرشح</div>
+                <div class="candidate-date">التاريخ لنا احله</div>
+            </div>
+            <div class="candidate-photo">رابط الصورة</div>
+        </div>
 
-    const countdownTarget = new Date("May 23, 2025 00:00:00").getTime();
+        <div class="candidate-card" onclick="selectCandidate(7)">
+            <div class="candidate-info">
+                <div class="candidate-name">اسم المرشح</div>
+                <div class="candidate-date">التاريخ لنا احله</div>
+            </div>
+            <div class="candidate-photo">رابط الصورة</div>
+        </div>
 
-    if (localStorage.getItem('hasVoted') === 'true') {
-      showResults();
-    } else {
-      renderCandidates();
-    }
+        <div class="candidate-card" onclick="selectCandidate(8)">
+            <div class="candidate-info">
+                <div class="candidate-name">اسم المرشح</div>
+                <div class="candidate-date">التاريخ لنا احله</div>
+            </div>
+            <div class="candidate-photo">رابط الصورة</div>
+        </div>
 
-    function renderCandidates() {
-      const container = document.getElementById("candidates-container");
-      container.innerHTML = "";
-      candidates.forEach(candidate => {
-        const div = document.createElement("div");
-        div.className = "candidate";
-        div.innerHTML = 
-          `<img src="${candidate.img}" alt="${candidate.name}">
-          <div class="info">
-            <h3>${candidate.name}</h3>
-            <p>${candidate.date}</p>
-          </div>`;
-        div.onclick = () => {
-          goToVote(candidate.id, candidate.name, candidate.img, candidate.date);
-        };
-        container.appendChild(div);
-      });
-    }
+        <div class="candidate-card" onclick="selectCandidate(9)">
+            <div class="candidate-info">
+                <div class="candidate-name">اسم المرشح</div>
+                <div class="candidate-date">التاريخ لنا احله</div>
+            </div>
+            <div class="candidate-photo">رابط الصورة</div>
+        </div>
 
-    function goToVote(id, name, img, date) {
-      const url = `election_vote.html?id=${id}&name=${encodeURIComponent(name)}&img=${encodeURIComponent(img)}&date=${encodeURIComponent(date)}`;
-      window.location.href = url;
-    }
+        <div class="candidate-card" onclick="selectCandidate(10)">
+            <div class="candidate-info">
+                <div class="candidate-name">اسم المرشح</div>
+                <div class="candidate-date">التاريخ لنا احله</div>
+            </div>
+            <div class="candidate-photo">رابط الصورة</div>
+        </div>
+    </div>
 
-    function updateCountdown() {
-      const now = new Date().getTime();
-      const distance = countdownTarget - now;
-
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-      document.getElementById("countdown").innerHTML = 
-        `${days} أيام ${hours} ساعات ${minutes} دقائق ${seconds} ثواني`;
-
-      if (distance < 0) {
-        clearInterval(countdownInterval);
-        document.getElementById("countdown").innerHTML = "انتهت فترة التصويت";
-      }
-    }
-
-    const countdownInterval = setInterval(updateCountdown, 1000);
-    updateCountdown();
-  </script>
-
+    <script>
+        // العد التنازلي
+        function updateCountdown() {
+            const countdownElement = document.getElementById('countdown');
+            const currentTime = countdownElement.textContent;
+            const parts = currentTime.split(':');
+            
+            let days = parseInt(parts[0]);
+            let hours = parseInt(parts[1]);
+            let minutes = parseInt(parts[2]);
+            let seconds = parseInt(parts[3]);
+            
+            // تقليل الثواني
+            seconds--;
+            
+            if (seconds < 0) {
+                seconds = 59;
+                minutes--;
+                
+                if (minutes < 0) {
+                    minutes = 59;
+                    hours--;
+                    
+                    if (hours < 0) {
+                        hours = 23;
+                        days--;
+                        
+                        if (days < 0) {
+                            // انتهى الوقت
+                            countdownElement.textContent = "0:00:00:00";
+                            alert("انتهى وقت التصويت!");
+                            return;
+                        }
+                    }
+                }
+            }
+            
+            // تحديث العرض
+            countdownElement.textContent = 
+                days.toString().padStart(1, '0') + ':' +
+                hours.toString().padStart(2, '0') + ':' +
+                minutes.toString().padStart(2, '0') + ':' +
+                seconds.toString().padStart(2, '0');
+        }
+        
+        // تحديث العد التنازلي كل ثانية
+        setInterval(updateCountdown, 1000);
+        
+        // متغير لحفظ المرشح المختار
+        let selectedCandidate = null;
+        
+        // وظيفة اختيار المرشح
+        function selectCandidate(candidateId) {
+            // إزالة التحديد السابق
+            document.querySelectorAll('.candidate-card').forEach(card => {
+                card.style.border = 'none';
+                card.style.backgroundColor = '#000';
+            });
+            
+            // تحديد المرشح الجديد
+            const selectedCard = document.querySelectorAll('.candidate-card')[candidateId - 1];
+            selectedCard.style.border = '3px solid #00ff00';
+            selectedCard.style.backgroundColor = '#1a1a1a';
+            
+            selectedCandidate = candidateId;
+            
+            // إظهار زر التصويت إذا لم يكن موجوداً
+            if (!document.querySelector('.vote-btn')) {
+                const voteButton = document.createElement('button');
+                voteButton.className = 'vote-btn';
+                voteButton.textContent = 'تأكيد التصويت';
+                voteButton.onclick = confirmVote;
+                document.body.appendChild(voteButton);
+            }
+        }
+        
+        // وظيفة تأكيد التصويت
+        function confirmVote() {
+            if (selectedCandidate) {
+                const candidateName = document.querySelectorAll('.candidate-name')[selectedCandidate - 1].textContent;
+                
+                if (confirm(`هل أنت متأكد من التصويت لـ "${candidateName}"؟`)) {
+                    alert(`تم تسجيل صوتك لـ "${candidateName}" بنجاح!`);
+                    
+                    // تعطيل جميع البطاقات بعد التصويت
+                    document.querySelectorAll('.candidate-card').forEach(card => {
+                        card.style.pointerEvents = 'none';
+                        card.style.opacity = '0.6';
+                    });
+                    
+                    // إزالة زر التصويت
+                    const voteBtn = document.querySelector('.vote-btn');
+                    if (voteBtn) {
+                        voteBtn.remove();
+                    }
+                    
+                    // إظهار رسالة شكر
+                    const thankYouMsg = document.createElement('div');
+                    thankYouMsg.style.cssText = `
+                        position: fixed;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+                        color: white;
+                        padding: 30px;
+                        border-radius: 15px;
+                        text-align: center;
+                        font-size: 1.2rem;
+                        font-weight: bold;
+                        box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+                        z-index: 1000;
+                    `;
+                    thankYouMsg.textContent = 'شكراً لك! تم تسجيل صوتك بنجاح';
+                    document.body.appendChild(thankYouMsg);
+                    
+                    // إزالة الرسالة بعد 3 ثوانٍ
+                    setTimeout(() => {
+                        thankYouMsg.remove();
+                    }, 3000);
+                }
+            }
+        }
+        
+        // إضافة تأثيرات بصرية للبطاقات
+        document.querySelectorAll('.candidate-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                if (this.style.pointerEvents !== 'none') {
+                    this.style.transform = 'translateY(-5px) scale(1.02)';
+                }
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                if (this.style.pointerEvents !== 'none') {
+                    this.style.transform = 'translateY(0) scale(1)';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
