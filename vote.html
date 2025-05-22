@@ -4,22 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>التصويت - الصفحة الرئيسية</title>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Orbitron:wght@400;700;900&display=swap');
         
-        @font-face {
-            font-family: 'Digital7';
-            src: url('data:font/woff2;base64,') format('woff2');
-        }
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
         }
 
         body {
+            font-family: 'Cairo', Arial, sans-serif;
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             min-height: 100vh;
             padding: 20px;
@@ -27,400 +22,297 @@
 
         .header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #ddd;
         }
 
-        .header h1 {
-            font-size: 3rem;
+        .main-title {
+            font-size: 3em;
+            font-weight: 700;
             color: #2c3e50;
-            margin-bottom: 10px;
-            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
 
-        .header h2 {
-            font-size: 1.5rem;
-            color: #7f8c8d;
-            font-weight: normal;
+        .home-link {
+            font-size: 1.5em;
+            color: #050505;
+            font-weight: 400;
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .home-link:hover {
+            color: #050505;
         }
 
         .timer-container {
             background: #000;
-            color: #00ff41;
-            padding: 15px 25px;
-            border-radius: 10px;
-            text-align: center;
-            margin: 30px auto;
-            max-width: 350px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            border: 1px solid #333;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 30px auto 40px auto;
+            width: fit-content;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
         .timer-label {
-            color: #fff;
-            font-size: 0.85rem;
-            margin-bottom: 8px;
-            font-weight: normal;
+            color: white;
+            text-align: center;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            font-weight: 600;
         }
 
         .timer {
-            font-size: 3rem;
-            font-weight: normal;
-            font-family: 'Courier New', monospace;
-            letter-spacing: 12px;
-            color: #00ff41;
-            text-shadow: 0 0 15px #00ff41, 0 0 25px #00ff41, 0 0 35px #00ff41;
+            font-family: 'Orbitron', 'DS-Digital', 'Courier New', monospace;
+            font-size: 3em;
+            color: #ffffff;
+            text-align: center;
+            font-weight: bold;
+            letter-spacing: 3px;
             background: #000;
-            padding: 15px 25px;
-            border-radius: 8px;
-            border: 2px solid #222;
-            display: inline-block;
-            font-feature-settings: "tnum";
-            /* محاولة محاكاة Seven Segment Display */
-            text-rendering: geometricPrecision;
-            -webkit-font-smoothing: none;
-            font-smooth: never;
+            padding: 15px 30px;
+            border-radius: 10px;
+            border: 2px solid #333;
+            text-shadow: 0 0 10px #00ff41;
         }
 
-        .timer-units {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 5px;
-            color: #888;
-            font-size: 0.7rem;
-            padding: 0 10px;
-        }
-
-        .candidates-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            max-width: 1200px;
+        .candidates-container {
+            max-width: 600px;
             margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
 
         .candidate-card {
             background: #000;
-            color: #fff;
             border-radius: 15px;
-            padding: 20px;
+            padding: 25px;
             display: flex;
             align-items: center;
-            gap: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            gap: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
             cursor: pointer;
+            flex-direction: row-reverse;
         }
 
         .candidate-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.25);
         }
 
-        .candidate-info {
-            flex: 1;
-        }
-
-        .candidate-name {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .candidate-date {
-            color: #bbb;
-            font-size: 0.9rem;
-        }
-
-        .candidate-photo {
-            width: 100px;
-            height: 100px;
-            background: #333;
+        .candidate-image {
+            width: 120px;
+            height: 120px;
+            background: white;
             border: 3px solid #fff;
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #bbb;
-            font-size: 0.8rem;
+            font-size: 1.1em;
+            color: #666;
             flex-shrink: 0;
         }
 
-        .vote-btn {
-            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+        .candidate-info {
+            flex: 1;
             color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 25px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 20px;
-            width: 100%;
+            text-align: right;
         }
 
-        .vote-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        .candidate-name {
+            font-size: 2em;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .candidate-date {
+            font-size: 1.1em;
+            color: #bbb;
+            font-weight: 400;
         }
 
         @media (max-width: 768px) {
-            .candidates-grid {
-                grid-template-columns: 1fr;
+            .main-title {
+                font-size: 2.5em;
             }
             
-            .header h1 {
-                font-size: 2rem;
+            .home-link {
+                font-size: 1.2em;
+            }
+            
+            .header {
+                gap: 20px;
             }
             
             .timer {
-                font-size: 1.8rem;
+                font-size: 1.8em;
+                letter-spacing: 2px;
+                padding: 10px 15px;
             }
             
             .candidate-card {
-                flex-direction: column;
-                text-align: center;
+                padding: 20px;
+                gap: 20px;
+            }
+            
+            .candidate-image {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .candidate-name {
+                font-size: 1.6em;
+            }
+            
+            .candidate-date {
+                font-size: 1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .candidate-card {
+                flex-direction: row-reverse;
+                text-align: right;
+                gap: 15px;
+            }
+            
+            .candidate-image {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .candidate-info {
+                text-align: right;
             }
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>التصويت</h1>
-        <h2>الصفحة الرئيسية</h2>
+        <h1 class="main-title">التصويت</h1>
+        <a href="index.html" class="home-link">الصفحة الرئيسية</a>
     </div>
 
     <div class="timer-container">
         <div class="timer-label">انتهاء التصويت</div>
-        <div class="timer" id="countdown">5:05:58:08</div>
-        <div class="timer-units">
-            <span>أيام</span>
-            <span>ساعات</span>
-            <span>دقائق</span>
-            <span>ثواني</span>
-        </div>
+        <div class="timer" id="countdown">11:23:59:59</div>
     </div>
 
-    <div class="candidates-grid">
-        <div class="candidate-card" onclick="selectCandidate(1)">
+    <div class="candidates-container">
+        <div class="candidate-card">
             <div class="candidate-info">
                 <div class="candidate-name">اسم المرشح</div>
-                <div class="candidate-date">التاريخ لنا احله</div>
+                <div class="candidate-date">التاريخ لما اجه</div>
             </div>
-            <div class="candidate-photo">رابط الصورة</div>
+            <div class="candidate-image">رابط الصورة</div>
         </div>
 
-        <div class="candidate-card" onclick="selectCandidate(2)">
+        <div class="candidate-card">
             <div class="candidate-info">
                 <div class="candidate-name">اسم المرشح</div>
-                <div class="candidate-date">التاريخ لنا احله</div>
+                <div class="candidate-date">التاريخ لما اجه</div>
             </div>
-            <div class="candidate-photo">رابط الصورة</div>
+            <div class="candidate-image">رابط الصورة</div>
         </div>
 
-        <div class="candidate-card" onclick="selectCandidate(3)">
+        <div class="candidate-card">
             <div class="candidate-info">
                 <div class="candidate-name">اسم المرشح</div>
-                <div class="candidate-date">التاريخ لنا احله</div>
+                <div class="candidate-date">التاريخ لما اجه</div>
             </div>
-            <div class="candidate-photo">رابط الصورة</div>
+            <div class="candidate-image">رابط الصورة</div>
         </div>
 
-        <div class="candidate-card" onclick="selectCandidate(4)">
+        <div class="candidate-card">
             <div class="candidate-info">
                 <div class="candidate-name">اسم المرشح</div>
-                <div class="candidate-date">التاريخ لنا احله</div>
+                <div class="candidate-date">التاريخ لما اجه</div>
             </div>
-            <div class="candidate-photo">رابط الصورة</div>
+            <div class="candidate-image">رابط الصورة</div>
         </div>
 
-        <div class="candidate-card" onclick="selectCandidate(5)">
+        <div class="candidate-card">
             <div class="candidate-info">
                 <div class="candidate-name">اسم المرشح</div>
-                <div class="candidate-date">التاريخ لنا احله</div>
+                <div class="candidate-date">التاريخ لما اجه</div>
             </div>
-            <div class="candidate-photo">رابط الصورة</div>
+            <div class="candidate-image">رابط الصورة</div>
         </div>
 
-        <div class="candidate-card" onclick="selectCandidate(6)">
+        <div class="candidate-card">
             <div class="candidate-info">
                 <div class="candidate-name">اسم المرشح</div>
-                <div class="candidate-date">التاريخ لنا احله</div>
+                <div class="candidate-date">التاريخ لما اجه</div>
             </div>
-            <div class="candidate-photo">رابط الصورة</div>
+            <div class="candidate-image">رابط الصورة</div>
         </div>
 
-        <div class="candidate-card" onclick="selectCandidate(7)">
+        <div class="candidate-card">
             <div class="candidate-info">
                 <div class="candidate-name">اسم المرشح</div>
-                <div class="candidate-date">التاريخ لنا احله</div>
+                <div class="candidate-date">التاريخ لما اجه</div>
             </div>
-            <div class="candidate-photo">رابط الصورة</div>
+            <div class="candidate-image">رابط الصورة</div>
         </div>
 
-        <div class="candidate-card" onclick="selectCandidate(8)">
+        <div class="candidate-card">
             <div class="candidate-info">
                 <div class="candidate-name">اسم المرشح</div>
-                <div class="candidate-date">التاريخ لنا احله</div>
+                <div class="candidate-date">التاريخ لما اجه</div>
             </div>
-            <div class="candidate-photo">رابط الصورة</div>
-        </div>
-
-        <div class="candidate-card" onclick="selectCandidate(9)">
-            <div class="candidate-info">
-                <div class="candidate-name">اسم المرشح</div>
-                <div class="candidate-date">التاريخ لنا احله</div>
-            </div>
-            <div class="candidate-photo">رابط الصورة</div>
-        </div>
-
-        <div class="candidate-card" onclick="selectCandidate(10)">
-            <div class="candidate-info">
-                <div class="candidate-name">اسم المرشح</div>
-                <div class="candidate-date">التاريخ لنا احله</div>
-            </div>
-            <div class="candidate-photo">رابط الصورة</div>
+            <div class="candidate-image">رابط الصورة</div>
         </div>
     </div>
 
     <script>
-        // العد التنازلي
-        function updateCountdown() {
-            const countdownElement = document.getElementById('countdown');
-            const currentTime = countdownElement.textContent;
-            const parts = currentTime.split(':');
+        // تحديث العداد التنازلي
+        function updateTimer() {
+            const timerElement = document.getElementById('countdown');
+            let timeString = timerElement.textContent;
+            let parts = timeString.split(':');
             
             let days = parseInt(parts[0]);
             let hours = parseInt(parts[1]);
             let minutes = parseInt(parts[2]);
             let seconds = parseInt(parts[3]);
             
-            // تقليل الثواني
             seconds--;
             
             if (seconds < 0) {
                 seconds = 59;
                 minutes--;
-                
                 if (minutes < 0) {
                     minutes = 59;
                     hours--;
-                    
                     if (hours < 0) {
                         hours = 23;
                         days--;
-                        
                         if (days < 0) {
-                            // انتهى الوقت
-                            countdownElement.textContent = "0:00:00:00";
-                            alert("انتهى وقت التصويت!");
+                            timerElement.textContent = "0:00:00:00";
                             return;
                         }
                     }
                 }
             }
             
-            // تحديث العرض
-            countdownElement.textContent = 
-                days.toString().padStart(1, '0') + ':' +
-                hours.toString().padStart(2, '0') + ':' +
-                minutes.toString().padStart(2, '0') + ':' +
+            timerElement.textContent = 
+                days + ':' + 
+                hours.toString().padStart(2, '0') + ':' + 
+                minutes.toString().padStart(2, '0') + ':' + 
                 seconds.toString().padStart(2, '0');
         }
         
-        // تحديث العد التنازلي كل ثانية
-        setInterval(updateCountdown, 1000);
-        
-        // متغير لحفظ المرشح المختار
-        let selectedCandidate = null;
-        
-        // وظيفة اختيار المرشح
-        function selectCandidate(candidateId) {
-            // إزالة التحديد السابق
-            document.querySelectorAll('.candidate-card').forEach(card => {
-                card.style.border = 'none';
-                card.style.backgroundColor = '#000';
-            });
-            
-            // تحديد المرشح الجديد
-            const selectedCard = document.querySelectorAll('.candidate-card')[candidateId - 1];
-            selectedCard.style.border = '3px solid #00ff00';
-            selectedCard.style.backgroundColor = '#1a1a1a';
-            
-            selectedCandidate = candidateId;
-            
-            // إظهار زر التصويت إذا لم يكن موجوداً
-            if (!document.querySelector('.vote-btn')) {
-                const voteButton = document.createElement('button');
-                voteButton.className = 'vote-btn';
-                voteButton.textContent = 'تأكيد التصويت';
-                voteButton.onclick = confirmVote;
-                document.body.appendChild(voteButton);
-            }
-        }
-        
-        // وظيفة تأكيد التصويت
-        function confirmVote() {
-            if (selectedCandidate) {
-                const candidateName = document.querySelectorAll('.candidate-name')[selectedCandidate - 1].textContent;
-                
-                if (confirm(`هل أنت متأكد من التصويت لـ "${candidateName}"؟`)) {
-                    alert(`تم تسجيل صوتك لـ "${candidateName}" بنجاح!`);
-                    
-                    // تعطيل جميع البطاقات بعد التصويت
-                    document.querySelectorAll('.candidate-card').forEach(card => {
-                        card.style.pointerEvents = 'none';
-                        card.style.opacity = '0.6';
-                    });
-                    
-                    // إزالة زر التصويت
-                    const voteBtn = document.querySelector('.vote-btn');
-                    if (voteBtn) {
-                        voteBtn.remove();
-                    }
-                    
-                    // إظهار رسالة شكر
-                    const thankYouMsg = document.createElement('div');
-                    thankYouMsg.style.cssText = `
-                        position: fixed;
-                        top: 50%;
-                        left: 50%;
-                        transform: translate(-50%, -50%);
-                        background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
-                        color: white;
-                        padding: 30px;
-                        border-radius: 15px;
-                        text-align: center;
-                        font-size: 1.2rem;
-                        font-weight: bold;
-                        box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-                        z-index: 1000;
-                    `;
-                    thankYouMsg.textContent = 'شكراً لك! تم تسجيل صوتك بنجاح';
-                    document.body.appendChild(thankYouMsg);
-                    
-                    // إزالة الرسالة بعد 3 ثوانٍ
-                    setTimeout(() => {
-                        thankYouMsg.remove();
-                    }, 3000);
-                }
-            }
-        }
-        
-        // إضافة تأثيرات بصرية للبطاقات
-        document.querySelectorAll('.candidate-card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                if (this.style.pointerEvents !== 'none') {
-                    this.style.transform = 'translateY(-5px) scale(1.02)';
-                }
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                if (this.style.pointerEvents !== 'none') {
-                    this.style.transform = 'translateY(0) scale(1)';
-                }
-            });
-        });
+        setInterval(updateTimer, 1000);
     </script>
 </body>
 </html>
