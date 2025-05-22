@@ -83,6 +83,7 @@
       font-weight: bold;
       margin-bottom: 5px;
       gap: 30px;
+      flex-direction: row-reverse;
     }
 
     .timer {
@@ -95,15 +96,7 @@
       padding: 15px 30px;
       border-radius: 10px;
       text-shadow: 0 0 10px #00ff41;
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .digit {
-      min-width: 35px;
-      display: inline-block;
-      text-align: center;
+      direction: ltr;
     }
 
     .candidates-container {
@@ -230,17 +223,12 @@
   <div class="timer-container">
     <div class="timer-label">انتهاء التصويت</div>
     <div class="timer-units">
-      <div>ثواني</div>
+      <div>ثوانٍ</div>
       <div>دقائق</div>
       <div>ساعات</div>
       <div>أيام</div>
     </div>
-    <div class="timer" id="countdown">
-      <span class="digit">--</span>:
-      <span class="digit">--</span>:
-      <span class="digit">--</span>:
-      <span class="digit">--</span>
-    </div>
+    <div class="timer" id="countdown">--:--:--:--</div>
   </div>
 
   <div class="candidates-container">
@@ -270,7 +258,7 @@
   </div>
 
   <script>
-    const countdownSpans = document.querySelectorAll('#countdown .digit');
+    const countdown = document.getElementById('countdown');
     const endDate = new Date('2025-05-25T23:59:59').getTime();
 
     function updateCountdown() {
@@ -278,8 +266,8 @@
       const diff = endDate - now;
 
       if (diff <= 0) {
-        countdownSpans.forEach(span => span.textContent = '--');
-        document.getElementById('countdown').style.color = "red";
+        countdown.textContent = "ENDED";
+        countdown.style.color = "red";
         return;
       }
 
@@ -288,16 +276,7 @@
       const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-      const values = [
-        String(days).padStart(2, '0'),
-        String(hours).padStart(2, '0'),
-        String(minutes).padStart(2, '0'),
-        String(seconds).padStart(2, '0')
-      ];
-
-      countdownSpans.forEach((span, idx) => {
-        span.textContent = values[idx];
-      });
+      countdown.textContent = `${String(seconds).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(hours).padStart(2, '0')}:${days}`;
     }
 
     setInterval(updateCountdown, 1000);
