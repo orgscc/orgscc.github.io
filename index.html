@@ -32,9 +32,9 @@
     }
 
     .header-titles {
-      display: flex;          /* تأكد إنها في سطر واحد */
+      display: flex;          
       align-items: center;
-      gap: 5px;               /* مسافة صغيرة بين "الصفحة الرئيسية" و"المتجر" */
+      gap: 5px;               
       padding: 0 20px;
       max-width: 1200px;
       margin: 0 auto;
@@ -48,7 +48,7 @@
       margin: 0;
       text-decoration: none;
       color: black;
-      white-space: nowrap;    /* منع الانكسار تحت */
+      white-space: nowrap;    
     }
 
     .header-titles a:hover {
@@ -201,18 +201,18 @@
       max-width: 95%;
       width: fit-content;
       box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-      text-align: center;
       display: flex;
       align-items: center;
       gap: 20px;
-      /* اتجاه طبيعي: محتوى العداد ثم الصورة، في سطر واحد */
+      flex-direction: row; /* تأكد إن الصورة بجانب العداد في نفس السطر */
+      justify-content: flex-end; /* يدفع العناصر لليمين */
     }
 
     .timer-content {
       flex: 1;
       display: flex;
       flex-direction: column;
-      text-align: center; /* خلى النص في الوسط */
+      text-align: right; /* محاذاة النص من اليمين لليسار */
     }
 
     .timer-label {
@@ -220,24 +220,24 @@
       font-size: 1.2em;
       margin-bottom: 10px;
       font-weight: 500;
-      text-align: center; /* خلى العنوان بالوسط */
+      text-align: right; /* الكتابة باليمين */
     }
 
     .timer-units {
       display: flex;
-      justify-content: center; /* خلى وحدات الوقت بالوسط */
+      justify-content: flex-end; /* الوحدات تبدأ من اليمين */
       color: #ccc;
       font-size: 1em;
       font-weight: bold;
       margin-bottom: 5px;
       gap: 30px;
-      flex-direction: row-reverse;
+      flex-direction: row-reverse; /* ترتيب الأيام ثم الساعات ثم الدقائق ثم الثواني */
     }
 
     .timer {
       position: relative;
       font-family: 'DS-Digital', monospace;
-      font-size: 3.5em;   /* كبرنا حجم الأرقام */
+      font-size: 3.5em;   /* كبر حجم الأرقام */
       color: #ffffff;
       font-weight: bold;
       letter-spacing: 2px;
@@ -247,7 +247,7 @@
       text-shadow: 0 0 10px #ffffff;
       direction: ltr;
       max-width: 100%;
-      text-align: center; /* خلى الأرقام في الوسط */
+      text-align: right;  /* محاذاة الأرقام من اليمين */
       margin: 0 auto;
       overflow: hidden;
     }
@@ -273,7 +273,7 @@
       object-fit: cover;
       border: 2px solid #fff;
       flex-shrink: 0;
-      /* ستظهر يمين العداد في نفس الصف */
+      /* بما أنها بعد محتوى العداد في الـ HTML، ستظهر مباشرة يمين العداد */
     }
 
     @media (max-width: 768px) {
@@ -294,11 +294,13 @@
         padding: 8px 15px;
         letter-spacing: 1px;
         margin: 0 auto;
+        text-align: center; /* للهواتف نجعلها في الوسط */
       }
 
       .timer-units {
         font-size: 0.8em;
         gap: 15px;
+        justify-content: center; /* وحدات العداد في الوسط للهواتف */
       }
 
       .main-content-box {
@@ -307,7 +309,7 @@
       }
 
       .header-titles {
-        flex-direction: row;  /* خليهم في سطر واحد حتى بالهاتف */
+        flex-direction: row;
         gap: 5px;
         text-align: center;
         justify-content: center;
@@ -361,7 +363,7 @@
   </style>
 </head>
 <body>
-  <!-- شاشة ترحيبية -->
+  <!-- شاشة ترحيب -->
   <div id="splash-screen">
     <img id="splash-logo" src="https://i.postimg.cc/fLxzPSPz/image.png" alt="شعار ترحيبي" class="responsive-img">
     <div class="loader"><div class="bar"></div></div>
@@ -396,8 +398,8 @@
             </div>
             <div class="timer" id="countdown">--:--:--:--</div>
           </div>
-          <!-- صورة العداد بعد ذلك لعرضها يمين العداد -->
-          <img src="https://i.postimg.cc/7P2pkY1R/image.png" alt="صورة العداد" class="timer-image" />
+          <!-- ثم صورة العداد يمين العداد -->
+          <img src="https://i.postimg.cc/7P2pkY1R/image.png" alt="صورة العداد" class="timer-image">
         </div>
 
         <section class="features" style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: center;">
@@ -420,7 +422,7 @@
           <div class="feature-card president-card">
             <h3 style="margin-bottom: 15px;">الرئيس</h3>
             <div class="president-info">
-              <img src="/api/placeholder/60/60" alt="صورة الرئيس" class="president-image" />
+              <img src="/api/placeholder/60/60" alt="صورة الرئيس" class="president-image">
               <strong class="president-name" id="president-name"></strong>
             </div>
             <a href="vote.html" class="vote-button" id="vote-button">تصويت</a>
@@ -499,4 +501,5 @@
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
 </body>
-  </html> 
+</html>
+
