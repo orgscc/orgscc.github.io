@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
@@ -24,24 +24,11 @@
       user-select: none;
     }
 
-    .main-content-container {
-      background-color: #ffffff;
-      border-radius: 15px;
-      padding: 20px;
-      margin: 20px auto;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-      max-width: 1200px;
-    }
-
     .header-titles {
       display: flex;
       align-items: center;
       gap: 20px;
       padding: 20px;
-      background-color: #ffffff;
-      width: 100%;
-      box-sizing: border-box;
-      border-bottom: 1px solid #eee;
     }
 
     .header-titles h1,
@@ -97,10 +84,8 @@
       padding: 20px;
       border-radius: 12px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      width: 100%;
-      max-width: 300px;
+      width: 300px;
       text-align: center;
-      margin: 0 auto;
     }
 
     .president-info {
@@ -141,7 +126,6 @@
       text-decoration: none;
       display: none;
       transition: background-color 0.3s;
-      margin: 10px auto;
     }
 
     .vote-button:hover {
@@ -171,14 +155,12 @@
       padding: 40px 0;
       border-top: 1px solid #ccc;
       margin-top: 50px;
-      background-color: #d3d3d3;
-      width: 100%;
+      background: #ffffff;
     }
 
     .footer-content img {
       width: 500px;
       margin-bottom: 65px;
-      max-width: 80%;
     }
 
     .footer-text {
@@ -192,7 +174,7 @@
       background: #000;
       border-radius: 15px;
       padding: 20px;
-      margin: 40px auto;
+      margin: 0 auto;
       width: fit-content;
       box-shadow: 0 10px 30px rgba(0,0,0,0.3);
       text-align: center;
@@ -226,7 +208,7 @@
       background: #000;
       padding: 15px 30px;
       border-radius: 10px;
-      text-shadow: 0 0 10px #00ff41;
+      text-shadow: 0 0 10px #ffffff;
       direction: ltr;
       min-width: 300px;
       text-align: center;
@@ -257,17 +239,6 @@
         font-size: 0.9em;
         gap: 20px;
       }
-
-      .main-content-container {
-        margin: 10px;
-        padding: 15px;
-      }
-
-      .header-titles {
-        flex-direction: column;
-        gap: 10px;
-        padding: 15px;
-      }
     }
 
     /* شاشة الترحيب */
@@ -289,7 +260,6 @@
       width: 950px;
       height: auto;
       margin-bottom: 175px;
-      max-width: 90%;
     }
 
     .loader {
@@ -315,29 +285,6 @@
     .noscroll {
       overflow: hidden;
     }
-
-    /* المحتوى الرئيسي */
-    .hero-section {
-      text-align: center;
-      padding: 20px 0;
-    }
-
-    .features {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 30px;
-      justify-content: center;
-      margin-top: 40px;
-    }
-
-    .feature-card {
-      background-color: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      width: 100%;
-      max-width: 300px;
-    }
   </style>
 </head>
 <body>
@@ -350,16 +297,17 @@
   <!-- المحتوى الرئيسي -->
   <div id="main-content" style="display: none;">
     <!-- عنوان الصفحة -->
-    <div class="header-titles">
-      <h1 class="main-title">الصفحة الرئيسية</h1>
-      <a href="store.html" class="sub-title">المتجر</a>
+    <div class="container">
+      <div class="header-titles">
+        <h1 class="main-title">الصفحة الرئيسية</h1>
+        <a href="store.html" class="sub-title">المتجر</a>
+      </div>
     </div>
 
-    <!-- المربع الأبيض الرئيسي -->
-    <div class="main-content-container">
-      <section class="hero-section">
-        <h1 style="font-size: 2em; margin-bottom: 20px;">أهلاً بك في مجلس التنسيق الأعلى</h1>
-        <p style="font-size: 1.2em; margin-bottom: 40px;">المجلس الذي يقدم جميع الخدمات الإلكترونية</p>
+    <div class="container main-home-content" style="padding-top: 100px;">
+      <section class="hero-section" style="text-align: center; padding: 60px 20px;">
+        <h1 style="font-size: 40px; margin-bottom: 20px;">أهلاً بك في مجلس التنسيق الأعلى</h1>
+        <p style="font-size: 20px; margin-bottom: 40px;">المجلس الذي يقدم جميع الخدمات الإلكترونية</p>
 
         <!-- العداد التنازلي -->
         <div class="timer-container">
@@ -373,24 +321,24 @@
           <div class="timer" id="countdown">--:--:--:--</div>
         </div>
 
-        <section class="features">
-          <div class="feature-card">
+        <section class="features" style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; margin-top: 60px;">
+          <div class="feature-card" style="background-color: white; padding: 20px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 300px;">
             <h3>ماهو مجلس التنسيق الأعلى؟</h3>
             <p>هو مجلس تابع لمنظمة أوبك تم تأسيسه بأول مرة بتاريخ 13 نوفمبر 2021 بيد الرئيس السابق محمد بن طارق وتم إغلاقه في تاريخ 23 سبتمبر 2022 لسبب مجهول من الرئيس وتمت إعادته في تاريخ 26 أكتوبر 2023 بيد الرئيس السابق فهد بن محمد الغامدي و تم تحسينه و إضافة له مزايا عديدة بأمر منه وقدًّم إستقالته في 5 ديسمبر 2023 وعاد رئيسه من جديد محمد بن طارق بتاريخ 12 مايو 2024 حتى قدم إستقالته كرئيس بتاريخ 19 سبتمبر 2024 والمجلس الآن يحوي أكثر من +170 عضو و 30+ منه بإدارة مجلس التنسيق الأعلى</p>
           </div>
 
-          <div class="feature-card">
+          <div class="feature-card" style="background-color: white; padding: 20px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 300px;">
             <h3>ماهي الخدمات التي يقدمها المجلس؟</h3>
             <p>هي خدمات عبر الديسكورد و هي خدمات استضافة البوتات سواء بالريال أو الكريدت (عملة الديسكورد أو بروبوت) وقريباً سيتم إضافة المزيد</p>
           </div>
 
-          <div class="feature-card">
+          <div class="feature-card" style="background-color: white; padding: 20px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 300px;">
             <h3>ماهي طرق الدفع التي يقبلها المجلس؟</h3>
-            <p>الآن المجلس يقبل فقط STC Pay و ProBot Credit (عبر الديسكورد) وقريباً سيتم إضافة المزيد</p>
+            <p>الآن المجلس يقبل فقط STC Pay و ProBot Credit (عبر الديسكورد) وقريباً، سيتم إضافة المزيد</p>
           </div>
 
           <!-- مربع الرئيس -->
-          <div class="president-card">
+          <div class="feature-card president-card">
             <h3 style="margin-bottom: 15px;">الرئيس</h3>
             <div class="president-info">
               <img src="/api/placeholder/60/60" alt="صورة الرئيس" class="president-image" />
@@ -403,16 +351,18 @@
     </div>
 
     <!-- الفوتر -->
-    <footer class="footer">
-      <div class="footer-content">
-        <img src="https://i.postimg.cc/fLxzPSPz/image.png" alt="شعار الموقع" class="protected-image">
-        <div class="footer-buttons">
-          <a href="privacy.html" class="footer-btn">سياسة الخصوصية</a>
-          <a href="rules.html" class="footer-btn">القوانين والأحكام</a>
+    <div class="container">
+      <footer class="footer">
+        <div class="footer-content">
+          <img src="https://i.postimg.cc/fLxzPSPz/image.png" alt="شعار الموقع" class="protected-image">
+          <div class="footer-buttons">
+            <a href="privacy.html" class="footer-btn">سياسة الخصوصية</a>
+            <a href="rules.html" class="footer-btn">القوانين والأحكام</a>
+          </div>
+          <p class="footer-text">&copy; <span id="year"></span> | جميع الحقوق محفوظة</p>
         </div>
-        <p class="footer-text">&copy; <span id="year"></span> | جميع الحقوق محفوظة</p>
-      </div>
-    </footer>
+      </footer>
+    </div>
   </div>
 
   <script>
