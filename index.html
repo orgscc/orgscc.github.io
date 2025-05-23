@@ -32,9 +32,9 @@
     }
 
     .header-titles {
-      display: flex;          
+      display: flex;
       align-items: center;
-      gap: 5px;               
+      gap: 5px;
       padding: 0 20px;
       max-width: 1200px;
       margin: 0 auto;
@@ -48,7 +48,7 @@
       margin: 0;
       text-decoration: none;
       color: black;
-      white-space: nowrap;    
+      white-space: nowrap;
     }
 
     .header-titles a:hover {
@@ -204,42 +204,50 @@
       display: flex;
       align-items: center;
       gap: 20px;
-      flex-direction: row; /* الصورة بجانب العداد في نفس السطر */
-      justify-content: flex-end; /* يدفع العناصر لليمين */
+      flex-direction: row; 
+      justify-content: flex-end;
     }
 
     .timer-content {
       flex: 1;
       display: flex;
-      flex-direction: row; /* نجعل كل قيمة حقها صندوق بجانب بعض */
+      justify-content: flex-end;
       gap: 10px;
-      justify-content: flex-end; /* كل الصناديق تتراص لليمين */
     }
 
-    .timer-segment {
+    .time-segment {
       display: flex;
       flex-direction: column;
       align-items: center;
-      min-width: 60px; /* عرض ثابت للصندوق مهما العدد */
+      margin: 0 5px;
     }
 
-    .timer-segment .label {
+    .time-label {
       color: #ccc;
       font-size: 0.9em;
       margin-bottom: 5px;
+      font-weight: bold;
+      text-align: center;
     }
 
-    .timer-segment .value {
+    .time-value {
       font-family: 'DS-Digital', monospace;
-      font-size: 3.5em; /* حجم الأرقام */
+      font-size: 3em; /* حجم الرقم */
       color: #ffffff;
       letter-spacing: 2px;
-      width: 60px; /* تأكد إنه ثابت العرض */
-      text-align: center;
       background: #000;
-      padding: 5px 0;
-      border-radius: 5px;
+      padding: 10px 10px;
+      border-radius: 10px;
       text-shadow: 0 0 10px #ffffff;
+      width: 4ch; /* ثابت عرض العنصر حتى لو كان رقم واحد */
+      text-align: center;
+    }
+
+    .sep {
+      color: #ffffff;
+      font-size: 3em;
+      margin: 0 5px;
+      align-self: center;
     }
 
     .timer-image {
@@ -249,15 +257,12 @@
       object-fit: cover;
       border: 2px solid #fff;
       flex-shrink: 0;
-      /* بما أنها بعد محتوى العداد في الـ HTML، ستظهر مباشرة يمين العداد */
     }
 
     @media (max-width: 768px) {
       .timer-container {
-        flex-direction: row; /* أبقينا الصورة يمين العداد حتى في الجوال */
-        gap: 10px;
+        flex-direction: row; /* لا نتغير للعمودي بالهاتف */
         padding: 10px;
-        text-align: right;
       }
 
       .timer-image {
@@ -265,21 +270,22 @@
         height: 60px;
       }
 
+      .time-value {
+        font-size: 2em;
+        padding: 8px 8px;
+      }
+
+      .sep {
+        font-size: 2em;
+        margin: 0 3px;
+      }
+
       .timer-content {
-        gap: 5px; /* نقصنا المسافة عشان تناسب الجوال */
+        gap: 5px;
       }
 
-      .timer-segment {
-        min-width: 45px; /* خففنا العرض شوية في الجوال */
-      }
-
-      .timer-segment .value {
-        font-size: 2em; /* حجم رقمي أصغر للجوال */
-        width: 45px;
-      }
-
-      .timer-segment .label {
-        font-size: 0.7em;
+      .time-label {
+        font-size: 0.8em;
       }
 
       .main-content-box {
@@ -342,7 +348,7 @@
   </style>
 </head>
 <body>
-  <!-- شاشة ترحيب -->
+  <!-- شاشة الترحيب -->
   <div id="splash-screen">
     <img id="splash-logo" src="https://i.postimg.cc/fLxzPSPz/image.png" alt="شعار ترحيبي" class="responsive-img">
     <div class="loader"><div class="bar"></div></div>
@@ -366,23 +372,30 @@
 
         <!-- العداد التنازلي -->
         <div class="timer-container">
-          <!-- محتوى العداد: صناديق منفصلة لكل وحدة من الزمن -->
+          <!-- محتوى العداد أولاً -->
           <div class="timer-content">
-            <div class="timer-segment">
-              <div class="label">أيام</div>
-              <div class="value" id="days">--</div>
+            <!-- ثواني -->
+            <div class="time-segment">
+              <div class="time-label">ثواني</div>
+              <div class="time-value" id="seconds">--</div>
             </div>
-            <div class="timer-segment">
-              <div class="label">ساعات</div>
-              <div class="value" id="hours">--</div>
+            <div class="sep">:</div>
+            <!-- دقائق -->
+            <div class="time-segment">
+              <div class="time-label">دقائق</div>
+              <div class="time-value" id="minutes">--</div>
             </div>
-            <div class="timer-segment">
-              <div class="label">دقائق</div>
-              <div class="value" id="minutes">--</div>
+            <div class="sep">:</div>
+            <!-- ساعات -->
+            <div class="time-segment">
+              <div class="time-label">ساعات</div>
+              <div class="time-value" id="hours">--</div>
             </div>
-            <div class="timer-segment">
-              <div class="label">ثوانٍ</div>
-              <div class="value" id="seconds">--</div>
+            <div class="sep">:</div>
+            <!-- أيام -->
+            <div class="time-segment">
+              <div class="time-label">أيام</div>
+              <div class="time-value" id="days">--</div>
             </div>
           </div>
           <!-- ثم صورة العداد يمين العداد -->
@@ -442,34 +455,35 @@
       }
     });
 
-    // العداد التنازلي المنفصل بالقيم
-    const daysEl    = document.getElementById('days');
-    const hoursEl   = document.getElementById('hours');
+    // العداد التنازلي
+    const daysEl = document.getElementById('days');
+    const hoursEl = document.getElementById('hours');
     const minutesEl = document.getElementById('minutes');
     const secondsEl = document.getElementById('seconds');
-    const endDate   = new Date('2025-05-25T23:59:59').getTime();
+    const endDate = new Date('2025-05-25T23:59:59').getTime();
 
     function updateCountdown() {
-      const now  = new Date().getTime();
+      const now = new Date().getTime();
       const diff = endDate - now;
 
       if (diff <= 0) {
-        daysEl.textContent    = "00";
-        hoursEl.textContent   = "00";
-        minutesEl.textContent = "00";
-        secondsEl.textContent = "00";
+        daysEl.textContent = '00';
+        hoursEl.textContent = '00';
+        minutesEl.textContent = '00';
+        secondsEl.textContent = '00';
         return;
       }
 
-      const days    = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours   = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-      daysEl.textContent    = String(days).padStart(2, '0');
-      hoursEl.textContent   = String(hours).padStart(2, '0');
-      minutesEl.textContent = String(minutes).padStart(2, '0');
+      // اعرض الثواني ثم الدقائق ثم الساعات ثم الأيام
       secondsEl.textContent = String(seconds).padStart(2, '0');
+      minutesEl.textContent = String(minutes).padStart(2, '0');
+      hoursEl.textContent = String(hours).padStart(2, '0');
+      daysEl.textContent = String(days).padStart(2, '0');
     }
 
     setInterval(updateCountdown, 1000);
@@ -487,7 +501,7 @@
 
     // إظهار زر التصويت فقط إذا كان اسم الرئيس فارغًا
     const presidentName = document.getElementById('president-name');
-    const voteButton    = document.getElementById('vote-button');
+    const voteButton = document.getElementById('vote-button');
     if (presidentName.innerText.trim() === '') {
       voteButton.style.display = 'inline-block';
     }
@@ -497,3 +511,4 @@
   </script>
 </body>
 </html>
+
