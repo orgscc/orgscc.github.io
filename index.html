@@ -203,15 +203,22 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.3);
       display: flex;
       align-items: center;
-      gap: 10px;             /* مسافة بسيطة بين المجموعات والنقط */
-      flex-direction: row;    /* دائماً بجانب بعض */
-      justify-content: center;/* في الوسط */
+      gap: 10px;            /* مسافة صغيرة بين المجموعات والنقط */
+      flex-direction: column;/* رأسية أولاً للعنوان ثم الأرقام */
+      justify-content: center;
+    }
+
+    .timer-title {
+      color: white;
+      font-size: 1.2em;
+      margin-bottom: 5px;
+      font-weight: bold;
     }
 
     .timer-content {
       display: flex;
-      align-items: flex-end; /* يجعل الأرقام تحت بأقل مسافة */
-      gap: 5px;               /* مسافة صغيرة جداً بين كل مجموعة */
+      align-items: flex-end; /* تجعل الأرقام تحت بأقل مسافة */
+      gap: 4px;               /* مسافة صغيرة جدًا بين المجموعات */
     }
 
     .timer-group {
@@ -222,43 +229,43 @@
 
     .timer-label {
       color: white;
-      font-size: 1em;
-      margin-bottom: 5px;
+      font-size: 0.9em;
+      margin-bottom: 3px;
       font-weight: 500;
-      text-align: center;    /* الكتابة بالوسط فوق الرقم */
+      text-align: center;    /* الكتابة فوق الرقم */
     }
 
     .timer-number {
       font-family: 'DS-Digital', monospace;
-      font-size: 3.5em;       /* حجم الأرقام كما طلبت */
+      font-size: 3.5em;     /* حجم الأرقام كما طلبت */
       color: #ffffff;
-      letter-spacing: 2px;
+      letter-spacing: 1px;
       background: #000;
-      padding: 0 5px;         /* مسافة بسيطة أفقياً حول الرقم */
+      padding: 0 4px;       /* مسافة بسيطة أفقياً حول الرقم */
       border-radius: 5px;
       text-shadow: 0 0 10px #ffffff;
-      min-width: 1.6ch;       /* يضمن ثبات عرض المربع مهما كان الرقم (0 أو 1) */
-      text-align: center;     /* محاذاة الرقم في الوسط */
+      min-width: 1.6ch;     /* يضمن ثبات عرض المربع مهما كان الرقم */
+      text-align: center;   /* محاذاة الرقم في الوسط */
     }
 
     .colon {
       color: #fff;
       font-family: 'DS-Digital', monospace;
       font-size: 3.5em;
-      margin: 0 2px;         /* مسافة بسيطة بين الرقم والنقطتين */
-      line-height: 1;        /* ضبط الارتفاع لتتماشى مع الأرقام */
+      margin: 0 1px;       /* مسافة ضئيلة بين الرقم والنقطتين */
+      line-height: 1;      /* تطابق الارتفاع مع الأرقام */
     }
 
     @media (max-width: 768px) {
       .timer-container {
-        flex-direction: row;  /* لا نغير للعمودي - تبقى دائماً بجانب بعض */
+        flex-direction: column;
         padding: 10px;
-        gap: 5px;
+        gap: 4px;
       }
 
       .timer-number {
-        font-size: 2.2em;    /* حجم أصغر للهواتف */
-        padding: 0 3px;
+        font-size: 2.2em;   /* أصغر قليلاً للهواتف */
+        padding: 0 2px;
         letter-spacing: 1px;
       }
 
@@ -268,8 +275,12 @@
       }
 
       .timer-label {
-        font-size: 0.9em;
-        margin-bottom: 3px;
+        font-size: 0.8em;
+        margin-bottom: 2px;
+      }
+
+      .timer-title {
+        font-size: 1em;
       }
 
       .main-content-box {
@@ -356,36 +367,37 @@
 
         <!-- العداد التنازلي -->
         <div class="timer-container">
-          <!-- مجموعة الثواني أولاً -->
+          <!-- عنوان العداد في الأعلى داخل المربع الأسود -->
+          <div class="timer-title">انتهاء التصويت</div>
+
           <div class="timer-content">
+            <!-- أيام -->
             <div class="timer-group">
-              <div class="timer-label">ثانية</div>
-              <div class="timer-number" id="sec">--</div>
+              <div class="timer-label">يوم</div>
+              <div class="timer-number" id="day">--</div>
             </div>
             <div class="colon">:</div>
 
-            <!-- مجموعة الدقائق -->
-            <div class="timer-group">
-              <div class="timer-label">دقيقة</div>
-              <div class="timer-number" id="min">--</div>
-            </div>
-            <div class="colon">:</div>
-
-            <!-- مجموعة الساعات -->
+            <!-- ساعات -->
             <div class="timer-group">
               <div class="timer-label">ساعة</div>
               <div class="timer-number" id="hr">--</div>
             </div>
             <div class="colon">:</div>
 
-            <!-- مجموعة الأيام -->
+            <!-- دقائق -->
             <div class="timer-group">
-              <div class="timer-label">يوم</div>
-              <div class="timer-number" id="day">--</div>
+              <div class="timer-label">دقيقة</div>
+              <div class="timer-number" id="min">--</div>
+            </div>
+            <div class="colon">:</div>
+
+            <!-- ثواني -->
+            <div class="timer-group">
+              <div class="timer-label">ثانية</div>
+              <div class="timer-number" id="sec">--</div>
             </div>
           </div>
-
-          <!-- صورة العداد يمين الأرقام دائمًا -->
         </div>
 
         <section class="features" style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: center;">
@@ -421,7 +433,7 @@
     <footer class="footer">
       <div class="container">
         <div class="footer-content">
-          <img src="https://i.postimg.cc/fLxzPSPz/image.png" alt="شعار الموقع" class="protected-image">
+          <img src="https://i.postimg.cc/fLxzPSFz/image.png" alt="شعار الموقع" class="protected-image">
           <div class="footer-buttons">
             <a href="privacy.html" class="footer-btn">سياسة الخصوصية</a>
             <a href="rules.html" class="footer-btn">القوانين والأحكام</a>
@@ -446,6 +458,7 @@
     const minEl = document.getElementById('min');
     const hrEl = document.getElementById('hr');
     const dayEl = document.getElementById('day');
+    // انتهى العداد عند منتصف الليل لأول يوم من 26 مايو 2025
     const endDate = new Date('2025-05-26T00:00:00').getTime();
 
     function updateCountdown() {
