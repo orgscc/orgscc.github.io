@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
@@ -11,7 +11,6 @@
       font-family: 'DS-Digital';
       src: url('fonts/DS-DIGIT.TTF') format('truetype');
     }
-
     body {
       margin: 0;
       padding: 0;
@@ -24,11 +23,21 @@
       user-select: none;
     }
 
+    /* مستطيل الهيدر الجديد */
+    .header-container {
+      background-color: #ffffff;
+      width: 100%;
+      padding: 20px 0;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
     .header-titles {
-      display: flex;
+      display: flex;          /* تأكد إنها في سطر واحد */
       align-items: center;
-      gap: 20px;
-      padding: 20px;
+      gap: 5px;               /* مسافة صغيرة بين "الصفحة الرئيسية" و"المتجر" */
+      padding: 0 20px;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
     .header-titles h1,
@@ -39,6 +48,7 @@
       margin: 0;
       text-decoration: none;
       color: black;
+      white-space: nowrap;    /* منع الانكسار تحت */
     }
 
     .header-titles a:hover {
@@ -48,6 +58,16 @@
     .container {
       padding: 0 20px;
       margin: auto;
+      max-width: 1200px;
+    }
+
+    /* مربع المحتوى الرئيسي */
+    .main-content-box {
+      background-color: #ffffff;
+      border-radius: 12px;
+      padding: 40px;
+      margin: 40px auto;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
       max-width: 1200px;
     }
 
@@ -156,6 +176,9 @@
       border-top: 1px solid #ccc;
       margin-top: 50px;
       background: #ffffff;
+      width: 100%;
+      margin-left: 0;
+      margin-right: 0;
     }
 
     .footer-content img {
@@ -173,11 +196,23 @@
     .timer-container {
       background: #000;
       border-radius: 15px;
-      padding: 20px;
-      margin: 0 auto;
+      padding: 15px 10px;
+      margin: 0 auto 40px auto;
+      max-width: 95%;
       width: fit-content;
       box-shadow: 0 10px 30px rgba(0,0,0,0.3);
       text-align: center;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      /* أزلنا direction: rtl حتى تكون العناصر بترتيب افتراضي (Timer ثم الصورة) */
+    }
+
+    .timer-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      text-align: right;
     }
 
     .timer-label {
@@ -185,11 +220,12 @@
       font-size: 1.2em;
       margin-bottom: 10px;
       font-weight: 500;
+      text-align: right;
     }
 
     .timer-units {
       display: flex;
-      justify-content: center;
+      justify-content: flex-end;
       color: #ccc;
       font-size: 1em;
       font-weight: bold;
@@ -201,17 +237,19 @@
     .timer {
       position: relative;
       font-family: 'DS-Digital', monospace;
-      font-size: 3.5em;
+      font-size: 3.5em;   /* كبرنا حجم الأرقام */
       color: #ffffff;
       font-weight: bold;
-      letter-spacing: 3px;
+      letter-spacing: 2px;
       background: #000;
-      padding: 15px 30px;
+      padding: 10px 20px;
       border-radius: 10px;
       text-shadow: 0 0 10px #ffffff;
       direction: ltr;
-      min-width: 300px;
+      max-width: 100%;
       text-align: center;
+      margin: 0 auto;
+      overflow: hidden;
     }
 
     .timer::after {
@@ -228,16 +266,51 @@
       letter-spacing: inherit;
     }
 
+    .timer-image {
+      width: 80px;
+      height: 80px;
+      border-radius: 10px;
+      object-fit: cover;
+      border: 2px solid #fff;
+      flex-shrink: 0;
+      /* بترتيبها الثاني في الـ HTML، ستظهر يمين العداد */
+    }
+
     @media (max-width: 768px) {
+      .timer-container {
+        flex-direction: column;
+        gap: 15px;
+        padding: 20px;
+        text-align: center;
+      }
+
+      .timer-image {
+        width: 60px;
+        height: 60px;
+      }
+
       .timer {
-        font-size: 2.5em;
-        padding: 10px 20px;
-        min-width: 250px;
+        font-size: 2.2em;
+        padding: 8px 15px;
+        letter-spacing: 1px;
+        margin: 0 auto;
       }
 
       .timer-units {
-        font-size: 0.9em;
-        gap: 20px;
+        font-size: 0.8em;
+        gap: 15px;
+      }
+
+      .main-content-box {
+        padding: 20px;
+        margin: 20px 10px;
+      }
+
+      .header-titles {
+        flex-direction: row;  /* هشيل أي تغيير عمودي في الهاتف */
+        gap: 5px;
+        text-align: center;
+        justify-content: center;
       }
     }
 
@@ -296,43 +369,49 @@
 
   <!-- المحتوى الرئيسي -->
   <div id="main-content" style="display: none;">
-    <!-- عنوان الصفحة -->
-    <div class="container">
+    <!-- مستطيل الهيدر -->
+    <div class="header-container">
       <div class="header-titles">
         <h1 class="main-title">الصفحة الرئيسية</h1>
         <a href="store.html" class="sub-title">المتجر</a>
       </div>
     </div>
 
-    <div class="container main-home-content" style="padding-top: 100px;">
-      <section class="hero-section" style="text-align: center; padding: 60px 20px;">
+    <!-- مربع المحتوى الرئيسي -->
+    <div class="main-content-box">
+      <section class="hero-section" style="text-align: center;">
         <h1 style="font-size: 40px; margin-bottom: 20px;">أهلاً بك في مجلس التنسيق الأعلى</h1>
         <p style="font-size: 20px; margin-bottom: 40px;">المجلس الذي يقدم جميع الخدمات الإلكترونية</p>
 
         <!-- العداد التنازلي -->
         <div class="timer-container">
-          <div class="timer-label">انتهاء التصويت</div>
-          <div class="timer-units">
-            <div>ثوانٍ</div>
-            <div>دقائق</div>
-            <div>ساعات</div>
-            <div>أيام</div>
+          <!-- حطينا محتوى العداد أولاً -->
+          <div class="timer-content">
+            <div class="timer-label">انتهاء التصويت</div>
+            <div class="timer-units">
+              <div>ثوانٍ</div>
+              <div>دقائق</div>
+              <div>ساعات</div>
+              <div>أيام</div>
+            </div>
+            <div class="timer" id="countdown">--:--:--:--</div>
           </div>
-          <div class="timer" id="countdown">--:--:--:--</div>
+          <!-- وبعدين صورة العداد عشان تطلع يمين -->
+          <img src="https://i.postimg.cc/7P2pkY1R/image.png" alt="صورة العداد" class="timer-image" />
         </div>
 
-        <section class="features" style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; margin-top: 60px;">
-          <div class="feature-card" style="background-color: white; padding: 20px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 300px;">
+        <section class="features" style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: center;">
+          <div class="feature-card" style="background-color: #f5f5f5; padding: 20px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 300px;">
             <h3>ماهو مجلس التنسيق الأعلى؟</h3>
-            <p>هو مجلس تابع لمنظمة أوبك تم تأسيسه بأول مرة بتاريخ 13 نوفمبر 2021 بيد الرئيس السابق محمد بن طارق وتم إغلاقه في تاريخ 23 سبتمبر 2022 لسبب مجهول من الرئيس وتمت إعادته في تاريخ 26 أكتوبر 2023 بيد الرئيس السابق فهد بن محمد الغامدي و تم تحسينه و إضافة له مزايا عديدة بأمر منه وقدًّم إستقالته في 5 ديسمبر 2023 وعاد رئيسه من جديد محمد بن طارق بتاريخ 12 مايو 2024 حتى قدم إستقالته كرئيس بتاريخ 19 سبتمبر 2024 والمجلس الآن يحوي أكثر من +170 عضو و 30+ منه بإدارة مجلس التنسيق الأعلى</p>
+            <p>هو مجلس تابع لمنظمة أوبك تم تأسيسه بأول مرة بتاريخ 13 نوفمبر 2021 بيد الرئيس السابق محمد بن طارق وتم إغلاقه في تاريخ 23 سبتمبر 2022 لسبب مجهول من الرئيس وتم إعادته في تاريخ 26 أكتوبر 2023 بيد الرئيس السابق فهد بن محمد الغامدي و تم تحسينه و إضافة له مزايا عديدة بأمر منه وقدًّم إستقالته في 5 ديسمبر 2023 وعاد رئيسه من جديد محمد بن طارق بتاريخ 12 مايو 2024 حتى قدم إستقالته كرئيس بتاريخ 19 سبتمبر 2024 والمجلس الآن يحوي أكثر من +170 عضو و 30+ منه بإدارة مجلس التنسيق الأعلى</p>
           </div>
 
-          <div class="feature-card" style="background-color: white; padding: 20px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 300px;">
+          <div class="feature-card" style="background-color: #f5f5f5; padding: 20px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 300px;">
             <h3>ماهي الخدمات التي يقدمها المجلس؟</h3>
             <p>هي خدمات عبر الديسكورد و هي خدمات استضافة البوتات سواء بالريال أو الكريدت (عملة الديسكورد أو بروبوت) وقريباً سيتم إضافة المزيد</p>
           </div>
 
-          <div class="feature-card" style="background-color: white; padding: 20px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 300px;">
+          <div class="feature-card" style="background-color: #f5f5f5; padding: 20px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 300px;">
             <h3>ماهي طرق الدفع التي يقبلها المجلس؟</h3>
             <p>الآن المجلس يقبل فقط STC Pay و ProBot Credit (عبر الديسكورد) وقريباً، سيتم إضافة المزيد</p>
           </div>
@@ -351,8 +430,8 @@
     </div>
 
     <!-- الفوتر -->
-    <div class="container">
-      <footer class="footer">
+    <footer class="footer">
+      <div class="container">
         <div class="footer-content">
           <img src="https://i.postimg.cc/fLxzPSPz/image.png" alt="شعار الموقع" class="protected-image">
           <div class="footer-buttons">
@@ -361,8 +440,8 @@
           </div>
           <p class="footer-text">&copy; <span id="year"></span> | جميع الحقوق محفوظة</p>
         </div>
-      </footer>
-    </div>
+      </div>
+    </footer>
   </div>
 
   <script>
@@ -412,7 +491,6 @@
     // إظهار زر التصويت فقط إذا كان اسم الرئيس فارغًا
     const presidentName = document.getElementById('president-name');
     const voteButton = document.getElementById('vote-button');
-    
     if (presidentName.innerText.trim() === '') {
       voteButton.style.display = 'inline-block';
     }
