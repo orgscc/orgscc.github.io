@@ -205,14 +205,14 @@
       display: flex;
       align-items: center;
       gap: 20px;
-      /* أزلنا direction: rtl حتى تكون العناصر بترتيب افتراضي (Timer ثم الصورة) */
+      /* اتجاه طبيعي: محتوى العداد ثم الصورة، في سطر واحد */
     }
 
     .timer-content {
       flex: 1;
       display: flex;
       flex-direction: column;
-      text-align: right;
+      text-align: center; /* خلى النص في الوسط */
     }
 
     .timer-label {
@@ -220,12 +220,12 @@
       font-size: 1.2em;
       margin-bottom: 10px;
       font-weight: 500;
-      text-align: right;
+      text-align: center; /* خلى العنوان بالوسط */
     }
 
     .timer-units {
       display: flex;
-      justify-content: flex-end;
+      justify-content: center; /* خلى وحدات الوقت بالوسط */
       color: #ccc;
       font-size: 1em;
       font-weight: bold;
@@ -247,7 +247,7 @@
       text-shadow: 0 0 10px #ffffff;
       direction: ltr;
       max-width: 100%;
-      text-align: center;
+      text-align: center; /* خلى الأرقام في الوسط */
       margin: 0 auto;
       overflow: hidden;
     }
@@ -273,7 +273,7 @@
       object-fit: cover;
       border: 2px solid #fff;
       flex-shrink: 0;
-      /* بترتيبها الثاني في الـ HTML، ستظهر يمين العداد */
+      /* ستظهر يمين العداد في نفس الصف */
     }
 
     @media (max-width: 768px) {
@@ -307,7 +307,7 @@
       }
 
       .header-titles {
-        flex-direction: row;  /* هشيل أي تغيير عمودي في الهاتف */
+        flex-direction: row;  /* خليهم في سطر واحد حتى بالهاتف */
         gap: 5px;
         text-align: center;
         justify-content: center;
@@ -385,7 +385,7 @@
 
         <!-- العداد التنازلي -->
         <div class="timer-container">
-          <!-- حطينا محتوى العداد أولاً -->
+          <!-- محتوى العداد أولاً -->
           <div class="timer-content">
             <div class="timer-label">انتهاء التصويت</div>
             <div class="timer-units">
@@ -396,7 +396,7 @@
             </div>
             <div class="timer" id="countdown">--:--:--:--</div>
           </div>
-          <!-- وبعدين صورة العداد عشان تطلع يمين -->
+          <!-- صورة العداد بعد ذلك لعرضها يمين العداد -->
           <img src="https://i.postimg.cc/7P2pkY1R/image.png" alt="صورة العداد" class="timer-image" />
         </div>
 
@@ -499,4 +499,4 @@
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
 </body>
-</html>
+  </html> 
