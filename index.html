@@ -32,7 +32,7 @@
     }
 
     .header-titles {
-      display: flex;          
+      display: flex;
       align-items: center;
       gap: 5px;               
       padding: 0 20px;
@@ -203,87 +203,73 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.3);
       display: flex;
       align-items: center;
-      gap: 20px;
-      flex-direction: row;       /* الصورة والعداد دائماً في سطر واحد */
-      justify-content: flex-end; /* يمين العداد في كل الأحوال */
+      gap: 10px;             /* مسافة بسيطة بين المجموعات والنقط */
+      flex-direction: row;    /* دائماً بجانب بعض */
+      justify-content: center;/* في الوسط */
     }
 
     .timer-content {
       display: flex;
+      align-items: flex-end; /* يجعل الأرقام تحت بأقل مسافة */
+      gap: 5px;               /* مسافة صغيرة جداً بين كل مجموعة */
+    }
+
+    .timer-group {
+      display: flex;
       flex-direction: column;
       align-items: center;
-      direction: ltr;            /* داخل العداد نستخدم LTR لتثبيت الترتيب */
     }
 
-    .timer-units {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      color: #ccc;
+    .timer-label {
+      color: white;
       font-size: 1em;
-      font-weight: bold;
       margin-bottom: 5px;
-      flex-direction: row;       /* الترتيب: ثواني ثم دقائق ثم ساعات ثم أيام */
+      font-weight: 500;
+      text-align: center;    /* الكتابة بالوسط فوق الرقم */
     }
 
-    .timer-units div {
-      /* لكل كلمة عرض ثابت حتى لا يختلف منتصفها */
-      width: 4ch;
-      text-align: center;
-    }
-
-    .timer {
-      position: relative;
+    .timer-number {
       font-family: 'DS-Digital', monospace;
-      font-size: 3.5em;           /* حجم الأرقام كبير */
+      font-size: 3.5em;       /* حجم الأرقام كما طلبت */
       color: #ffffff;
-      font-weight: bold;
       letter-spacing: 2px;
       background: #000;
-      padding: 10px 20px;
-      border-radius: 10px;
+      padding: 0 5px;         /* مسافة بسيطة أفقياً حول الرقم */
+      border-radius: 5px;
       text-shadow: 0 0 10px #ffffff;
-      direction: ltr;             /* الأرقام تتابع LTR */
-      text-align: center;
-      min-width: 11ch;            /* عرض ثابت يكفي "88:88:88:88" */
-      margin: 0 auto;
-      overflow: hidden;
+      min-width: 1.6ch;       /* يضمن ثبات عرض المربع مهما كان الرقم (0 أو 1) */
+      text-align: center;     /* محاذاة الرقم في الوسط */
     }
 
-    .timer-image {
-      width: 80px;
-      height: 80px;
-      border-radius: 10px;
-      object-fit: cover;
-      border: 2px solid #fff;
-      flex-shrink: 0;
-      /* دائماً إلى يمين العداد */
+    .colon {
+      color: #fff;
+      font-family: 'DS-Digital', monospace;
+      font-size: 3.5em;
+      margin: 0 2px;         /* مسافة بسيطة بين الرقم والنقطتين */
+      line-height: 1;        /* ضبط الارتفاع لتتماشى مع الأرقام */
     }
 
     @media (max-width: 768px) {
-      /* لا نغير flex-direction، تبقى الصورة يمين العداد */
       .timer-container {
-        flex-direction: row !important;
-        gap: 15px;
-        padding: 20px;
-        justify-content: center;
+        flex-direction: row;  /* لا نغير للعمودي - تبقى دائماً بجانب بعض */
+        padding: 10px;
+        gap: 5px;
       }
 
-      .timer-image {
-        width: 60px;
-        height: 60px;
-      }
-
-      .timer {
-        font-size: 2.2em;
-        padding: 8px 15px;
+      .timer-number {
+        font-size: 2.2em;    /* حجم أصغر للهواتف */
+        padding: 0 3px;
         letter-spacing: 1px;
-        min-width: 11ch;       /* ثابت أيضاً على الهاتف */
       }
 
-      .timer-units {
-        font-size: 0.8em;
-        gap: 15px;
+      .colon {
+        font-size: 2.2em;
+        margin: 0 1px;
+      }
+
+      .timer-label {
+        font-size: 0.9em;
+        margin-bottom: 3px;
       }
 
       .main-content-box {
@@ -370,18 +356,36 @@
 
         <!-- العداد التنازلي -->
         <div class="timer-container">
+          <!-- مجموعة الثواني أولاً -->
           <div class="timer-content">
-            <!-- الكلمات فوق كل رقم بترتيب: ثوانٍ، دقائق، ساعات، أيام -->
-            <div class="timer-units">
-              <div>ثوانٍ</div>
-              <div>دقائق</div>
-              <div>ساعات</div>
-              <div>أيام</div>
+            <div class="timer-group">
+              <div class="timer-label">ثانية</div>
+              <div class="timer-number" id="sec">--</div>
             </div>
-            <!-- الأرقام: ثوانٍ:دقائق:ساعات:أيام -->
-            <div class="timer" id="countdown">--:--:--:--</div>
+            <div class="colon">:</div>
+
+            <!-- مجموعة الدقائق -->
+            <div class="timer-group">
+              <div class="timer-label">دقيقة</div>
+              <div class="timer-number" id="min">--</div>
+            </div>
+            <div class="colon">:</div>
+
+            <!-- مجموعة الساعات -->
+            <div class="timer-group">
+              <div class="timer-label">ساعة</div>
+              <div class="timer-number" id="hr">--</div>
+            </div>
+            <div class="colon">:</div>
+
+            <!-- مجموعة الأيام -->
+            <div class="timer-group">
+              <div class="timer-label">يوم</div>
+              <div class="timer-number" id="day">--</div>
+            </div>
           </div>
-          <!-- الصورة دائماً يمين العداد، حتى بالهاتف -->
+
+          <!-- صورة العداد يمين الأرقام دائمًا -->
           <img src="https://i.postimg.cc/7P2pkY1R/image.png" alt="صورة العداد" class="timer-image">
         </div>
 
@@ -438,8 +442,11 @@
       }
     });
 
-    // العداد التنازلي (الترتيب الآن: ثواني : دقائق : ساعات : أيام)
-    const countdown = document.getElementById('countdown');
+    // العداد التنازلي
+    const secEl = document.getElementById('sec');
+    const minEl = document.getElementById('min');
+    const hrEl = document.getElementById('hr');
+    const dayEl = document.getElementById('day');
     const endDate = new Date('2025-05-25T23:59:59').getTime();
 
     function updateCountdown() {
@@ -447,8 +454,10 @@
       const diff = endDate - now;
 
       if (diff <= 0) {
-        countdown.textContent = "انتهى";
-        countdown.style.color = "red";
+        secEl.textContent = '00';
+        minEl.textContent = '00';
+        hrEl.textContent = '00';
+        dayEl.textContent = '00';
         return;
       }
 
@@ -457,12 +466,10 @@
       const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-      // نعرض الثواني أولاً ثم الدقائق ثم الساعات ثم الأيام
-      const secStr = String(seconds).padStart(2, '0');
-      const minStr = String(minutes).padStart(2, '0');
-      const hrStr  = String(hours).padStart(2, '0');
-      const dayStr = String(days).padStart(2, '0');
-      countdown.textContent = `${secStr}:${minStr}:${hrStr}:${dayStr}`;
+      dayEl.textContent = String(days).padStart(2, '0');
+      hrEl.textContent = String(hours).padStart(2, '0');
+      minEl.textContent = String(minutes).padStart(2, '0');
+      secEl.textContent = String(seconds).padStart(2, '0');
     }
 
     setInterval(updateCountdown, 1000);
