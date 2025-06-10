@@ -58,9 +58,9 @@
             white-space: nowrap;
         }
 
-        .header-titles a:hover {
-            color: #007bff;
-        }
+            .header-titles a:hover {
+                color: #007bff;
+            }
 
         /* زر تسجيل الدخول */
         .login-btn {
@@ -74,10 +74,10 @@
             font-weight: bold;
         }
 
-        .login-btn:hover {
-            background-color: #333333;
-            color: white;
-        }
+            .login-btn:hover {
+                background-color: #333333;
+                color: white;
+            }
 
         .container {
             padding: 0 20px;
@@ -156,11 +156,11 @@
             font-weight: normal;
         }
 
-        .president-name:empty::before {
-            content: "قيد التصويت";
-            font-weight: normal;
-            color: #777;
-        }
+            .president-name:empty::before {
+                content: "قيد التصويت";
+                font-weight: normal;
+                color: #777;
+            }
 
         .vote-button {
             background-color: black;
@@ -172,9 +172,9 @@
             transition: background-color 0.3s;
         }
 
-        .vote-button:hover {
-            background-color: #333;
-        }
+            .vote-button:hover {
+                background-color: #333;
+            }
 
         .footer-btn {
             background-color: #ffffff;
@@ -189,10 +189,10 @@
             margin: 5px;
         }
 
-        .footer-btn:hover {
-            background-color: black;
-            color: white;
-        }
+            .footer-btn:hover {
+                background-color: black;
+                color: white;
+            }
 
         .footer {
             text-align: center;
@@ -356,17 +356,18 @@
             overflow: hidden;
         }
 
-        .loader .bar {
-            width: 0%;
-            height: 100%;
-            background-color: #000000;
-            animation: loadingBar 3s linear forwards;
-        }
+            .loader .bar {
+                width: 0%;
+                height: 100%;
+                background-color: #000000;
+                animation: loadingBar 3s linear forwards;
+            }
 
         @keyframes loadingBar {
             0% {
                 width: 0%;
             }
+
             100% {
                 width: 100%;
             }
@@ -396,15 +397,14 @@
                 <a href="Login.html" class="login-btn">تسجيل الدخول</a>
             </div>
         </div>
-         
-                 
-        
-            <!-- قسم الترحيب -->
+
+        <!-- مربع المحتوى الرئيسي -->
+        <div class="main-content-box">
             <section class="hero-section" style="text-align: center;">
                 <h1 style="font-size: 40px; margin-bottom: 20px;">أهلاً بك في مجلس التنسيق الأعلى</h1>
                 <p style="font-size: 20px; margin-bottom: 40px;">المجلس الذي يقدم جميع الخدمات الإلكترونية</p>
-            </section>
-   <!-- العداد التنازلي -->
+
+                <!-- العداد التنازلي -->
                 <div class="timer-container">
                     <!-- عنوان العداد في الأعلى داخل المربع الأسود -->
                     <div class="timer-title">انتهاء التصويت</div>
@@ -433,32 +433,34 @@
                             <div class="timer-number" id="day">--</div>
                         </div>
                     </div>
-            <!-- قسم الميزات -->
-            <section class="features" style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: center;">
-                <div class="feature-card" style="background-color: #f5f5f5; padding: 20px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 300px;">
-                    <h3>ماهو مجلس التنسيق الأعلى؟</h3>
-                    <p>هو مجلس تابع لمنظمة أوبك تم تأسيسه بأول مرة بتاريخ 13 نوفمبر 2021 بيد الرئيس السابق محمد بن طارق وتم إغلاقه في تاريخ 23 سبتمبر 2022 لسبب مجهول من الرئيس وتم إعادته في تاريخ 26 أكتوبر 2023 بيد الرئيس السابق فهد بن محمد الغامدي و تم تحسينه و إضافة له مزايا عديدة بأمر منه وقدَّم إستقالته في 5 ديسمبر 2023 وعاد رئيسه من جديد محمد بن طارق بتاريخ 12 مايو 2024 حتى قدم إستقالته كرئيس بتاريخ 19 سبتمبر 2024 والمجلس الآن يحوي أكثر من +170 عضو و 30+ منهم بإدارة مجلس التنسيق الأعلى</p>
                 </div>
 
-                <div class="feature-card" style="background-color: #f5f5f5; padding: 20px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 300px;">
-                    <h3>ماهي الخدمات التي يقدمها المجلس؟</h3>
-                    <p>هي خدمات عبر الديسكورد و هي خدمات استضافة البوتات سواء بالريال أو الكريدت (عملة الديسكورد أو بروبوت) وقريبًا سيتم إضافة المزيد</p>
-                </div>
-
-                <div class="feature-card" style="background-color: #f5f5f5; padding: 20px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 300px;">
-                    <h3>ماهي طرق الدفع التي يقبلها المجلس؟</h3>
-                    <p>الآن المجلس يقبل فقط STC Pay و ProBot Credit (عبر الديسكورد) وقريبًا، سيتم إضافة المزيد</p>
-                </div>
-
-                <!-- بطاقة الرئيس -->
-                <div class="feature-card president-card">
-                    <h3 style="margin-bottom: 15px;">الرئيس</h3>
-                    <div class="president-info">
-                        <img src="https://postimg.cc/JDJRyXCk" alt="صورة الرئيس" class="president-image">
-                        <strong class="president-name" id="president-name">محمد بن طارق</strong>
+                <section class="features" style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: center;">
+                    <div class="feature-card" style="background-color: #f5f5f5; padding: 20px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 300px;">
+                        <h3>ماهو مجلس التنسيق الأعلى؟</h3>
+                        <p>هو مجلس تابع لمنظمة أوبك تم تأسيسه بأول مرة بتاريخ 13 نوفمبر 2021 بيد الرئيس السابق محمد بن طارق وتم إغلاقه في تاريخ 23 سبتمبر 2022 لسبب مجهول من الرئيس وتم إعادته في تاريخ 26 أكتوبر 2023 بيد الرئيس السابق فهد بن محمد الغامدي و تم تحسينه و إضافة له مزايا عديدة بأمر منه وقدًّم إستقالته في 5 ديسمبر 2023 وعاد رئيسه من جديد محمد بن طارق بتاريخ 12 مايو 2024 حتى قدم إستقالته كرئيس بتاريخ 19 سبتمبر 2024 والمجلس الآن يحوي أكثر من +170 عضو و 30+ منه بإدارة مجلس التنسيق الأعلى</p>
                     </div>
-                    <a href="vote.html" class="vote-button" id="vote-button">تصويت</a>
-                </div>
+
+                    <div class="feature-card" style="background-color: #f5f5f5; padding: 20px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 300px;">
+                        <h3>ماهي الخدمات التي يقدمها المجلس؟</h3>
+                        <p>هي خدمات عبر الديسكورد و هي خدمات استضافة البوتات سواء بالريال أو الكريدت (عملة الديسكورد أو بروبوت) وقريباً سيتم إضافة المزيد</p>
+                    </div>
+
+                    <div class="feature-card" style="background-color: #f5f5f5; padding: 20px; border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 300px;">
+                        <h3>ماهي طرق الدفع التي يقبلها المجلس؟</h3>
+                        <p>الآن المجلس يقبل فقط STC Pay و ProBot Credit (عبر الديسكورد) وقريباً، سيتم إضافة المزيد</p>
+                    </div>
+
+                    <!-- مربع الرئيس -->
+                    <div class="feature-card president-card">
+                        <h3 style="margin-bottom: 15px;">الرئيس</h3>
+                        <div class="president-info">
+                            <img src="/api/placeholder/60/60" alt="صورة الرئيس" class="president-image">
+                            <strong class="president-name" id="president-name"></strong>
+                        </div>
+                        <a href="vote.html" class="vote-button" id="vote-button">تصويت</a>
+                    </div>
+                </section>
             </section>
         </div>
 
@@ -486,12 +488,13 @@
             }
         });
 
-        // العداد التنازلي: انتهى عند منتصف الليل لأول يوم من 21 يونيو 2025
+        // العداد التنازلي
         const secEl = document.getElementById('sec');
         const minEl = document.getElementById('min');
         const hrEl = document.getElementById('hr');
         const dayEl = document.getElementById('day');
 
+        // انتهى العداد عند منتصف الليل لأول يوم من 26 مايو 2025
         const endDate = new Date('2025-06-21T00:00:00').getTime();
 
         function updateCountdown() {
@@ -530,7 +533,7 @@
             }, 10000);
         });
 
-        // إظهار زر التصويت إذا كان اسم الرئيس فارغ
+        // إظهار زر التصويت فقط إذا كان اسم الرئيس فارغًا
         const presidentName = document.getElementById('president-name');
         const voteButton = document.getElementById('vote-button');
 
@@ -538,7 +541,7 @@
             voteButton.style.display = 'inline-block';
         }
 
-        // تحديث السنة تلقائيًا
+        // تحديث السنة
         document.getElementById("year").textContent = new Date().getFullYear();
     </script>
 </body>
