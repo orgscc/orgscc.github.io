@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <title>إنشاء رقم الهوية</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
+            background: #ffffff;
+            color: #000000;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 500px;
+            margin: 60px auto;
+            background: #ffffff;
+            border: 2px solid #000000;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            font-size: 14px;
+            border: 2px solid #000000;
+            border-radius: 6px;
+            background: #ffffff;
+            color: #000000;
+            box-sizing: border-box;
+        }
+        input:focus {
+            outline: none;
+            border-color: #000000;
+        }
+        button {
+            width: 100%;
+            background: #000000;
+            color: #ffffff;
+            border: none;
+            padding: 14px;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #333333;
+        }
+        .message {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+        .error {
+            color: red;
+        }
+        .success {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>إنشاء رقم الهوية</h1>
+        <p id="welcomeMessage" style="text-align:center; font-weight: bold;"></p>
+        
+        <div class="form-group">
+            <label>رقم الهوية المولد</label>
+            <input type="text" id="generatedId" readonly />
+        </div>
+        
+        <div class="form-group">
+            <label>أدخل كود الهوية السري (4 أرقام) لتأكيد</label>
+            <input type="password" id="idSecretInput" maxlength="4" pattern="\d{4}" placeholder="****" />
+        </div>
+        
+        <button id="confirmBtn">تأكيد</button>
+        <div id="message" class="message"></div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getDatabase, ref, get, child, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBF7yFEjg7yAnz8QAmEq8rn66sTd5RC9zk",
+            authDomain: "orgscc-2025-865ea.firebaseapp.com",
+            databaseURL: "https://orgscc-2025-865ea-default-rtdb.firebaseio.com",
+            projectId: "orgscc-2025-865ea",
+            storageBucket: "orgscc-2025-865ea.appspot.com",
+            messagingSenderId: "865185004337",
+            appId: "1:865185004337:web:84bbf2a150546b34d24e10"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // جلب باراميترز من رابط الصفحة (uid, country)
+        const urlParams = new URLSearchParams(window.location.search);
+        const uid = urlParams.get('uid');
+
+        const welcomeMessage = document.getElementById('welcomeMessage');
+        const generatedIdInput = document.getElementById('generatedId');
+        const idSecretInput = document.getElementById('idSecretInput');
+        const messageDiv = document.getElementById('message');
+        const confirmBtn = document.getElementById('confirmBtn');
+
+        if (!uid) {
+            welcomeMessage.textContent = "حدث خطأ، لا يوجد معرف مستخدم.";
+            confirmBtn.disabled = true;
+        } else {
+            // جلب بيانات المستخدم من Firebase
+            get(child(ref(db), `users/${uid}`)).then(snapshot => {
+                if (snapshot.exists()) {
+                    const userData = snapshot.val();
+                    welcomeMessage.textContent = `مرحباً ${userData.fullName}, بلدك: ${userData.country}`;
+                    generatedIdInput.value = userData.idNumber || 'غير موجود';
+
+                } else {
+                    welcomeMessage.textContent = "لم يتم العثور على بيانات المستخدم.";
+                    confirmBtn.disabled = true;
+                }
+            }).catch(err => {
+                welcomeMessage.textContent = "خطأ في جلب البيانات: " + err.message;
+                confirmBtn.disabled = true;
+            });
+        }
+
+        confirmBtn.addEventListener('click', () => {
+            messageDiv.innerHTML = "";
+            messageDiv.className = "message";
+
+            const enteredSecret = idSecretInput.value.trim();
+
+            if (!/^\d{4}$/.test(enteredSecret)) {
+                messageDiv.textContent = "يرجى إدخال كود الهوية السري صحيح (4 أرقام).";
+                messageDiv.classList.add("error");
+                return;
+            }
+
+            // تحقق إذا الكود السري يطابق الموجود في قاعدة البيانات
+            get(child(ref(db), `users/${uid}`)).then(snapshot => {
+                if (!snapshot.exists()) {
+                    messageDiv.textContent = "لم يتم العثور على بيانات المستخدم.";
+                    messageDiv.classList.add("error");
+                    return;
+                }
+
+                const userData = snapshot.val();
+
+                if (userData.idSecret !== enteredSecret) {
+                    messageDiv.textContent = "كود الهوية السري غير صحيح.";
+                    messageDiv.classList.add("error");
+                    return;
+                }
+
+                // يمكن تحديث حالة تأكيد الهوية مثلاً أو توجيه المستخدم للصفحة الرئيسية
+                update(ref(db, `users/${uid}`), {
+                    idConfirmed: true
+                }).then(() => {
+                    messageDiv.textContent = "تم تأكيد كود الهوية بنجاح!";
+                    messageDiv.classList.add("success");
+                    // تحويل لصفحة تسجيل الدخول بعد 2 ثانية
+                    setTimeout(() => {
+                        window.location.href = 'Login.html';
+                    }, 2000);
+                }).catch(error => {
+                    messageDiv.textContent = "خطأ في تحديث البيانات: " + error.message;
+                    messageDiv.classList.add("error");
+                });
+            });
+        });
+    </script>
+</body>
+</html>
