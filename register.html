@@ -213,7 +213,7 @@
         const db = getDatabase(app);
 
         function generateIDNumber(country) {
-            let startDigit = '3'; // بشكل افتراضي 3-9 عشوائي
+            let startDigit = '0'; // بشكل افتراضي 3-9 عشوائي
             if (country === 'السعودية') startDigit = '1';
             else if (country === 'السودان') startDigit = '2';
             else startDigit = String(Math.floor(Math.random() * 7) + 3); // رقم من 3 إلى 9
