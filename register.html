@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <title>إنشاء حساب - بوابة الدخول الموحد</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- خط IBM Plex Sans Arabic -->
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap" rel="stylesheet" />
+    
+    <style>
+        body {
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
+            background: #ffffff;
+            color: #000000;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 500px;
+            margin: 60px auto;
+            background: #ffffff;
+            border: 2px solid #000000;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            font-size: 14px;
+            border: 2px solid #000000;
+            border-radius: 6px;
+            background: #ffffff;
+            color: #000000;
+            box-sizing: border-box;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #000000;
+        }
+        button {
+            width: 100%;
+            background: #000000;
+            color: #ffffff;
+            border: none;
+            padding: 14px;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #333333;
+        }
+        .message {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+        .error {
+            color: red;
+        }
+        .success {
+            color: green;
+        }
+        option.flag-option::before {
+            content: attr(data-flag) " ";
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>إنشاء حساب جديد</h1>
+        
+        <div class="form-group">
+            <label>الاسم الكامل</label>
+            <input type="text" id="fullName" placeholder="مثال: محمد بن طارق" />
+        </div>
+        
+        <div class="form-group">
+            <label>اسم المستخدم</label>
+            <input type="text" id="username" placeholder="أدخل اسم المستخدم" />
+        </div>
+        
+        <div class="form-group">
+            <label>البريد الإلكتروني</label>
+            <input type="email" id="email" placeholder="أدخل بريدك الإلكتروني" />
+        </div>
+        
+        <div class="form-group">
+            <label>كلمة المرور</label>
+            <input type="password" id="password" placeholder="أدخل كلمة المرور" />
+        </div>
+
+        <div class="form-group">
+            <label>البلد</label>
+            <select id="country">
+                <option value="">اختر البلد</option>
+                <option value="السعودية">🇸🇦 السعودية</option>
+                <option value="الإمارات">🇦🇪 الإمارات</option>
+                <option value="الكويت">🇰🇼 الكويت</option>
+                <option value="البحرين">🇧🇭 البحرين</option>
+                <option value="عمان">🇴🇲 عمان</option>
+                <option value="قطر">🇶🇦 قطر</option>
+                <option value="مصر">🇪🇬 مصر</option>
+                <option value="السودان">🇸🇩 السودان</option>
+                <option value="أمريكا">🇺🇸 أمريكا</option>
+                <option value="بريطانيا">🇬🇧 بريطانيا</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>رقم الهاتف</label>
+            <input type="tel" id="phone" placeholder="أدخل رقم الهاتف" />
+        </div>
+        
+        <div class="form-group">
+            <label>كود الهوية السري (4 أرقام)</label>
+            <input type="password" id="idSecret" placeholder="أدخل 4 أرقام" maxlength="4" pattern="\d{4}" />
+        </div>
+        
+        <button onclick="registerUser()">إنشاء الحساب</button>
+        <div id="message" class="message"></div>
+    </div>
+
+    <!-- Firebase إعداد وربط -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBF7yFEjg7yAnz8QAmEq8rn66sTd5RC9zk",
+            authDomain: "orgscc-2025-865ea.firebaseapp.com",
+            databaseURL: "https://orgscc-2025-865ea-default-rtdb.firebaseio.com",
+            projectId: "orgscc-2025-865ea",
+            storageBucket: "orgscc-2025-865ea.appspot.com",
+            messagingSenderId: "865185004337",
+            appId: "1:865185004337:web:84bbf2a150546b34d24e10"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
+        function generateIDNumber(country) {
+            let startDigit = '3'; // بشكل افتراضي 3-9 عشوائي
+            if (country === 'السعودية') startDigit = '1';
+            else if (country === 'السودان') startDigit = '2';
+            else startDigit = String(Math.floor(Math.random() * 7) + 3); // رقم من 3 إلى 9
+
+            const repeatedDigit = String(Math.floor(Math.random() * 10));
+            let idNumber = startDigit;
+
+            while (idNumber.length < 9) {
+                const digit = Math.random() < 0.3 ? repeatedDigit : String(Math.floor(Math.random() * 10));
+                idNumber += digit;
+            }
+            idNumber += repeatedDigit; // ضمان وجود رقم متكرر
+
+            return idNumber;
+        }
+
+        window.registerUser = function () {
+            const fullName = document.getElementById('fullName').value.trim();
+            const username = document.getElementById('username').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const country = document.getElementById('country').value;
+            const phone = document.getElementById('phone').value.trim();
+            const idSecret = document.getElementById('idSecret').value.trim();
+
+            const messageDiv = document.getElementById('message');
+            messageDiv.innerHTML = "";
+            messageDiv.className = "message";
+
+            // التحقق من الحقول
+            if (!fullName || !username || !email || !password || !country || !phone || !idSecret) {
+                messageDiv.innerHTML = "جميع الحقول مطلوبة.";
+                messageDiv.classList.add("error");
+                return;
+            }
+
+            if (password.length < 6) {
+                messageDiv.innerHTML = "كلمة المرور يجب أن تكون 6 أحرف على الأقل.";
+                messageDiv.classList.add("error");
+                return;
+            }
+
+            if (!/^\d{4}$/.test(idSecret)) {
+                messageDiv.innerHTML = "كود الهوية السري يجب أن يكون 4 أرقام.";
+                messageDiv.classList.add("error");
+                return;
+            }
+
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    const uid = userCredential.user.uid;
+                    const idNumber = generateIDNumber(country);
+
+                    // تخزين بيانات المستخدم مع رقم الهوية المولد والكود السري
+                    return set(ref(db, 'users/' + uid), {
+                        fullName,
+                        username,
+                        email,
+                        country,
+                        phone,
+                        idNumber,
+                        idSecret,
+                        role: "عضو"
+                    }).then(() => uid);
+                })
+                .then((uid) => {
+                    messageDiv.innerHTML = "تم إنشاء الحساب بنجاح! جاري التحويل...";
+                    messageDiv.classList.add("success");
+
+                    // بعد ثانيتين يتم التحويل لصفحة إنشاء رقم الهوية
+                    setTimeout(() => {
+                        // تمرير uid وcountry في رابط الصفحة الجديدة
+                        window.location.href = `CreateID.html?uid=${encodeURIComponent(uid)}&country=${encodeURIComponent(document.getElementById('country').value)}`;
+                    }, 2000);
+                })
+                .catch((error) => {
+                    messageDiv.innerHTML = error.message;
+                    messageDiv.classList.add("error");
+                });
+        };
+    </script>
+</body>
+</html>
