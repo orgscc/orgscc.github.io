@@ -51,12 +51,11 @@
             border-color: #000000;
         }
         button {
-            width: 100%;
             background: #000000;
             color: #ffffff;
             border: none;
-            padding: 14px;
-            font-size: 16px;
+            padding: 12px;
+            font-size: 14px;
             border-radius: 6px;
             cursor: pointer;
             transition: background-color 0.3s;
@@ -81,18 +80,21 @@
     <div class="container">
         <h1>إنشاء رقم الهوية</h1>
         <p id="welcomeMessage" style="text-align:center; font-weight: bold;"></p>
-        
+
         <div class="form-group">
             <label>رقم الهوية المولد</label>
-            <input type="text" id="generatedId" readonly />
+            <div style="display: flex; gap: 10px;">
+                <input type="text" id="generatedId" readonly />
+                <button type="button" onclick="generateID()" style="flex-shrink:0;">توليد</button>
+            </div>
         </div>
-        
+
         <div class="form-group">
-            <label>أدخل كود الهوية السري (4 أرقام) لتأكيد</label>
-            <input type="password" id="idSecretInput" maxlength="4" pattern="\d{4}" placeholder="****" />
+            <label>أدخل كود الهوية السري (4 أرقام)</label>
+            <input type="password" id="idSecretInput" maxlength="4" placeholder="****" />
         </div>
-        
-        <button id="confirmBtn">تأكيد</button>
+
+        <button id="confirmBtn" style="width: 100%;">تأكيد</button>
         <div id="message" class="message"></div>
     </div>
 
@@ -113,7 +115,6 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // جلب باراميترز من رابط الصفحة (uid, country)
         const urlParams = new URLSearchParams(window.location.search);
         const uid = urlParams.get('uid');
 
@@ -123,17 +124,20 @@
         const messageDiv = document.getElementById('message');
         const confirmBtn = document.getElementById('confirmBtn');
 
+        let userCountry = '';
+
         if (!uid) {
             welcomeMessage.textContent = "حدث خطأ، لا يوجد معرف مستخدم.";
             confirmBtn.disabled = true;
         } else {
-            // جلب بيانات المستخدم من Firebase
             get(child(ref(db), `users/${uid}`)).then(snapshot => {
                 if (snapshot.exists()) {
                     const userData = snapshot.val();
-                    welcomeMessage.textContent = `مرحباً ${userData.fullName}, بلدك: ${userData.country}`;
-                    generatedIdInput.value = userData.idNumber || 'غير موجود';
-
+                    welcomeMessage.textContent = `مرحباً ${userData.fullName}، بلدك: ${userData.country}`;
+                    userCountry = userData.country;
+                    if (userData.idNumber) {
+                        generatedIdInput.value = userData.idNumber;
+                    }
                 } else {
                     welcomeMessage.textContent = "لم يتم العثور على بيانات المستخدم.";
                     confirmBtn.disabled = true;
@@ -144,11 +148,30 @@
             });
         }
 
+        window.generateID = function () {
+            let prefix = '3';
+            if (userCountry === 'السعودية') prefix = '1';
+            else if (userCountry === 'السودان') prefix = '2';
+
+            let id = prefix;
+            while (id.length < 10) {
+                id += Math.floor(Math.random() * 10);
+            }
+
+            const hasDuplicate = /(\d).*\1/.test(id);
+            if (!hasDuplicate) {
+                id = id.slice(0, 9) + id[1];
+            }
+
+            generatedIdInput.value = id;
+        }
+
         confirmBtn.addEventListener('click', () => {
             messageDiv.innerHTML = "";
             messageDiv.className = "message";
 
             const enteredSecret = idSecretInput.value.trim();
+            const generatedId = generatedIdInput.value.trim();
 
             if (!/^\d{4}$/.test(enteredSecret)) {
                 messageDiv.textContent = "يرجى إدخال كود الهوية السري صحيح (4 أرقام).";
@@ -156,36 +179,25 @@
                 return;
             }
 
-            // تحقق إذا الكود السري يطابق الموجود في قاعدة البيانات
-            get(child(ref(db), `users/${uid}`)).then(snapshot => {
-                if (!snapshot.exists()) {
-                    messageDiv.textContent = "لم يتم العثور على بيانات المستخدم.";
-                    messageDiv.classList.add("error");
-                    return;
-                }
+            if (!/^\d{10}$/.test(generatedId)) {
+                messageDiv.textContent = "يرجى توليد رقم هوية أولاً.";
+                messageDiv.classList.add("error");
+                return;
+            }
 
-                const userData = snapshot.val();
-
-                if (userData.idSecret !== enteredSecret) {
-                    messageDiv.textContent = "كود الهوية السري غير صحيح.";
-                    messageDiv.classList.add("error");
-                    return;
-                }
-
-                // يمكن تحديث حالة تأكيد الهوية مثلاً أو توجيه المستخدم للصفحة الرئيسية
-                update(ref(db, `users/${uid}`), {
-                    idConfirmed: true
-                }).then(() => {
-                    messageDiv.textContent = "تم تأكيد كود الهوية بنجاح!";
-                    messageDiv.classList.add("success");
-                    // تحويل لصفحة تسجيل الدخول بعد 2 ثانية
-                    setTimeout(() => {
-                        window.location.href = 'Login.html';
-                    }, 2000);
-                }).catch(error => {
-                    messageDiv.textContent = "خطأ في تحديث البيانات: " + error.message;
-                    messageDiv.classList.add("error");
-                });
+            update(ref(db, `users/${uid}`), {
+                idNumber: generatedId,
+                idSecret: enteredSecret,
+                idConfirmed: true
+            }).then(() => {
+                messageDiv.textContent = "تم حفظ رقم الهوية والكود بنجاح!";
+                messageDiv.classList.add("success");
+                setTimeout(() => {
+                    window.location.href = 'Login.html';
+                }, 2000);
+            }).catch(error => {
+                messageDiv.textContent = "خطأ في تحديث البيانات: " + error.message;
+                messageDiv.classList.add("error");
             });
         });
     </script>
