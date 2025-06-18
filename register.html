@@ -18,8 +18,8 @@
             padding: 0;
         }
         * {
-    font-family: 'IBM Plex Sans Arabic', sans-serif !important;
-}
+            font-family: 'IBM Plex Sans Arabic', sans-serif !important;
+        }
         .container {
             max-width: 500px;
             margin: 60px auto;
@@ -81,7 +81,7 @@
         .success {
             color: green;
         }
-        /* كود القائمة المخصصة للبلد */
+
         .custom-select {
             position: relative;
             width: 100%;
@@ -99,44 +99,67 @@
             background: #ffffff;
             color: #000000;
         }
-.select-selected img,
-.select-items img {
-    width: 16px;
-    height: 11px;
-    object-fit: contain;
-    vertical-align: middle;
-    border-radius: 2px;
-}
+        .select-selected img,
+        .select-items img {
+            width: 16px;
+            height: 11px;
+            object-fit: contain;
+            vertical-align: middle;
+            border-radius: 2px;
+        }
+        .select-items {
+            position: absolute;
+            background: #ffffff;
+            border: 2px solid #000000;
+            border-top: none;
+            width: 100%;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 99;
+            display: none;
+            flex-direction: column;
+            color: #000000;
+            border-radius: 0 0 6px 6px;
+        }
+        .select-items div {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px;
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+        .select-items div:hover {
+            background-color: #eee;
+        }
 
-.select-items {
-    position: absolute;
-    background: #ffffff;
-    border: 2px solid #000000;
-    border-top: none;
-    width: 100%;
-    max-height: 200px;
-    overflow-y: auto;
-    z-index: 99;
-    display: none;
-    flex-direction: column;
-    color: #000000;
-    border-radius: 0 0 6px 6px;
-}
-
-.select-items div {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 12px;
-    box-sizing: border-box;
-    cursor: pointer;
-}
-
-.select-items div:hover {
-    background-color: #eee;
-}
-
+        /* حقل الهاتف */
+        .phone-input {
+            display: flex;
+            gap: 10px;
+        }
+        #phoneCode {
+            width: 80px;
+            padding: 12px;
+            font-size: 14px;
+            border: 2px solid #000000;
+            border-radius: 6px;
+            background: #eaeaea;
+            color: #000000;
+            text-align: center;
+            pointer-events: none;
+        }
+        #phoneNumber {
+            flex: 1;
+            padding: 12px;
+            font-size: 14px;
+            border: 2px solid #000000;
+            border-radius: 6px;
+            background: #ffffff;
+            color: #000000;
+            box-sizing: border-box;
+        }
     </style>
 </head>
 <body>
@@ -163,12 +186,13 @@
             <input type="password" id="password" placeholder="أدخل كلمة المرور" />
         </div>
 
+        
         <div class="form-group">
             <label>البلد</label>
             <div class="custom-select" id="custom-select">
                 <div class="select-selected" tabindex="0">حدد</div>
                 <div class="select-items">
-                    <div data-value="المملكة العربية السعودية"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Flag_of_Saudi_Arabia.svg/2560px-Flag_of_Saudi_Arabia.svg.png" alt=" علم السعودية" /> المملكة العربية السعودية</div>
+                    <div data-value="المملكة العربية السعودية"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Flag_of_Saudi_Arabia.svg/2560px-Flag_of_Saudi_Arabia.svg.png" alt="علم السعودية" /> المملكة العربية السعودية</div>
                     <div data-value="الإمارات العربية المتحدة"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Flag_of_the_United_Arab_Emirates.svg/250px-Flag_of_the_United_Arab_Emirates.svg.png" alt="علم الإمارات" /> الإمارات العربية المتحدة</div>
                     <div data-value="دولة الكويت"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Flag_of_Kuwait.svg/330px-Flag_of_Kuwait.svg.png" alt="علم الكويت" /> دولة الكويت</div>
                     <div data-value="مملكة البحرين"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Flag_of_Bahrain.svg/330px-Flag_of_Bahrain.svg.png" alt="علم البحرين" /> مملكة البحرين</div>
@@ -185,14 +209,17 @@
 
         <div class="form-group">
             <label>رقم الهاتف</label>
-            <input type="tel" id="phone" placeholder="أدخل رقم الهاتف" />
+            <div class="phone-input">
+                <input type="text" id="phoneCode" value="+966" readonly />
+                <input type="tel" id="phoneNumber" placeholder="05 12 34 5678" maxlength="13" />
+            </div>
         </div>
         
         <button onclick="registerUser()">إنشاء هوية</button>
         <div id="message" class="message"></div>
     </div>
 
-    <!-- Firebase إعداد وربط -->
+    <!-- Firebase -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
@@ -212,36 +239,28 @@
         const auth = getAuth(app);
         const db = getDatabase(app);
 
-        function generateIDNumber(country) {
-            let startDigit = '0'; // بشكل افتراضي 3-9 عشوائي
-            if (country === 'السعودية') startDigit = '1';
-            else if (country === 'السودان') startDigit = '2';
-            else startDigit = String(Math.floor(Math.random() * 7) + 3); // رقم من 3 إلى 9
+        const phoneInput = document.getElementById('phoneNumber');
+        phoneInput.addEventListener('input', function () {
+            let numbers = this.value.replace(/\D/g, '').slice(0, 10);
+            let formatted = '';
 
-            const repeatedDigit = String(Math.floor(Math.random() * 10));
-            let idNumber = startDigit;
-
-            while (idNumber.length < 9) {
-                const digit = Math.random() < 0.3 ? repeatedDigit : String(Math.floor(Math.random() * 10));
-                idNumber += digit;
+            for (let i = 0; i < numbers.length; i++) {
+                if (i === 2 || i === 4 || i === 6) formatted += ' ';
+                formatted += numbers[i];
             }
-            idNumber += repeatedDigit; // ضمان وجود رقم متكرر
 
-            return idNumber;
-        }
+            this.value = formatted;
+        });
 
-        // كود القائمة المخصصة للبلد
         const customSelect = document.getElementById('custom-select');
         const selected = customSelect.querySelector('.select-selected');
         const items = customSelect.querySelector('.select-items');
         const hiddenInput = document.getElementById('country');
 
-        // فتح/غلق القائمة عند النقر على المحدد
         selected.addEventListener('click', () => {
             items.style.display = items.style.display === 'flex' ? 'none' : 'flex';
         });
 
-        // اختيار عنصر من القائمة
         items.querySelectorAll('div').forEach(option => {
             option.addEventListener('click', () => {
                 selected.innerHTML = option.innerHTML;
@@ -250,14 +269,12 @@
             });
         });
 
-        // إغلاق القائمة عند النقر خارجها
         document.addEventListener('click', (e) => {
             if (!customSelect.contains(e.target)) {
                 items.style.display = 'none';
             }
         });
 
-        // دعم الكيبورد: فتح القائمة بزر Enter أو Space
         selected.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
@@ -265,20 +282,38 @@
             }
         });
 
+        function generateIDNumber(country) {
+            let startDigit = '0';
+            if (country === 'السعودية') startDigit = '1';
+            else if (country === 'السودان') startDigit = '2';
+            else startDigit = String(Math.floor(Math.random() * 7) + 3);
+
+            const repeatedDigit = String(Math.floor(Math.random() * 10));
+            let idNumber = startDigit;
+
+            while (idNumber.length < 9) {
+                const digit = Math.random() < 0.3 ? repeatedDigit : String(Math.floor(Math.random() * 10));
+                idNumber += digit;
+            }
+            idNumber += repeatedDigit;
+            return idNumber;
+        }
+
         window.registerUser = function () {
             const fullName = document.getElementById('fullName').value.trim();
             const username = document.getElementById('username').value.trim();
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
-            const country = document.getElementById('country').value;
-            const phone = document.getElementById('phone').value.trim();
             const idSecret = document.getElementById('idSecret').value.trim();
+            const country = document.getElementById('country').value;
+            const phoneCode = document.getElementById('phoneCode').value.trim();
+            const phoneRaw = document.getElementById('phoneNumber').value.trim().replace(/\s+/g, '');
+            const phone = phoneCode + phoneRaw;
 
             const messageDiv = document.getElementById('message');
             messageDiv.innerHTML = "";
             messageDiv.className = "message";
 
-            // التحقق من الحقول
             if (!fullName || !username || !email || !password || !country || !phone || !idSecret) {
                 messageDiv.innerHTML = "جميع الحقول مطلوبة.";
                 messageDiv.classList.add("error");
@@ -302,7 +337,6 @@
                     const uid = userCredential.user.uid;
                     const idNumber = generateIDNumber(country);
 
-                    // تخزين بيانات المستخدم مع رقم الهوية المولد والكود السري
                     return set(ref(db, 'users/' + uid), {
                         fullName,
                         username,
@@ -318,7 +352,6 @@
                     messageDiv.innerHTML = "تم إنشاء الحساب بنجاح! جاري التحويل...";
                     messageDiv.classList.add("success");
 
-                    // بعد ثانيتين يتم التحويل لصفحة إنشاء رقم الهوية
                     setTimeout(() => {
                         window.location.href = `CreateID.html?uid=${encodeURIComponent(uid)}&country=${encodeURIComponent(country)}`;
                     }, 2000);
