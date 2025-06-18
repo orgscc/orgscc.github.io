@@ -298,11 +298,17 @@
 
             const country = hiddenInput.value;
 
-            if (country === 'المملكة العربية السعودية') {
-                // 10 أرقام، شكل 05 12 34 5678
-                for (let i = 0; i < val.length && i < 10; i++) {
-                    if (i === 2 || i === 4 || i === 6) formatted += ' ';
-                    formatted += val[i];
+           if (country === 'المملكة العربية السعودية') {
+    // نتأكد من إزالة الصفر الأول لو موجود، وننسق 9 أرقام
+    if (val.startsWith('0')) {
+        val = val.substring(1);
+    }
+    for (let i = 0; i < val.length && i < 9; i++) {
+        if (i === 2 || i === 5) formatted += ' ';
+        formatted += val[i];
+    }
+}
+
                 }
             } else if (country === 'الإمارات العربية المتحدة') {
                 // 9 أرقام، شكل 05 123 4567
