@@ -39,7 +39,7 @@
             font-size: 14px;
             margin-bottom: 6px;
         }
-        input, select {
+        input {
             width: 100%;
             padding: 12px;
             font-size: 14px;
@@ -49,7 +49,7 @@
             color: #000000;
             box-sizing: border-box;
         }
-        input:focus, select:focus {
+        input:focus {
             outline: none;
             border-color: #000000;
         }
@@ -78,8 +78,53 @@
         .success {
             color: green;
         }
-        option.flag-option::before {
-            content: attr(data-flag) " ";
+        /* كود القائمة المخصصة للبلد */
+        .custom-select {
+            position: relative;
+            width: 100%;
+            user-select: none;
+            font-size: 14px;
+        }
+        .select-selected {
+            border: 2px solid #000000;
+            border-radius: 6px;
+            padding: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #ffffff;
+            color: #000000;
+        }
+        .select-selected img {
+            width: 20px;
+            height: 14px;
+            object-fit: cover;
+            border-radius: 2px;
+        }
+        .select-items {
+            position: absolute;
+            background: #ffffff;
+            border: 2px solid #000000;
+            border-top: none;
+            width: 100%;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 99;
+            border-radius: 0 0 6px 6px;
+            display: none;
+            flex-direction: column;
+            color: #000000;
+        }
+        .select-items div {
+            padding: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .select-items div:hover {
+            background-color: #eee;
         }
     </style>
 </head>
@@ -109,19 +154,25 @@
 
         <div class="form-group">
             <label>البلد</label>
-            <select id="country">
-                <option value="">اختر البلد</option>
-                <option value="السعودية">🇸🇦 السعودية</option>
-                <option value="الإمارات">🇦🇪 الإمارات</option>
-                <option value="الكويت">🇰🇼 الكويت</option>
-                <option value="البحرين">🇧🇭 البحرين</option>
-                <option value="عمان">🇴🇲 عمان</option>
-                <option value="قطر">🇶🇦 قطر</option>
-                <option value="مصر">🇪🇬 مصر</option>
-                <option value="السودان">🇸🇩 السودان</option>
-                <option value="أمريكا">🇺🇸 أمريكا</option>
-                <option value="بريطانيا">🇬🇧 بريطانيا</option>
-            </select>
+            <div class="custom-select" id="custom-select">
+                <div class="select-selected" tabindex="0">
+                    <img src=https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Flag_of_Saudi_Arabia.svg/2560px-Flag_of_Saudi_Arabia.svg.pn" alt="علم السعودية" />
+                    السعودية
+                </div>
+                <div class="select-items">
+                    <div data-value="السعودية"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Flag_of_Saudi_Arabia.svg/2560px-Flag_of_Saudi_Arabia.svg.png" alt="علم السعودية" /> السعودية</div>
+                    <div data-value="الإمارات"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Flag_of_the_United_Arab_Emirates.svg/250px-Flag_of_the_United_Arab_Emirates.svg.png" alt="علم الإمارات" /> الإمارات</div>
+                    <div data-value="الكويت"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Flag_of_Kuwait.svg/330px-Flag_of_Kuwait.svg.png" alt="علم الكويت" /> الكويت</div>
+                    <div data-value="البحرين"><img src=https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Flag_of_Bahrain.svg/330px-Flag_of_Bahrain.svg.png" alt="علم البحرين" /> البحرين</div>
+                    <div data-value="عمان"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Flag_of_Oman.svg/330px-Flag_of_Oman.svg.png" alt="علم عمان" /> عمان</div>
+                    <div data-value="قطر"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Flag_of_Qatar.svg/330px-Flag_of_Qatar.svg.png" alt="علم قطر" /> قطر</div>
+                    <div data-value="مصر"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Flag_of_Egypt.svg/330px-Flag_of_Egypt.svg.png" alt="علم مصر" /> مصر</div>
+                    <div data-value="السودان"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Flag_of_Sudan.svg/330px-Flag_of_Sudan.svg.png" alt="علم السودان" /> السودان</div>
+                    <div data-value="أمريكا"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/330px-Flag_of_the_United_States.svg.png" alt="علم أمريكا" /> أمريكا</div>
+                    <div data-value="بريطانيا"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg/330px-Flag_of_the_United_Kingdom_%283-5%29.svg.png" alt="علم بريطانيا" /> بريطانيا</div>
+                </div>
+            </div>
+            <input type="hidden" id="country" name="country" value="السعودية" />
         </div>
 
         <div class="form-group">
@@ -129,12 +180,7 @@
             <input type="tel" id="phone" placeholder="أدخل رقم الهاتف" />
         </div>
         
-        <div class="form-group">
-            <label>كود الهوية السري (4 أرقام)</label>
-            <input type="password" id="idSecret" placeholder="أدخل 4 أرقام" maxlength="4" pattern="\d{4}" />
-        </div>
-        
-        <button onclick="registerUser()">إنشاء الحساب</button>
+        <button onclick="registerUser()">إنشاء هوية</button>
         <div id="message" class="message"></div>
     </div>
 
@@ -175,6 +221,41 @@
 
             return idNumber;
         }
+
+        // كود القائمة المخصصة للبلد
+        const customSelect = document.getElementById('custom-select');
+        const selected = customSelect.querySelector('.select-selected');
+        const items = customSelect.querySelector('.select-items');
+        const hiddenInput = document.getElementById('country');
+
+        // فتح/غلق القائمة عند النقر على المحدد
+        selected.addEventListener('click', () => {
+            items.style.display = items.style.display === 'flex' ? 'none' : 'flex';
+        });
+
+        // اختيار عنصر من القائمة
+        items.querySelectorAll('div').forEach(option => {
+            option.addEventListener('click', () => {
+                selected.innerHTML = option.innerHTML;
+                hiddenInput.value = option.getAttribute('data-value');
+                items.style.display = 'none';
+            });
+        });
+
+        // إغلاق القائمة عند النقر خارجها
+        document.addEventListener('click', (e) => {
+            if (!customSelect.contains(e.target)) {
+                items.style.display = 'none';
+            }
+        });
+
+        // دعم الكيبورد: فتح القائمة بزر Enter أو Space
+        selected.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                items.style.display = items.style.display === 'flex' ? 'none' : 'flex';
+            }
+        });
 
         window.registerUser = function () {
             const fullName = document.getElementById('fullName').value.trim();
@@ -231,8 +312,7 @@
 
                     // بعد ثانيتين يتم التحويل لصفحة إنشاء رقم الهوية
                     setTimeout(() => {
-                        // تمرير uid وcountry في رابط الصفحة الجديدة
-                        window.location.href = `CreateID.html?uid=${encodeURIComponent(uid)}&country=${encodeURIComponent(document.getElementById('country').value)}`;
+                        window.location.href = `CreateID.html?uid=${encodeURIComponent(uid)}&country=${encodeURIComponent(country)}`;
                     }, 2000);
                 })
                 .catch((error) => {
