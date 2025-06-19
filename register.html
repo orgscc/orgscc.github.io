@@ -134,7 +134,6 @@
             background-color: #eee;
         }
 
-        /* حقل الهاتف */
         .phone-input {
             display: flex;
             gap: 10px;
@@ -191,7 +190,7 @@
             <div class="custom-select" id="custom-select">
                 <div class="select-selected" tabindex="0">حدد</div>
                 <div class="select-items">
-                    <div data-value="المملكة العربية السعودية" data-code="+966"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Flag_of_Saudi_Arabia.svg/2560px-Flag_of_Saudi_Arabia.svg.png" alt="علم السعودية" /> المملكة العربية السعودية</div>
+                  <div data-value="المملكة العربية السعودية" data-code="+966"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Flag_of_Saudi_Arabia.svg/2560px-Flag_of_Saudi_Arabia.svg.png" alt="علم السعودية" /> المملكة العربية السعودية</div>
                     <div data-value="الإمارات العربية المتحدة" data-code="+971"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Flag_of_the_United_Arab_Emirates.svg/250px-Flag_of_the_United_Arab_Emirates.svg.png" alt="علم الإمارات" /> الإمارات العربية المتحدة</div>
                     <div data-value="دولة الكويت" data-code="+965"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Flag_of_Kuwait.svg/330px-Flag_of_Kuwait.svg.png" alt="علم الكويت" /> دولة الكويت</div>
                     <div data-value="مملكة البحرين" data-code="+973"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Flag_of_Bahrain.svg/330px-Flag_of_Bahrain.svg.png" alt="علم البحرين" /> مملكة البحرين</div>
@@ -201,6 +200,10 @@
                     <div data-value="جمهورية السودان" data-code="+249"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Flag_of_Sudan.svg/330px-Flag_of_Sudan.svg.png" alt="علم السودان" /> جمهورية السودان</div>
                     <div data-value="الولايات المتحدة الأمريكية" data-code="+1"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/330px-Flag_of_the_United_States.svg.png" alt="علم أمريكا" /> الولايات المتحدة الأمريكية</div>
                     <div data-value="المملكة المتحدة" data-code="+44"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg/330px-Flag_of_the_United_Kingdom_%283-5%29.svg.png" alt="علم بريطانيا" /> المملكة المتحدة</div>
+                </div>
+            </div>
+            <input type="hidden" id="country" name="country" value="المملكة العربية السعودية" />
+        </div>
                 </div>
             </div>
             <input type="hidden" id="country" name="country" value="المملكة العربية السعودية" />
@@ -218,7 +221,6 @@
         <div id="message" class="message"></div>
     </div>
 
-    <!-- Firebase -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
@@ -245,7 +247,7 @@
         const phoneCodeInput = document.getElementById('phoneCode');
         const phoneInput = document.getElementById('phoneNumber');
 
-        // تغيير رمز الدولة حسب اختيار البلد
+        // تحديث البلد
         items.querySelectorAll('div').forEach(option => {
             option.addEventListener('click', () => {
                 selected.innerHTML = option.innerHTML;
@@ -274,7 +276,6 @@
             }
         });
 
-        // دالة تعطي شكل تنسيق رقم الهاتف حسب الدولة
         function getPhonePlaceholder(country) {
             switch(country) {
                 case 'المملكة العربية السعودية': return '05 12 34 5678';
@@ -291,33 +292,23 @@
             }
         }
 
-        // دالة تنسيق رقم الهاتف حسب الدولة (مبسطة)
         phoneInput.addEventListener('input', function () {
             let val = this.value.replace(/\D/g, '');
             let formatted = '';
-
             const country = hiddenInput.value;
 
-           if (country === 'المملكة العربية السعودية') {
-    // نتأكد من إزالة الصفر الأول لو موجود، وننسق 9 أرقام
-    if (val.startsWith('0')) {
-        val = val.substring(1);
-    }
-    for (let i = 0; i < val.length && i < 9; i++) {
-        if (i === 2 || i === 5) formatted += ' ';
-        formatted += val[i];
-    }
-}
-
+            if (country === 'المملكة العربية السعودية') {
+                if (val.startsWith('0')) val = val.substring(1);
+                for (let i = 0; i < val.length && i < 9; i++) {
+                    if (i === 2 || i === 5) formatted += ' ';
+                    formatted += val[i];
                 }
             } else if (country === 'الإمارات العربية المتحدة') {
-                // 9 أرقام، شكل 05 123 4567
                 for (let i = 0; i < val.length && i < 9; i++) {
                     if (i === 2 || i === 5) formatted += ' ';
                     formatted += val[i];
                 }
             } else {
-                // بشكل عام يكتب رقم فقط بدون تنسيق خاص
                 formatted = val;
             }
 
