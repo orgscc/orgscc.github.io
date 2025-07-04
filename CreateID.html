@@ -89,163 +89,166 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>إنشاء رقم الهوية</h1>
-        <p id="welcomeMessage" style="text-align:center; font-weight: bold;"></p>
+<div class="container">
+    <h1>إنشاء رقم الهوية</h1>
+    <p id="welcomeMessage" style="text-align:center; font-weight: bold;"></p>
 
-        <div class="form-group">
-            <label>رقم الهوية المولد</label>
-            <div style="display: flex; gap: 10px;">
-                <input type="text" id="generatedId" readonly />
-                <button type="button" id="generateBtn" onclick="generateID()">توليد</button>
-            </div>
+    <div class="form-group">
+        <label>رقم الهوية المولد</label>
+        <div style="display: flex; gap: 10px;">
+            <input type="text" id="generatedId" readonly />
+            <button type="button" id="generateBtn" onclick="generateID()">توليد</button>
         </div>
-
-        <div class="form-group">
-            <label>أدخل كود الهوية السري (4 أرقام)</label>
-            <div class="code-inputs">
-                <input type="password" maxlength="1" />
-                <input type="password" maxlength="1" />
-                <input type="password" maxlength="1" />
-                <input type="password" maxlength="1" />
-            </div>
-        </div>
-
-        <button id="confirmBtn" style="width: 100%;">تأكيد</button>
-        <div id="message" class="message"></div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getDatabase, ref, get, child, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+    <div class="form-group">
+        <label>أدخل كود الهوية السري (4 أرقام)</label>
+        <div class="code-inputs">
+            <input type="password" maxlength="1" />
+            <input type="password" maxlength="1" />
+            <input type="password" maxlength="1" />
+            <input type="password" maxlength="1" />
+        </div>
+    </div>
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyBF7yFEjg7yAnz8QAmEq8rn66sTd5RC9zk",
-            authDomain: "orgscc-2025-865ea.firebaseapp.com",
-            databaseURL: "https://orgscc-2025-865ea-default-rtdb.firebaseio.com",
-            projectId: "orgscc-2025-865ea",
-            storageBucket: "orgscc-2025-865ea.appspot.com",
-            messagingSenderId: "865185004337",
-            appId: "1:865185004337:web:84bbf2a150546b34d24e10"
-        };
+    <button id="confirmBtn" style="width: 100%;">تأكيد</button>
+    <div id="message" class="message"></div>
+</div>
 
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getDatabase, ref, get, child, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const uid = urlParams.get('uid');
+    const firebaseConfig = {
+        apiKey: "AIzaSyBF7yFEjg7yAnz8QAmEq8rn66sTd5RC9zk",
+        authDomain: "orgscc-2025-865ea.firebaseapp.com",
+        databaseURL: "https://orgscc-2025-865ea-default-rtdb.firebaseio.com",
+        projectId: "orgscc-2025-865ea",
+        storageBucket: "orgscc-2025-865ea.appspot.com",
+        messagingSenderId: "865185004337",
+        appId: "1:865185004337:web:84bbf2a150546b34d24e10"
+    };
 
-        const welcomeMessage = document.getElementById('welcomeMessage');
-        const generatedIdInput = document.getElementById('generatedId');
-        const codeInputs = document.querySelectorAll('.code-inputs input');
-        const messageDiv = document.getElementById('message');
-        const confirmBtn = document.getElementById('confirmBtn');
-        const generateBtn = document.getElementById('generateBtn');
-        let userCountry = '';
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
 
-        if (!uid) {
-            welcomeMessage.textContent = "حدث خطأ، لا يوجد معرف مستخدم.";
-            confirmBtn.disabled = true;
-        } else {
-            get(child(ref(db), `users/${uid}`)).then(snapshot => {
-                if (snapshot.exists()) {
-                    const userData = snapshot.val();
-                    welcomeMessage.textContent = `مرحباً ${userData.fullName}، بلدك: ${userData.country}`;
-                    userCountry = userData.country;
+    const urlParams = new URLSearchParams(window.location.search);
+    const uid = urlParams.get('uid');
 
-                    if (userData.idNumber) {
-                        generatedIdInput.value = userData.idNumber;
-                        generateBtn.disabled = true;
-                    }
+    const welcomeMessage = document.getElementById('welcomeMessage');
+    const generatedIdInput = document.getElementById('generatedId');
+    const codeInputs = document.querySelectorAll('.code-inputs input');
+    const messageDiv = document.getElementById('message');
+    const confirmBtn = document.getElementById('confirmBtn');
+    const generateBtn = document.getElementById('generateBtn');
+    let userCountry = '';
 
-                    if (userData.idSecret && userData.idSecret.length === 4) {
-                        [...userData.idSecret].forEach((digit, idx) => {
-                            if (codeInputs[idx]) codeInputs[idx].value = digit;
-                        });
-                    }
+    if (!uid) {
+        welcomeMessage.textContent = "حدث خطأ، لا يوجد معرف مستخدم.";
+        confirmBtn.disabled = true;
+        generateBtn.disabled = true;
+    } else {
+        get(child(ref(db), `users/${uid}`)).then(snapshot => {
+            if (snapshot.exists()) {
+                const userData = snapshot.val();
+                welcomeMessage.textContent = `مرحباً ${userData.fullName}، بلدك: ${userData.country}`;
+                userCountry = userData.country;
 
-                    if (userData.idConfirmed) {
-                        confirmBtn.disabled = true;
-                        messageDiv.textContent = "تم تأكيد الهوية مسبقًا.";
-                        messageDiv.classList.add("success");
-                    }
-                } else {
-                    welcomeMessage.textContent = "لم يتم العثور على بيانات المستخدم.";
-                    confirmBtn.disabled = true;
+                if (userData.idNumber) {
+                    generatedIdInput.value = userData.idNumber;
+                    generateBtn.disabled = true;
                 }
-            }).catch(err => {
-                welcomeMessage.textContent = "خطأ في جلب البيانات.";
+
+                if (userData.idSecret && userData.idSecret.length === 4) {
+                    [...userData.idSecret].forEach((digit, idx) => {
+                        if (codeInputs[idx]) codeInputs[idx].value = digit;
+                    });
+                }
+
+                if (userData.idConfirmed) {
+                    confirmBtn.disabled = true;
+                    messageDiv.textContent = "تم تأكيد الهوية مسبقًا.";
+                    messageDiv.classList.add("success");
+                }
+            } else {
+                welcomeMessage.textContent = "لم يتم العثور على بيانات المستخدم.";
                 confirmBtn.disabled = true;
-            });
+                generateBtn.disabled = true;
+            }
+        }).catch(err => {
+            welcomeMessage.textContent = "خطأ في جلب البيانات من الخادم.";
+            confirmBtn.disabled = true;
+            generateBtn.disabled = true;
+        });
+    }
+
+    window.generateID = function () {
+        if (!userCountry) {
+            messageDiv.textContent = "يرجى الانتظار حتى يتم تحميل بيانات المستخدم.";
+            messageDiv.classList.add("error");
+            return;
         }
 
-        window.generateID = function () {
-            if (!userCountry) {
-                messageDiv.textContent = "لم يتم تحميل بيانات المستخدم بعد.";
-                messageDiv.classList.add("error");
-                return;
-            }
+        let prefix = userCountry.includes("السودان") ? "2" :
+                     userCountry.includes("السعودية") ? "1" : "0";
 
-            let prefix = userCountry.includes("السودان") ? "2" :
-                         userCountry.includes("السعودية") ? "1" : "0";
+        let digits = prefix;
+        const count = {};
 
-            let digits = prefix;
-            const count = {};
+        while (digits.length < 10) {
+            const d = Math.floor(Math.random() * 10).toString();
+            count[d] = (count[d] || 0) + 1;
+            if (count[d] <= 2) digits += d;
+        }
 
-            while (digits.length < 10) {
-                const d = Math.floor(Math.random() * 10).toString();
-                count[d] = (count[d] || 0) + 1;
-                if (count[d] <= 2) digits += d;
-            }
+        generatedIdInput.value = digits;
+        generateBtn.disabled = true;
 
-            generatedIdInput.value = digits;
-            generateBtn.disabled = true;
+        update(ref(db, `users/${uid}`), { idNumber: digits });
+    };
 
-            update(ref(db, `users/${uid}`), { idNumber: digits });
-        };
+    confirmBtn.addEventListener('click', () => {
+        messageDiv.textContent = "";
+        messageDiv.className = "message";
 
-        confirmBtn.addEventListener('click', () => {
-            messageDiv.textContent = "";
-            messageDiv.className = "message";
+        const idNumber = generatedIdInput.value.trim();
+        const secretCode = Array.from(codeInputs).map(input => input.value).join('');
 
-            const idNumber = generatedIdInput.value.trim();
-            const secretCode = Array.from(codeInputs).map(input => input.value).join('');
+        if (!/^\d{10}$/.test(idNumber)) {
+            messageDiv.textContent = "يرجى توليد رقم الهوية أولاً.";
+            messageDiv.classList.add("error");
+            return;
+        }
 
-            if (!/^\d{10}$/.test(idNumber)) {
-                messageDiv.textContent = "يرجى توليد رقم هوية أولاً.";
-                messageDiv.classList.add("error");
-                return;
-            }
+        if (!/^\d{4}$/.test(secretCode)) {
+            messageDiv.textContent = "يرجى إدخال كود الهوية السري (4 أرقام).";
+            messageDiv.classList.add("error");
+            return;
+        }
 
-            if (!/^\d{4}$/.test(secretCode)) {
-                messageDiv.textContent = "يرجى إدخال كود الهوية السري المكون من 4 أرقام.";
-                messageDiv.classList.add("error");
-                return;
-            }
-
-            update(ref(db, `users/${uid}`), {
-                idSecret: secretCode,
-                idConfirmed: true
-            }).then(() => {
-                messageDiv.textContent = "تم حفظ رقم الهوية بنجاح، جاري التحويل...";
-                messageDiv.classList.add("success");
-                setTimeout(() => {
-                    window.location.href = 'Login.html';
-                }, 1000);
-            }).catch(error => {
-                messageDiv.textContent = "حدث خطأ أثناء حفظ البيانات.";
-                messageDiv.classList.add("error");
-            });
+        update(ref(db, `users/${uid}`), {
+            idSecret: secretCode,
+            idConfirmed: true
+        }).then(() => {
+            messageDiv.textContent = "تم حفظ الهوية بنجاح، سيتم تحويلك الآن...";
+            messageDiv.classList.add("success");
+            setTimeout(() => {
+                window.location.href = 'Login.html';
+            }, 1000);
+        }).catch(error => {
+            messageDiv.textContent = "حدث خطأ أثناء حفظ البيانات.";
+            messageDiv.classList.add("error");
         });
+    });
 
-        // تنقل تلقائي بين خانات الكود
-        codeInputs.forEach((input, idx) => {
-            input.addEventListener('input', () => {
-                if (input.value.length === 1 && idx < codeInputs.length - 1) {
-                    codeInputs[idx + 1].focus();
-                }
-            });
+    // تنقل تلقائي بين خانات الكود
+    codeInputs.forEach((input, idx) => {
+        input.addEventListener('input', () => {
+            if (input.value.length === 1 && idx < codeInputs.length - 1) {
+                codeInputs[idx + 1].focus();
+            }
         });
-    </script>
+    });
+</script>
 </body>
 </html>
