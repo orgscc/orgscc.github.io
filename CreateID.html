@@ -148,19 +148,20 @@
         confirmBtn.disabled = true;
         generateBtn.disabled = true;
     } else {
+        // جلب بيانات المستخدم من Firebase
         get(child(ref(db), `users/${uid}`)).then(snapshot => {
             if (snapshot.exists()) {
                 const userData = snapshot.val();
                 welcomeMessage.textContent = `مرحباً ${userData.fullName}، بلدك: ${userData.country}`;
-                userCountry = userData.country;
+                userCountry = userData.country || '';
 
                 if (userData.idNumber) {
                     generatedIdInput.value = userData.idNumber;
                     generateBtn.disabled = true;
                 }
 
-                if (userData.idSecret && userData.idSecret.length === 4) {
-                    [...userData.idSecret].forEach((digit, idx) => {
+                if (userData.idPIN && userData.idPIN.length === 4) {
+                    [...userData.idPIN].forEach((digit, idx) => {
                         if (codeInputs[idx]) codeInputs[idx].value = digit;
                     });
                 }
@@ -207,11 +208,7 @@
         update(ref(db, `users/${uid}`), { idNumber: digits });
     };
 
-    confirmBtn.disabled = false; // تأكد أن الزر مفعل
-
     confirmBtn.addEventListener('click', () => {
-        console.log("زر التأكيد ضغط");
-
         messageDiv.textContent = "";
         messageDiv.className = "message";
 
@@ -231,7 +228,7 @@
         }
 
         update(ref(db, `users/${uid}`), {
-            idSecret: secretCode,
+            idPIN: secretCode,
             idConfirmed: true
         }).then(() => {
             messageDiv.textContent = "تم حفظ الهوية بنجاح، سيتم تحويلك الآن...";
