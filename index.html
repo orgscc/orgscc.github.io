@@ -407,7 +407,13 @@
                 <!-- العداد التنازلي -->
                 <div class="timer-container">
                     <!-- عنوان العداد في الأعلى داخل المربع الأسود -->
-                    <div class="timer-title">انتهاء التصويت</div>
+                    <!-- عنوان العداد في الأعلى داخل المربع الأسود -->
+               <div class="timer-title">
+                      انتهاء المهلة لـ " جـ . ق "
+               <br>
+                     17 يوليو 2025 : الساعة 7:00 صباحاً
+              </div>
+
                     <div class="timer-content">
                         <!-- ثواني -->
                         <div class="timer-group">
@@ -495,7 +501,7 @@
         const dayEl = document.getElementById('day');
 
         // انتهى العداد عند منتصف الليل لأول يوم من 26 مايو 2025
-        const endDate = new Date('2025-06-21T00:00:00').getTime();
+        const endDate = new Date('2025-07-17T07:00:00').getTime();
 
         function updateCountdown() {
             const now = new Date().getTime();
