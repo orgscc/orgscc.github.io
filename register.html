@@ -2,16 +2,15 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="utf-8" />
-    <title>إنشاء حساب - بوابة الدخول الموحد</title>
+    <title>إنشاء هوية - بوابة الدخول الموحد</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
-    <!-- خط IBM Plex Sans Arabic -->
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap" rel="stylesheet" />
     
     <style>
         body {
             font-family: 'IBM Plex Sans Arabic', sans-serif;
-            background: #ffffff;
+            background: #d3d3d3;
             color: #000000;
             min-height: 100vh;
             margin: 0;
@@ -81,7 +80,6 @@
         .success {
             color: green;
         }
-
         .custom-select {
             position: relative;
             width: 100%;
@@ -133,10 +131,10 @@
         .select-items div:hover {
             background-color: #eee;
         }
-
         .phone-input {
             display: flex;
             gap: 10px;
+            align-items: center;
         }
         #phoneCode {
             width: 80px;
@@ -163,7 +161,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>إنشاء حساب جديد</h1>
+        <h1>إنشاء هوية جديدة</h1>
         
         <div class="form-group">
             <label>الاسم الكامل</label>
@@ -171,7 +169,7 @@
         </div>
         
         <div class="form-group">
-            <label>اسم المستخدم</label>
+            <label>إسم المستخدم</label>
             <input type="text" id="username" placeholder="أدخل اسم المستخدم" />
         </div>
         
@@ -190,7 +188,7 @@
             <div class="custom-select" id="custom-select">
                 <div class="select-selected" tabindex="0">حدد</div>
                 <div class="select-items">
-                  <div data-value="المملكة العربية السعودية" data-code="+966"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Flag_of_Saudi_Arabia.svg/2560px-Flag_of_Saudi_Arabia.svg.png" alt="علم السعودية" /> المملكة العربية السعودية</div>
+                    <div data-value="المملكة العربية السعودية" data-code="+966"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Flag_of_Saudi_Arabia.svg/2560px-Flag_of_Saudi_Arabia.svg.png" alt="علم السعودية" /> المملكة العربية السعودية</div>
                     <div data-value="الإمارات العربية المتحدة" data-code="+971"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Flag_of_the_United_Arab_Emirates.svg/250px-Flag_of_the_United_Arab_Emirates.svg.png" alt="علم الإمارات" /> الإمارات العربية المتحدة</div>
                     <div data-value="دولة الكويت" data-code="+965"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Flag_of_Kuwait.svg/330px-Flag_of_Kuwait.svg.png" alt="علم الكويت" /> دولة الكويت</div>
                     <div data-value="مملكة البحرين" data-code="+973"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Flag_of_Bahrain.svg/330px-Flag_of_Bahrain.svg.png" alt="علم البحرين" /> مملكة البحرين</div>
@@ -200,10 +198,6 @@
                     <div data-value="جمهورية السودان" data-code="+249"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Flag_of_Sudan.svg/330px-Flag_of_Sudan.svg.png" alt="علم السودان" /> جمهورية السودان</div>
                     <div data-value="الولايات المتحدة الأمريكية" data-code="+1"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/330px-Flag_of_the_United_States.svg.png" alt="علم أمريكا" /> الولايات المتحدة الأمريكية</div>
                     <div data-value="المملكة المتحدة" data-code="+44"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg/330px-Flag_of_the_United_Kingdom_%283-5%29.svg.png" alt="علم بريطانيا" /> المملكة المتحدة</div>
-                </div>
-            </div>
-            <input type="hidden" id="country" name="country" value="المملكة العربية السعودية" />
-        </div>
                 </div>
             </div>
             <input type="hidden" id="country" name="country" value="المملكة العربية السعودية" />
@@ -374,7 +368,7 @@
                     }).then(() => uid);
                 })
                 .then((uid) => {
-                    messageDiv.innerHTML = "تم إنشاء الحساب بنجاح! جاري التحويل...";
+                    messageDiv.innerHTML = "تم إنشاء الهوية بنجاح! جاري التحويل...";
                     messageDiv.classList.add("success");
 
                     setTimeout(() => {
