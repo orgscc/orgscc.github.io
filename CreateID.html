@@ -207,7 +207,11 @@
         update(ref(db, `users/${uid}`), { idNumber: digits });
     };
 
+    confirmBtn.disabled = false; // تأكد أن الزر مفعل
+
     confirmBtn.addEventListener('click', () => {
+        console.log("زر التأكيد ضغط");
+
         messageDiv.textContent = "";
         messageDiv.className = "message";
 
