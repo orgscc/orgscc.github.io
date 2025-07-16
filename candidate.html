@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تفاصيل المرشح</title>
+
+  <!-- خط عربي واضح -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ===== الأساسيات ===== */
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:"Tajawal",sans-serif;
+      background:#000;
+      color:#fff;
+      direction:rtl;
+    }
+    img{display:block;max-width:100%}
+
+    /* ===== صورة المرشح ===== */
+    .candidate-img{
+      width:100%;
+      max-height:260px;
+      object-fit:cover;
+      border:2px solid #fff;
+      border-radius:10px;
+      margin:20px 0;
+    }
+
+    /* ===== البطاقة الأساسية ===== */
+    .info-card{
+      background:#111;
+      border:2px solid #fff;
+      border-radius:20px;
+      padding:30px 20px;
+      margin:0 20px 20px;
+      text-align:center;
+    }
+    .info-card h2{
+      margin:0 0 12px;
+      font-size:30px;
+      font-weight:900;
+    }
+    .info-card p{
+      margin:6px 0;
+      font-size:16px;
+    }
+
+    /* ===== عنوان فرعي ===== */
+    .section-title{
+      font-size:18px;
+      font-weight:700;
+      margin:30px 20px 10px;
+    }
+
+    /* ===== صندوق روابط الجوازات ===== */
+    .passport-box{
+      margin:0 20px 20px;
+      padding:25px;
+      border:3px solid #fff;
+      border-radius:20px;
+      text-align:center;
+    }
+    .passport-box input{
+      width:100%;
+      background:transparent;
+      border:none;
+      font-size:16px;
+      color:#fff;
+      text-align:center;
+    }
+    .passport-box input::placeholder{color:#aaa}
+
+    /* ===== شبكة الرابط + الأعضاء ===== */
+    .grid{
+      margin:0 20px 20px;
+      display:flex;
+      border:2px solid #fff;
+      border-radius:20px;
+      overflow:hidden;
+    }
+    .grid>div{
+      flex:1;
+      padding:25px 15px;
+      text-align:center;
+    }
+    .grid>div:not(:last-child){
+      border-left:2px solid #fff;
+    }
+    .grid p{margin:0 0 12px;font-size:16px}
+    .btn{
+      display:inline-block;
+      padding:10px 35px;
+      background:#fff;
+      color:#000;
+      font-weight:700;
+      border-radius:10px;
+      font-size:16px;
+    }
+
+    /* ===== زر التصويت ===== */
+    .vote-btn{
+      display:block;
+      margin:40px 20px;
+      padding:18px 0;
+      text-align:center;
+      background:#fff;
+      color:#000;
+      font-size:32px;
+      font-weight:900;
+      border:none;
+      border-radius:20px;
+      cursor:pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- صورة المرشح -->
+  <img id="candImg" class="candidate-img" src="" alt="صورة المرشح" />
+
+  <!-- البطاقة الأساسية -->
+  <div class="info-card">
+    <h2 id="candName">اسم المرشح</h2>
+    <p id="candLeader">اسم الرئيس</p>
+    <p id="candDate">اليوم / الشهر / السنة</p>
+  </div>
+
+  <!-- أشكال الجوازات -->
+  <div class="section-title">أشكال الجوازات</div>
+  <div class="passport-box">
+    <input id="passportsUrl" type="url" placeholder="روابط صور أشكال الجوازات" />
+  </div>
+
+  <!-- رابط الفرع + عدد الأعضاء -->
+  <div class="grid">
+    <!-- العمود الأيمن: رابط الفرع -->
+    <div>
+      <p>رابط الفرع</p>
+      <a id="branchLink" class="btn" href="#" target="_blank">زيارة</a>
+    </div>
+
+    <!-- العمود الأيسر: عدد الأعضاء -->
+    <div>
+      <p id="membersCount">عدد الأعضاء الحاليين</p>
+      <small id="membersLabel">الأعضاء / عضوًا</small>
+    </div>
+  </div>
+
+  <!-- زر التصويت -->
+  <button class="vote-btn">تصويت</button>
+
+  <!-- ========== جلب البيانات ديناميكيًا من الصفحة الأولى ========== -->
+  <script>
+    // نحاول قراءة بيانات المرشح من sessionStorage
+    const cand = JSON.parse(sessionStorage.getItem('selectedCandidate') || 'null');
+
+    if (!cand) {
+      // لو ما فيه بيانات يرجع للصفحة الأولى
+      location.href = 'voting.html';
+    } else {
+      // تعبئة الحقول
+      document.getElementById('candImg').src        = cand.url     || '';
+      document.getElementById('candName').textContent   = cand.country || '—';
+      document.getElementById('candLeader').textContent = cand.leader  || '—';
+      document.getElementById('candDate').textContent   = cand.date    || '—';
+    }
+
+    /*  ملاحظات للتوسيع لاحقًا:
+        - يمكن ملء passportsUrl.value = cand.passportsUrl
+        - branchLink.href  = cand.branch
+        - membersCount.textContent = cand.membersCount
+    */
+  </script>
+
+</body>
+</html>
