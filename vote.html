@@ -1,563 +1,192 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام التصويت</title>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>التصويت</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      font-family: "Tajawal", sans-serif;
+      background-color: #000;
+      color: #fff;
+      direction: rtl;
+    }
 
-        body {
-            font-family: 'IBM Plex sans Arabic', sans-serif;
-            background-color: #000;
-            color: #fff;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+    }
 
-        .container {
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+    header h1 {
+      font-size: 28px;
+      font-weight: 900;
+      margin: 0;
+    }
 
-        /* Header */
-        .header {
-            background-color: #1a1a1a;
-            padding: 20px;
-            text-align: center;
-            border-bottom: 2px solid #333;
-        }
+    header a {
+      font-size: 16px;
+      color: #fff;
+      text-decoration: none;
+    }
 
-        .header h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
+    .vote-box {
+      border: 2px solid white;
+      border-radius: 20px;
+      margin: 20px;
+      padding: 30px 20px;
+      text-align: center;
+    }
 
-        .header p {
-            font-size: 16px;
-            color: #ccc;
-        }
+    .vote-box h2 {
+      font-size: 36px;
+      font-weight: 900;
+      margin: 0;
+    }
 
-        /* Voting Section */
-        .voting-section {
-            background-color: #1a1a1a;
-            padding: 30px 20px;
-            text-align: center;
-            border-bottom: 2px solid #333;
-        }
+    .container {
+      background-color: #111;
+      margin: 20px;
+      border-radius: 20px;
+      display: flex;
+      overflow: hidden;
+    }
 
-        .voting-title {
-            font-size: 22px;
-            margin-bottom: 30px;
-            color: #fff;
-        }
+    .form-area {
+      flex: 1;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
 
-        .candidate-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
+    .image-input {
+      align-self: flex-end;
+    }
 
-        .candidate-card {
-            background-color: #2a2a2a;
-            border: 2px solid #444;
-            border-radius: 10px;
-            padding: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-        }
+    .image-input input {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 2px solid white;
+      background-color: transparent;
+      color: white;
+      text-align: center;
+    }
 
-        .candidate-card:hover {
-            border-color: #666;
-            transform: translateY(-2px);
-        }
+    .text-inputs input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid white;
+      color: white;
+      font-size: 16px;
+      padding: 10px 5px;
+    }
 
-        .candidate-card.selected {
-            border-color: #4CAF50;
-            background-color: #2d4a2d;
-        }
-
-        .candidate-name {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .candidate-info {
-            font-size: 14px;
-            color: #ccc;
-            line-height: 1.5;
-        }
-
-        .vote-count {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background-color: #4CAF50;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        /* Forms */
-        .form-group {
-            margin-bottom: 20px;
-            text-align: right;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 10px;
-            font-size: 16px;
-            color: #fff;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #444;
-            border-radius: 10px;
-            background-color: #2a2a2a;
-            color: #fff;
-            font-size: 16px;
-            text-align: right;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: #4CAF50;
-        }
-
-        /* Buttons */
-        .btn {
-            width: 100%;
-            padding: 15px;
-            border: none;
-            border-radius: 10px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary {
-            background-color: #4CAF50;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: #45a049;
-        }
-
-        .btn-secondary {
-            background-color: #2a2a2a;
-            color: white;
-            border: 2px solid #444;
-        }
-
-        .btn-secondary:hover {
-            background-color: #3a3a3a;
-        }
-
-        /* Results */
-        .results-section {
-            background-color: #1a1a1a;
-            padding: 30px 20px;
-            text-align: center;
-        }
-
-        .results-title {
-            font-size: 24px;
-            margin-bottom: 30px;
-            color: #4CAF50;
-        }
-
-        .result-item {
-            background-color: #2a2a2a;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .result-name {
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .result-votes {
-            font-size: 16px;
-            color: #4CAF50;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 10px;
-            background-color: #444;
-            border-radius: 5px;
-            margin-top: 10px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background-color: #4CAF50;
-            transition: width 0.3s ease;
-        }
-
-        /* Hidden sections */
-        .hidden {
-            display: none;
-        }
-
-        /* Success message */
-        .success-message {
-            background-color: #2d4a2d;
-            border: 2px solid #4CAF50;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .success-message h2 {
-            color: #4CAF50;
-            margin-bottom: 10px;
-        }
-
-        /* Captcha */
-        .captcha-section {
-            background-color: #1a1a1a;
-            padding: 30px 20px;
-            text-align: center;
-            border-bottom: 2px solid #333;
-        }
-
-        .captcha-title {
-            font-size: 20px;
-            margin-bottom: 20px;
-        }
-
-        .captcha-display {
-            background-color: #2a2a2a;
-            border: 2px solid #444;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            font-size: 24px;
-            font-weight: bold;
-            letter-spacing: 3px;
-        }
-
-        @media (max-width: 480px) {
-            .candidate-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .container {
-                padding: 10px;
-            }
-        }
-    </style>
+    .text-inputs input::placeholder {
+      color: #aaa;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Voting Section -->
-        <div id="votingSection">
-            <div class="header">
-                <h1>التصويت</h1>
-                <p>الصفحة الرئيسية</p>
-            </div>
 
-            <div class="voting-section">
-                <h2 class="voting-title">اسم التصويت</h2>
-                <div style="background-color: #2a2a2a; border-radius: 10px; padding: 20px; margin-bottom: 20px;">
-                    <h3 style="font-size: 20px; margin-bottom: 10px;">العدد</h3>
-                </div>
+  <header>
+    <h1>التصويت</h1>
+    <a href="index.html">الصفحة الرئيسية</a>
+  </header>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
-                    <div style="text-align: center;">
-                        <p style="font-size: 16px; margin-bottom: 10px;">اسم الدولة أو اسم الفرع</p>
-                        <p style="font-size: 16px; margin-bottom: 10px;">اسم الرئيس</p>
-                        <p style="font-size: 14px; color: #ccc;">التاريخ بصيغة اليوم / الشهر / السنة م</p>
-                    </div>
-                    <div style="text-align: center;">
-                        <button class="btn btn-secondary" style="padding: 10px 20px; font-size: 14px;">رابط الصورة</button>
-                    </div>
-                </div>
+  <div class="vote-box">
+    <h2>العداد</h2>
+  </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
-                    <div style="text-align: center;">
-                        <p style="font-size: 16px;">الأعضاء / عضواً</p>
-                    </div>
-                    <div style="text-align: center;">
-                        <p style="font-size: 16px;">عدد الأعضاء الحاليين</p>
-                    </div>
-                </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
-                    <div style="text-align: center;">
-                        <button class="btn btn-secondary" style="padding: 10px 20px; font-size: 14px;">زيارة</button>
-                    </div>
-                    <div style="text-align: center;">
-                        <p style="font-size: 16px;">رابط الفرع</p>
-                    </div>
-                </div>
-
-                <div class="candidate-grid" id="candidateGrid">
-                    <!-- سيتم إضافة المرشحين هنا -->
-                </div>
-
-                <button class="btn btn-primary" onclick="showCaptcha()">تصويت</button>
-            </div>
-        </div>
-
-        <!-- Captcha Section -->
-        <div id="captchaSection" class="hidden">
-            <div class="header">
-                <h1>تأكيد التصويت</h1>
-            </div>
-
-            <div class="captcha-section">
-                <h2 class="captcha-title">تحقق من أنك إنسان</h2>
-                <div class="captcha-display" id="captchaDisplay"></div>
-                <div class="form-group">
-                    <input type="text" id="captchaInput" placeholder="أدخل الرمز" style="text-align: center;">
-                </div>
-                <button class="btn btn-primary" onclick="submitVote()">تأكيد</button>
-            </div>
-        </div>
-
-        <!-- Success Section -->
-        <div id="successSection" class="hidden">
-            <div class="header">
-                <h1>تمت بنجاح</h1>
-            </div>
-
-            <div class="voting-section">
-                <div class="success-message">
-                    <h2>نهنئك بنجاح تصويتك!</h2>
-                </div>
-                <button class="btn btn-primary" onclick="showResults()">عرض النتائج</button>
-            </div>
-        </div>
-
-        <!-- Results Section -->
-        <div id="resultsSection" class="hidden">
-            <div class="header">
-                <h1>نتائج التصويت</h1>
-                <p>الصفحة الرئيسية</p>
-            </div>
-
-            <div class="results-section">
-                <h2 class="results-title">النتائج النهائية</h2>
-                <div id="resultsContainer">
-                    <!-- سيتم إضافة النتائج هنا -->
-                </div>
-                <button class="btn btn-secondary" onclick="backToVoting()">العودة للتصويت</button>
-            </div>
-        </div>
+  <!-- المرشح رقم 1 -->
+  <div class="container">
+    <div class="form-area">
+      <div class="image-input">
+        <input type="url" placeholder="رابط الصورة" />
+      </div>
+      <div class="text-inputs">
+        <input type="text" placeholder="الدولة أو الفرع" />
+        <input type="text" placeholder="الرئيس" />
+        <input type="text" placeholder="اليوم / الشهر / السنة" />
+      </div>
     </div>
+  </div>
 
-    <!-- Firebase SDK -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.0.0/firebase-app-compat.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.0.0/firebase-firestore-compat.min.js"></script>
+  <!-- المرشح رقم 2 -->
+  <div class="container">
+    <div class="form-area">
+      <div class="image-input">
+        <input type="url" placeholder="رابط الصورة" />
+      </div>
+      <div class="text-inputs">
+        <input type="text" placeholder="الدولة أو الفرع" />
+        <input type="text" placeholder="الرئيس" />
+        <input type="text" placeholder="اليوم / الشهر / السنة" />
+      </div>
+    </div>
+  </div>
 
-    <script>
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "your-api-key",
-            authDomain: "your-project.firebaseapp.com",
-            projectId: "your-project-id",
-            storageBucket: "your-project.appspot.com",
-            messagingSenderId: "123456789",
-            appId: "your-app-id"
-        };
+  <!-- المرشح رقم 3 -->
+  <div class="container">
+    <div class="form-area">
+      <div class="image-input">
+        <input type="url" placeholder="رابط الصورة" />
+      </div>
+      <div class="text-inputs">
+        <input type="text" placeholder="الدولة أو الفرع" />
+        <input type="text" placeholder="الرئيس" />
+        <input type="text" placeholder="اليوم / الشهر / السنة" />
+      </div>
+    </div>
+  </div>
 
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+  <!-- المرشح رقم 4 -->
+  <div class="container">
+    <div class="form-area">
+      <div class="image-input">
+        <input type="url" placeholder="رابط الصورة" />
+      </div>
+      <div class="text-inputs">
+        <input type="text" placeholder="الدولة أو الفرع" />
+        <input type="text" placeholder="الرئيس" />
+        <input type="text" placeholder="اليوم / الشهر / السنة" />
+      </div>
+    </div>
+  </div>
 
-        // Candidates data
-        const candidates = [
-            {
-                id: 1,
-                name: "أحمد محمد",
-                info: "مرشح للرئاسة\nخبرة 10 سنوات",
-                votes: 0
-            },
-            {
-                id: 2,
-                name: "فاطمة علي",
-                info: "مرشحة للرئاسة\nخبرة 8 سنوات",
-                votes: 0
-            },
-            {
-                id: 3,
-                name: "محمد أحمد",
-                info: "مرشح للرئاسة\nخبرة 12 سنة",
-                votes: 0
-            },
-            {
-                id: 4,
-                name: "سارة حسن",
-                info: "مرشحة للرئاسة\nخبرة 6 سنوات",
-                votes: 0
-            },
-            {
-                id: 5,
-                name: "عبدالله خالد",
-                info: "مرشح للرئاسة\nخبرة 15 سنة",
-                votes: 0
-            },
-            {
-                id: 6,
-                name: "نور الدين",
-                info: "مرشح للرئاسة\nخبرة 9 سنوات",
-                votes: 0
-            }
-        ];
+  <!-- المرشح رقم 5 -->
+  <div class="container">
+    <div class="form-area">
+      <div class="image-input">
+        <input type="url" placeholder="رابط الصورة" />
+      </div>
+      <div class="text-inputs">
+        <input type="text" placeholder="الدولة أو الفرع" />
+        <input type="text" placeholder="الرئيس" />
+        <input type="text" placeholder="اليوم / الشهر / السنة" />
+      </div>
+    </div>
+  </div>
 
-        let selectedCandidate = null;
-        let captchaCode = '';
+<script>
+  // عند الضغط على أي مرشح، نحفظ بياناته ثم ننتقل
+  document.querySelectorAll('.candidate').forEach(box => {
+    box.addEventListener('click', () => {
+      const url      = box.querySelector('input[type="url"]').value.trim();
+      const country  = box.querySelectorAll('.text-inputs input')[0].value.trim();
+      const leader   = box.querySelectorAll('.text-inputs input')[1].value.trim();
+      const date     = box.querySelectorAll('.text-inputs input')[2].value.trim();
 
-        // Load candidates and votes
-        async function loadCandidates() {
-            const candidateGrid = document.getElementById('candidateGrid');
-            candidateGrid.innerHTML = '';
+      sessionStorage.setItem('selectedCandidate', JSON.stringify({ url, country, leader, date }));
+      location.href = 'candidate.html';
+    });
+  });
+</script>
 
-            // Load votes from Firebase
-            try {
-                const votesSnapshot = await db.collection('votes').get();
-                const votes = {};
-                votesSnapshot.forEach(doc => {
-                    votes[doc.id] = doc.data().count || 0;
-                });
-
-                candidates.forEach(candidate => {
-                    candidate.votes = votes[candidate.id] || 0;
-                });
-            } catch (error) {
-                console.log('Error loading votes:', error);
-            }
-
-            candidates.forEach(candidate => {
-                const candidateCard = document.createElement('div');
-                candidateCard.className = 'candidate-card';
-                candidateCard.onclick = () => selectCandidate(candidate.id);
-                candidateCard.innerHTML = `
-                    <div class="vote-count">${candidate.votes}</div>
-                    <div class="candidate-name">${candidate.name}</div>
-                    <div class="candidate-info">${candidate.info}</div>
-                `;
-                candidateGrid.appendChild(candidateCard);
-            });
-        }
-
-        function selectCandidate(candidateId) {
-            selectedCandidate = candidateId;
-            document.querySelectorAll('.candidate-card').forEach(card => {
-                card.classList.remove('selected');
-            });
-            document.querySelectorAll('.candidate-card')[candidateId - 1].classList.add('selected');
-        }
-
-        function showCaptcha() {
-            if (!selectedCandidate) {
-                alert('يرجى اختيار مرشح أولاً');
-                return;
-            }
-
-            // Generate captcha
-            captchaCode = Math.random().toString(36).substring(2, 8).toUpperCase();
-            document.getElementById('captchaDisplay').textContent = captchaCode;
-            
-            // Show captcha section
-            document.getElementById('votingSection').classList.add('hidden');
-            document.getElementById('captchaSection').classList.remove('hidden');
-        }
-
-        async function submitVote() {
-            const userInput = document.getElementById('captchaInput').value.toUpperCase();
-            
-            if (userInput !== captchaCode) {
-                alert('رمز التحقق غير صحيح');
-                return;
-            }
-
-            try {
-                // Update vote count in Firebase
-                const voteRef = db.collection('votes').doc(selectedCandidate.toString());
-                await voteRef.set({
-                    count: firebase.firestore.FieldValue.increment(1)
-                }, { merge: true });
-
-                // Update local data
-                candidates.find(c => c.id === selectedCandidate).votes++;
-
-                // Show success message
-                document.getElementById('captchaSection').classList.add('hidden');
-                document.getElementById('successSection').classList.remove('hidden');
-            } catch (error) {
-                console.error('Error submitting vote:', error);
-                alert('حدث خطأ في التصويت');
-            }
-        }
-
-        function showResults() {
-            const resultsContainer = document.getElementById('resultsContainer');
-            resultsContainer.innerHTML = '';
-
-            const totalVotes = candidates.reduce((sum, candidate) => sum + candidate.votes, 0);
-            
-            // Sort candidates by votes
-            const sortedCandidates = [...candidates].sort((a, b) => b.votes - a.votes);
-
-            sortedCandidates.forEach(candidate => {
-                const percentage = totalVotes > 0 ? (candidate.votes / totalVotes * 100).toFixed(1) : 0;
-                
-                const resultItem = document.createElement('div');
-                resultItem.className = 'result-item';
-                resultItem.innerHTML = `
-                    <div>
-                        <div class="result-name">${candidate.name}</div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: ${percentage}%"></div>
-                        </div>
-                    </div>
-                    <div class="result-votes">${candidate.votes} صوت (${percentage}%)</div>
-                `;
-                resultsContainer.appendChild(resultItem);
-            });
-
-            document.getElementById('successSection').classList.add('hidden');
-            document.getElementById('resultsSection').classList.remove('hidden');
-        }
-
-        function backToVoting() {
-            document.getElementById('resultsSection').classList.add('hidden');
-            document.getElementById('votingSection').classList.remove('hidden');
-            selectedCandidate = null;
-            document.querySelectorAll('.candidate-card').forEach(card => {
-                card.classList.remove('selected');
-            });
-            document.getElementById('captchaInput').value = '';
-        }
-
-        // Initialize the app
-        loadCandidates();
-    </script>
 </body>
 </html>
