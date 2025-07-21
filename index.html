@@ -520,7 +520,8 @@ syncTimerVisibility();
 
         // انتهى العداد عند منتصف الليل لأول يوم من 26 مايو 2025
         const endDate = new Date('2025-07-21T07:16:30').getTime();
-
+const now = new Date().getTime();
+console.log("الفرق بالمللي ثانية:", endDate - now);
         function updateCountdown() {
             const now = new Date().getTime();
             const diff = endDate - now;
