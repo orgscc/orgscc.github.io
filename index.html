@@ -411,9 +411,9 @@
 <div class="timer-container" id="timerBox" style="display: none;">
     <!-- عنوان العداد في الأعلى داخل المربع الأسود -->
     <div class="timer-title">
-        انتهاء المهلة لـ " جـ . ق "
+        افتتاح تطبيق نُسُق
         <br>
-        17 يوليو 2025 : الساعة 7:00 صباحاً
+        21 يوليو 2025 : الساعة 4:30 م
     </div>
 
     <div class="timer-content">
@@ -487,7 +487,7 @@
     </div>
 
     <script>
-let hidden = true;
+let hidden = false;
 
 function syncTimerVisibility() {
     document.getElementById('timerBox').style.display = hidden ? 'none' : 'block';
@@ -519,7 +519,7 @@ syncTimerVisibility();
         const dayEl = document.getElementById('day');
 
         // انتهى العداد عند منتصف الليل لأول يوم من 26 مايو 2025
-        const endDate = new Date('2025-07-17T07:00:00').getTime();
+        const endDate = new Date('2025-07-21T07:16:30').getTime();
 
         function updateCountdown() {
             const now = new Date().getTime();
