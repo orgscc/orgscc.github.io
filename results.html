@@ -9,15 +9,14 @@
       background-color: #000;
       font-family: 'IBM Plex Sans Arabic', sans-serif;
       color: black;
-      margin: 0;
-      padding: 0;
+      margin: 0; padding: 0;
       direction: rtl;
       text-align: center;
     }
     .container {
       max-width: 600px;
       margin: 50px auto;
-      background-color: white;
+      background: white;
       padding: 30px;
       border-radius: 12px;
       box-shadow: 0 0 10px #333;
@@ -37,7 +36,7 @@
       padding: 8px 12px;
       border: 1px solid #ccc;
       border-radius: 6px;
-      background-color: #f9f9f9;
+      background: #f9f9f9;
     }
     a {
       display: block;
@@ -58,6 +57,42 @@
     <a href="vote.html">رجوع لصفحة التصويت</a>
   </div>
 
-  <script type="module" src="results.js"></script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAXmmeasLrO0kCkrPupuSso3NZ99ev8R0I",
+      authDomain: "sccvotes-2025.firebaseapp.com",
+      projectId: "sccvotes-2025",
+      storageBucket: "sccvotes-2025.firebasestorage.app",
+      messagingSenderId: "1040810048644",
+      appId: "1:1040810048644:web:690e84716d3afe61dc16d1",
+      measurementId: "G-NSPESWP7H8"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const resultIds = {
+      "المرشح 1": "c1",
+      "المرشح 2": "c2",
+      "المرشح 3": "c3"
+    };
+
+    async function fetchResults() {
+      const snapshot = await getDocs(collection(db, "votes"));
+      snapshot.forEach((doc) => {
+        const name = doc.id;
+        const count = doc.data().count || 0;
+        const elId = resultIds[name];
+        if (elId) {
+          document.getElementById(elId).innerText = count;
+        }
+      });
+    }
+
+    fetchResults();
+  </script>
 </body>
 </html>
