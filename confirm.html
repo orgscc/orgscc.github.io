@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <title>تأكيد التصويت</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      background-color: #000;
+      font-family: 'IBM Plex Sans Arabic', sans-serif;
+      color: black;
+      margin: 0; padding: 0;
+      direction: rtl;
+      text-align: center;
+    }
+    .container {
+      max-width: 500px;
+      margin: 50px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px #333;
+    }
+    h1 {
+      margin-bottom: 20px;
+      font-size: 22px;
+    }
+    .candidate-info {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 20px;
+      text-align: right;
+    }
+    .candidate-info img {
+      width: 100px; height: 100px;
+      border: 2px solid #000;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+    .info-text {
+      text-align: right;
+      font-size: 18px;
+    }
+    .info-text div {
+      margin: 6px 0;
+    }
+    form {
+      margin-top: 20px;
+    }
+    .captcha-box {
+      margin: 20px 0;
+    }
+    input[type="text"] {
+      padding: 10px;
+      width: 80%;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    button {
+      padding: 10px 25px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 6px;
+      border: none;
+      background-color: #000;
+      color: white;
+    }
+    #message {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>تأكيد التصويت</h1>
+    <div class="candidate-info">
+      <img id="candidateImg" src="" alt="صورة المرشح" />
+      <div class="info-text">
+        <div>الفرع: <span id="branch"></span></div>
+        <div>الرئيس: <span id="president"></span></div>
+        <div>التاريخ: <span id="date"></span></div>
+      </div>
+    </div>
+    <form id="confirmForm">
+      <div class="captcha-box">
+        <label for="captchaInput">أكتب الرقم الظاهر:</label><br />
+        <canvas id="captcha" width="200" height="60" style="border:1px solid #000;"></canvas><br />
+        <input type="text" id="captchaInput" required autocomplete="off" />
+      </div>
+      <button type="submit">تأكيد التصويت</button>
+    </form>
+    <p id="message"></p>
+    <a href="vote.html">رجوع لاختيار مرشح</a>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, doc, getDoc, setDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    // ملف التهيئة:
+    const firebaseConfig = {
+      apiKey: "AIzaSyAXmmeasLrO0kCkrPupuSso3NZ99ev8R0I",
+      authDomain: "sccvotes-2025.firebaseapp.com",
+      projectId: "sccvotes-2025",
+      storageBucket: "sccvotes-2025.firebasestorage.app",
+      messagingSenderId: "1040810048644",
+      appId: "1:1040810048644:web:690e84716d3afe61dc16d1",
+      measurementId: "G-NSPESWP7H8"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // جلب البيانات من الرابط:
+    const urlParams = new URLSearchParams(window.location.search);
+    const candidate = urlParams.get('candidate');
+    const branch = urlParams.get('branch');
+    const president = urlParams.get('president');
+    const date = urlParams.get('date');
+    const img = urlParams.get('img');
+
+    // تحديث الواجهة:
+    document.getElementById('candidateImg').src = decodeURIComponent(img || '');
+    document.getElementById('branch').textContent = decodeURIComponent(branch || '');
+    document.getElementById('president').textContent = decodeURIComponent(president || '');
+    document.getElementById('date').textContent = decodeURIComponent(date || '');
+
+    const captchaCanvas = document.getElementById('captcha');
+    const ctx = captchaCanvas.getContext('2d');
+    let captchaCode = '';
+
+    function generateCaptcha() {
+      captchaCode = '';
+      ctx.clearRect(0, 0, captchaCanvas.width, captchaCanvas.height);
+      ctx.font = "30px 'IBM Plex Sans Arabic'";
+      ctx.fillStyle = "#000";
+      for (let i = 0; i < 5; i++) {
+        const char = Math.floor(Math.random() * 10).toString();
+        captchaCode += char;
+        ctx.fillText(char, 10 + i * 35, 40 + Math.random() * 10);
+      }
+    }
+    generateCaptcha();
+
+    const form = document.getElementById('confirmForm');
+    const message = document.getElementById('message');
+
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const input = document.getElementById('captchaInput').value.trim();
+
+      if (input !== captchaCode) {
+        message.style.color = 'red';
+        message.innerText = 'كود الكابتشا غير صحيح، حاول مرة ثانية';
+        generateCaptcha();
+        return;
+      }
+
+      if (localStorage.getItem('voted')) {
+        message.style.color = 'red';
+        message
