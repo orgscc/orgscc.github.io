@@ -1,192 +1,62 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
   <title>التصويت</title>
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet" />
-  <style>
-    body {
-      margin: 0;
-      font-family: "Tajawal", sans-serif;
-      background-color: #000;
-      color: #fff;
-      direction: rtl;
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px;
-    }
-
-    header h1 {
-      font-size: 28px;
-      font-weight: 900;
-      margin: 0;
-    }
-
-    header a {
-      font-size: 16px;
-      color: #fff;
-      text-decoration: none;
-    }
-
-    .vote-box {
-      border: 2px solid white;
-      border-radius: 20px;
-      margin: 20px;
-      padding: 30px 20px;
-      text-align: center;
-    }
-
-    .vote-box h2 {
-      font-size: 36px;
-      font-weight: 900;
-      margin: 0;
-    }
-
-    .container {
-      background-color: #111;
-      margin: 20px;
-      border-radius: 20px;
-      display: flex;
-      overflow: hidden;
-    }
-
-    .form-area {
-      flex: 1;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .image-input {
-      align-self: flex-end;
-    }
-
-    .image-input input {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      border: 2px solid white;
-      background-color: transparent;
-      color: white;
-      text-align: center;
-    }
-
-    .text-inputs input {
-      width: 100%;
-      background: transparent;
-      border: none;
-      border-bottom: 2px solid white;
-      color: white;
-      font-size: 16px;
-      padding: 10px 5px;
-    }
-
-    .text-inputs input::placeholder {
-      color: #aaa;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic&display=swap" rel="stylesheet">
 </head>
 <body>
-
-  <header>
-    <h1>التصويت</h1>
-    <a href="index.html">الصفحة الرئيسية</a>
-  </header>
-
-  <div class="vote-box">
-    <h2>العداد</h2>
-  </div>
-
-  <!-- المرشح رقم 1 -->
   <div class="container">
-    <div class="form-area">
-      <div class="image-input">
-        <input type="url" placeholder="رابط الصورة" />
-      </div>
-      <div class="text-inputs">
-        <input type="text" placeholder="الدولة أو الفرع" />
-        <input type="text" placeholder="الرئيس" />
-        <input type="text" placeholder="اليوم / الشهر / السنة" />
-      </div>
-    </div>
+    <h1>صوّت على المرشح</h1>
+    <form id="voteForm">
+
+      <!-- مرشح 1 -->
+      <label class="candidate-card">
+        <input type="radio" name="candidate" value="المرشح 1">
+        <div class="card-content">
+          <img src="images/candidate1.jpg" alt="مرشح 1" class="candidate-img">
+          <div class="info">
+            <div class="branch">فرع القصيم</div>
+            <div class="president">محمد بن طارق</div>
+            <div class="date">2025-07-27</div>
+          </div>
+        </div>
+      </label>
+
+      <!-- مرشح 2 -->
+      <label class="candidate-card">
+        <input type="radio" name="candidate" value="المرشح 2">
+        <div class="card-content">
+          <img src="images/candidate2.jpg" alt="مرشح 2" class="candidate-img">
+          <div class="info">
+            <div class="branch">فرع الرياض</div>
+            <div class="president">سعود العتيبي</div>
+            <div class="date">2025-07-15</div>
+          </div>
+        </div>
+      </label>
+
+      <!-- مرشح 3 -->
+      <label class="candidate-card">
+        <input type="radio" name="candidate" value="المرشح 3">
+        <div class="card-content">
+          <img src="images/candidate3.jpg" alt="مرشح 3" class="candidate-img">
+          <div class="info">
+            <div class="branch">فرع جدة</div>
+            <div class="president">خالد بن ناصر</div>
+            <div class="date">2025-07-10</div>
+          </div>
+        </div>
+      </label>
+
+      <button type="submit">إرسال التصويت</button>
+    </form>
+
+    <p id="message"></p>
+    <a href="results.html">عرض النتائج</a>
   </div>
 
-  <!-- المرشح رقم 2 -->
-  <div class="container">
-    <div class="form-area">
-      <div class="image-input">
-        <input type="url" placeholder="رابط الصورة" />
-      </div>
-      <div class="text-inputs">
-        <input type="text" placeholder="الدولة أو الفرع" />
-        <input type="text" placeholder="الرئيس" />
-        <input type="text" placeholder="اليوم / الشهر / السنة" />
-      </div>
-    </div>
-  </div>
-
-  <!-- المرشح رقم 3 -->
-  <div class="container">
-    <div class="form-area">
-      <div class="image-input">
-        <input type="url" placeholder="رابط الصورة" />
-      </div>
-      <div class="text-inputs">
-        <input type="text" placeholder="الدولة أو الفرع" />
-        <input type="text" placeholder="الرئيس" />
-        <input type="text" placeholder="اليوم / الشهر / السنة" />
-      </div>
-    </div>
-  </div>
-
-  <!-- المرشح رقم 4 -->
-  <div class="container">
-    <div class="form-area">
-      <div class="image-input">
-        <input type="url" placeholder="رابط الصورة" />
-      </div>
-      <div class="text-inputs">
-        <input type="text" placeholder="الدولة أو الفرع" />
-        <input type="text" placeholder="الرئيس" />
-        <input type="text" placeholder="اليوم / الشهر / السنة" />
-      </div>
-    </div>
-  </div>
-
-  <!-- المرشح رقم 5 -->
-  <div class="container">
-    <div class="form-area">
-      <div class="image-input">
-        <input type="url" placeholder="رابط الصورة" />
-      </div>
-      <div class="text-inputs">
-        <input type="text" placeholder="الدولة أو الفرع" />
-        <input type="text" placeholder="الرئيس" />
-        <input type="text" placeholder="اليوم / الشهر / السنة" />
-      </div>
-    </div>
-  </div>
-
-<script>
-  // عند الضغط على أي مرشح، نحفظ بياناته ثم ننتقل
-  document.querySelectorAll('.candidate').forEach(box => {
-    box.addEventListener('click', () => {
-      const url      = box.querySelector('input[type="url"]').value.trim();
-      const country  = box.querySelectorAll('.text-inputs input')[0].value.trim();
-      const leader   = box.querySelectorAll('.text-inputs input')[1].value.trim();
-      const date     = box.querySelectorAll('.text-inputs input')[2].value.trim();
-
-      sessionStorage.setItem('selectedCandidate', JSON.stringify({ url, country, leader, date }));
-      location.href = 'candidate.html';
-    });
-  });
-</script>
-
+  <script type="module" src="script.js"></script>
 </body>
 </html>
