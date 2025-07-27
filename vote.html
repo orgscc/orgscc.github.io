@@ -1,21 +1,100 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>التصويت</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      background-color: #000;
+      font-family: 'IBM Plex Sans Arabic', sans-serif;
+      color: black;
+      margin: 0;
+      padding: 0;
+      direction: rtl;
+      text-align: center;
+    }
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      background-color: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px #333;
+    }
+    h1 {
+      margin-bottom: 30px;
+      font-size: 24px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .candidate-card {
+      display: block;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      padding: 10px;
+      background-color: #f9f9f9;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .candidate-card:hover {
+      border-color: #000;
+    }
+    .card-content {
+      display: flex;
+      align-items: center;
+      text-align: right;
+    }
+    input[type="radio"] {
+      margin-left: 10px;
+    }
+    .candidate-img {
+      width: 80px;
+      height: 80px;
+      border-radius: 6px;
+      object-fit: cover;
+      margin-left: 15px;
+      border: 2px solid #000;
+    }
+    .info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 6px;
+      border: none;
+      background-color: #000;
+      color: white;
+    }
+    a {
+      display: block;
+      margin-top: 25px;
+      color: #000;
+      text-decoration: underline;
+    }
+    #message {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
     <h1>صوّت على المرشح</h1>
     <form id="voteForm">
-
-      <!-- مرشح 1 -->
       <label class="candidate-card">
-        <input type="radio" name="candidate" value="المرشح 1">
+        <input type="radio" name="candidate" value="المرشح 1" />
         <div class="card-content">
-          <img src="images/candidate1.jpg" alt="مرشح 1" class="candidate-img">
+          <img src="images/candidate1.jpg" alt="مرشح 1" class="candidate-img" />
           <div class="info">
             <div class="branch">فرع القصيم</div>
             <div class="president">محمد بن طارق</div>
@@ -24,11 +103,10 @@
         </div>
       </label>
 
-      <!-- مرشح 2 -->
       <label class="candidate-card">
-        <input type="radio" name="candidate" value="المرشح 2">
+        <input type="radio" name="candidate" value="المرشح 2" />
         <div class="card-content">
-          <img src="images/candidate2.jpg" alt="مرشح 2" class="candidate-img">
+          <img src="images/candidate2.jpg" alt="مرشح 2" class="candidate-img" />
           <div class="info">
             <div class="branch">فرع الرياض</div>
             <div class="president">سعود العتيبي</div>
@@ -37,11 +115,10 @@
         </div>
       </label>
 
-      <!-- مرشح 3 -->
       <label class="candidate-card">
-        <input type="radio" name="candidate" value="المرشح 3">
+        <input type="radio" name="candidate" value="المرشح 3" />
         <div class="card-content">
-          <img src="images/candidate3.jpg" alt="مرشح 3" class="candidate-img">
+          <img src="images/candidate3.jpg" alt="مرشح 3" class="candidate-img" />
           <div class="info">
             <div class="branch">فرع جدة</div>
             <div class="president">خالد بن ناصر</div>
