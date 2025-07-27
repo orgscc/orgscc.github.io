@@ -9,15 +9,14 @@
       background-color: #000;
       font-family: 'IBM Plex Sans Arabic', sans-serif;
       color: black;
-      margin: 0;
-      padding: 0;
+      margin: 0; padding: 0;
       direction: rtl;
       text-align: center;
     }
     .container {
       max-width: 600px;
       margin: 50px auto;
-      background-color: white;
+      background: white;
       padding: 30px;
       border-radius: 12px;
       box-shadow: 0 0 10px #333;
@@ -36,7 +35,7 @@
       border: 2px solid #ccc;
       border-radius: 10px;
       padding: 10px;
-      background-color: #f9f9f9;
+      background: #f9f9f9;
       cursor: pointer;
       transition: 0.3s;
     }
@@ -52,8 +51,7 @@
       margin-left: 10px;
     }
     .candidate-img {
-      width: 80px;
-      height: 80px;
+      width: 80px; height: 80px;
       border-radius: 6px;
       object-fit: cover;
       margin-left: 15px;
@@ -81,20 +79,19 @@
       color: #000;
       text-decoration: underline;
     }
-    #message {
-      margin-top: 20px;
-      font-weight: bold;
-    }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>صوّت على المرشح</h1>
-    <form id="voteForm">
+    <form id="voteForm" action="confirm.html" method="GET">
       <label class="candidate-card">
-        <input type="radio" name="candidate" value="المرشح 1" />
+        <input type="radio" name="candidate" value="المرشح 1"
+          data-branch="فرع القصيم" data-president="محمد بن طارق"
+          data-date="2025-07-27" 
+          data-img="https://example.com/images/candidate1.jpg" required />
         <div class="card-content">
-          <img src="images/candidate1.jpg" alt="مرشح 1" class="candidate-img" />
+          <img src="https://example.com/images/candidate1.jpg" alt="مرشح 1" class="candidate-img" />
           <div class="info">
             <div class="branch">فرع القصيم</div>
             <div class="president">محمد بن طارق</div>
@@ -104,9 +101,12 @@
       </label>
 
       <label class="candidate-card">
-        <input type="radio" name="candidate" value="المرشح 2" />
+        <input type="radio" name="candidate" value="المرشح 2"
+          data-branch="فرع الرياض" data-president="سعود العتيبي"
+          data-date="2025-07-15" 
+          data-img="https://example.com/images/candidate2.jpg" />
         <div class="card-content">
-          <img src="images/candidate2.jpg" alt="مرشح 2" class="candidate-img" />
+          <img src="https://example.com/images/candidate2.jpg" alt="مرشح 2" class="candidate-img" />
           <div class="info">
             <div class="branch">فرع الرياض</div>
             <div class="president">سعود العتيبي</div>
@@ -116,9 +116,12 @@
       </label>
 
       <label class="candidate-card">
-        <input type="radio" name="candidate" value="المرشح 3" />
+        <input type="radio" name="candidate" value="المرشح 3"
+          data-branch="فرع جدة" data-president="خالد بن ناصر"
+          data-date="2025-07-10" 
+          data-img="https://example.com/images/candidate3.jpg" />
         <div class="card-content">
-          <img src="images/candidate3.jpg" alt="مرشح 3" class="candidate-img" />
+          <img src="https://example.com/images/candidate3.jpg" alt="مرشح 3" class="candidate-img" />
           <div class="info">
             <div class="branch">فرع جدة</div>
             <div class="president">خالد بن ناصر</div>
@@ -129,11 +132,28 @@
 
       <button type="submit">إرسال التصويت</button>
     </form>
-
-    <p id="message"></p>
     <a href="results.html">عرض النتائج</a>
   </div>
 
-  <script type="module" src="script.js"></script>
+  <script>
+    // عند الإرسال، نضيف البيانات كـ query parameters للانتقال للصفحة التأكيد
+    const form = document.getElementById('voteForm');
+    form.addEventListener('submit', e => {
+      const selected = form.candidate.value;
+      if(!selected) {
+        e.preventDefault();
+        alert('الرجاء اختيار مرشح');
+        return;
+      }
+      const input = form.querySelector('input[name="candidate"]:checked');
+      const params = new URLSearchParams();
+      params.append('candidate', input.value);
+      params.append('branch', input.dataset.branch);
+      params.append('president', input.dataset.president);
+      params.append('date', input.dataset.date);
+      params.append('img', input.dataset.img);
+      form.action = 'confirm.html?' + params.toString();
+    });
+  </script>
 </body>
 </html>
