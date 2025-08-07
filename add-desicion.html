@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>إضافة قرار جديد | مجلس SCC</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      background-color: white;
+      color: black;
+      font-family: 'IBM Plex Sans Arabic', sans-serif;
+      padding: 30px;
+      max-width: 600px;
+      margin: auto;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    input, textarea, select, button {
+      font-size: 16px;
+      border: 1px solid black;
+      border-radius: 5px;
+      padding: 10px;
+      margin: 10px 0;
+      width: 100%;
+      box-sizing: border-box;
+      background: white;
+      color: black;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+    }
+    button:hover {
+      background: black;
+      color: white;
+    }
+    /* Responsive */
+    @media (max-width: 600px) {
+      body {
+        padding: 15px;
+        max-width: 100%;
+      }
+      input, textarea, select, button {
+        font-size: 18px;
+        padding: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h2>إضافة قرار جديد</h2>
+  <input type="text" id="title" placeholder="عنوان القرار" />
+  <textarea id="description" placeholder="تفاصيل القرار الكامل"></textarea>
+  <input type="date" id="date" />
+  <select id="type">
+    <option>الرس</option>
+    <option>خميس مشيط</option>
+    <option>مشترك</option>
+  </select>
+  <button onclick="addDecision()">حفظ القرار</button>
+
+  <script>
+    if (localStorage.getItem('isPresident') !== 'true') {
+      window.location.href = 'majlis-access.html';
+    }
+
+    let decisions = JSON.parse(localStorage.getItem('scc_decisions') || '[]');
+
+    function saveDecisions() {
+      localStorage.setItem('scc_decisions', JSON.stringify(decisions));
+    }
+
+    function addDecision() {
+      const title = document.getElementById('title').value.trim();
+      const description = document.getElementById('description').value.trim();
+      const date = document.getElementById('date').value;
+      const type = document.getElementById('type').value;
+
+      if (!title || !description || !date) {
+        alert('الرجاء تعبئة جميع الحقول');
+        return;
+      }
+
+      decisions.push({ title, description, date, type, approved: false });
+      saveDecisions();
+      alert('تم حفظ القرار بنجاح');
+      window.location.href = 'majlis-decisions.html';
+    }
+  </script>
+</body>
+</html>
