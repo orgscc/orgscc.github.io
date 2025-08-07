@@ -1,49 +1,96 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>القرارات - مجلس التنسيق الأعلى</title>
+  <meta charset="UTF-8" />
+  <title>دخول مجلس SCC</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic&display=swap" rel="stylesheet" />
   <style>
     body {
-      background-color: white;
+      font-family: 'IBM Plex Sans Arabic', sans-serif;
+      background: white;
       color: black;
-      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      max-width: 350px;
+      width: 100%;
+      border: 1px solid #ccc;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px #ddd;
       text-align: center;
-      padding: 100px;
+    }
+    h2 {
+      margin-bottom: 25px;
     }
     input {
-      padding: 10px;
-      width: 200px;
-      font-size: 16px;
-      margin: 10px;
+      width: 100%;
+      padding: 12px;
+      font-size: 20px;
+      border: 1px solid #999;
+      border-radius: 8px;
+      text-align: center;
+      letter-spacing: 10px;
+      direction: ltr;
+      margin-bottom: 25px;
     }
     button {
-      padding: 10px 20px;
-      font-size: 16px;
+      width: 100%;
+      padding: 14px;
+      font-size: 18px;
+      background: black;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      opacity: 0.9;
     }
     .error {
       color: red;
+      margin-top: 15px;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-  <h2> مرحبا بك في مركز مجلس التنسيق الأعلى السري</h2>
-  <p>فضلاً أدخل الرقم السري (٦ أرقام)</p>
-  <input type="password" id="password" maxlength="6">
-  <br>
-  <button onclick="login()">دخول</button>
-  <p class="error" id="errorMsg"></p>
+  <div class="container">
+    <h2>أدخل الرمز السري (٦ أرقام)</h2>
+    <input type="password" id="accessCode" maxlength="6" placeholder="******" />
+    <button onclick="checkAccess()">دخول</button>
+    <div class="error" id="errorMsg"></div>
+  </div>
 
   <script>
-    function login() {
-      const pass = document.getElementById("password").value;
-      const correctPass = "202013"; // الرقم السري
-      if (pass === correctPass) {
-        localStorage.setItem("isPresident", "true");
-        window.location.href = "scc-decisions.html";
-      } else {
-        document.getElementById("errorMsg").textContent = "الرقم السري غير صحيح.";
+    const correctCode = '123456'; // غير الرقم هنا للرمز المطلوب
+
+    function checkAccess() {
+      const input = document.getElementById('accessCode').value.trim();
+      const errorMsg = document.getElementById('errorMsg');
+
+      if (input.length !== 6 || !/^[0-9]{6}$/.test(input)) {
+        errorMsg.textContent = 'الرمز لازم يكون ٦ أرقام فقط';
+        return;
       }
+
+      if (input === correctCode) {
+        localStorage.setItem('isPresident', 'true');
+        window.location.href = 'majlis-decisions.html';
+      } else {
+        errorMsg.textContent = 'الرمز غير صحيح';
+      }
+    }
+
+    // لو مسجل الدخول قبلًا يوديه مباشرة
+    if(localStorage.getItem('isPresident') === 'true') {
+      window.location.href = 'majlis-decisions.html';
     }
   </script>
 </body>
