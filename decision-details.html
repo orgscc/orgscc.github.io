@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>تفاصيل القرار | SCC</title>
+  <style>
+    body {
+      background-color: white;
+      color: black;
+      font-family: Arial, sans-serif;
+      padding: 30px;
+    }
+    .box {
+      border: 1px solid black;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 600px;
+    }
+    h2 { text-align: center; }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      display: block;
+      margin: 20px auto;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="box">
+    <h2 id="decisionTitle"></h2>
+    <p><strong>التاريخ:</strong> <span id="decisionDate"></span></p>
+    <p><strong>النوع:</strong> <span id="decisionType"></span></p>
+    <p><strong>الوصف الكامل:</strong></p>
+    <p id="decisionDesc"></p>
+    <p><strong>الحالة:</strong> <span id="decisionStatus"></span></p>
+    <button id="approveBtn" style="display:none;" onclick="approveDecision()">الموافقة على القرار</button>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = parseInt(urlParams.get("id"));
+    let decisions = JSON.parse(localStorage.getItem("scc_decisions") || "[]");
+    const decision = decisions[id];
+
+    if (!decision) {
+      document.body.innerHTML = "<h2 style='text-align:center;'>القرار غير موجود</h2>";
+    } else {
+      document.getElementById("decisionTitle").textContent = decision.title;
+      document.getElementById("decisionDate").textContent = decision.date;
+      document.getElementById("decisionType").textContent = decision.type;
+      document.getElementById("decisionDesc").textContent = decision.description;
+      document.getElementById("decisionStatus").textContent = decision.approved ? "✅ تمت الموافقة" : "❌ لم تتم الموافقة";
+
+      if (localStorage.getItem("isPresident") === "true" && !decision.approved) {
+        document.getElementById("approveBtn").style.display = "block";
+      }
+    }
+
+    function approveDecision() {
+      decisions[id].approved = true;
+      localStorage.setItem("scc_decisions", JSON.stringify(decisions));
+      location.reload();
+    }
+  </script>
+</body>
+</html>
