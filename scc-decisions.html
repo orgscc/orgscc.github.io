@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>القرارات - مجلس التنسيق الأعلى</title>
+  <style>
+    body {
+      background-color: white;
+      color: black;
+      font-family: Arial, sans-serif;
+      padding: 30px;
+    }
+    h2 { text-align: center; }
+    input, textarea, select, button {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      font-size: 16px;
+    }
+    .decision {
+      border: 1px solid black;
+      padding: 10px;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>مرحباً بك يا الريّس في مجلس SCC</h2>
+
+  <input type="text" id="title" placeholder="عنوان القرار">
+  <textarea id="description" placeholder="تفاصيل القرار الكامل"></textarea>
+  <input type="date" id="date">
+  <select id="type">
+    <option>الرس</option>
+    <option>خميس مشيط</option>
+    <option>مشترك</option>
+  </select>
+  <button onclick="addDecision()">إضافة القرار</button>
+
+  <hr>
+  <h3>القرارات:</h3>
+  <div id="decisionsList"></div>
+
+  <script>
+    // تحقق من الدخول
+    if (localStorage.getItem("isPresident") !== "true") {
+      window.location.href = "majlis-access.html";
+    }
+
+    let decisions = JSON.parse(localStorage.getItem("scc_decisions") || "[]");
+
+    function saveDecisions() {
+      localStorage.setItem("scc_decisions", JSON.stringify(decisions));
+    }
+
+    function renderDecisions() {
+      const list = document.getElementById("decisionsList");
+      list.innerHTML = "";
+      decisions.forEach((d, i) => {
+        const div = document.createElement("div");
+        div.className = "decision";
+        div.textContent = `${d.title} - ${d.date} (${d.type})`;
+        div.onclick = () => {
+          window.location.href = `decision-details.html?id=${i}`;
+        };
+        list.appendChild(div);
+      });
+    }
+
+    function addDecision() {
+      const title = document.getElementById("title").value.trim();
+      const description = document.getElementById("description").value.trim();
+      const date = document.getElementById("date").value;
+      const type = document.getElementById("type").value;
+
+      if (!title || !description || !date) {
+        alert("الرجاء تعبئة جميع الحقول");
+        return;
+      }
+
+      decisions.push({ title, description, date, type, approved: false });
+      saveDecisions();
+      renderDecisions();
+
+      document.getElementById("title").value = "";
+      document.getElementById("description").value = "";
+      document.getElementById("date").value = "";
+    }
+
+    renderDecisions();
+  </script>
+</body>
+</html>
