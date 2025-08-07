@@ -2,107 +2,174 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <title>مجلس القيادة SCC</title>
+  <title>مجلس SCC - عرض القرارات</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic&display=swap" rel="stylesheet" />
   <style>
     body {
-      background-color: white;
-      color: black;
       font-family: 'IBM Plex Sans Arabic', sans-serif;
-      padding: 30px;
-      max-width: 900px;
-      margin: auto;
-    }
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    button, select, input, textarea {
-      font-size: 16px;
-      border: 1px solid black;
-      border-radius: 5px;
-      padding: 10px;
-      margin: 10px 0;
-      width: 100%;
-      box-sizing: border-box;
       background: white;
       color: black;
-      cursor: pointer;
-      transition: background 0.3s, color 0.3s;
+      margin: 0;
+      padding: 20px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
     }
-    button:hover {
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    #addDecisionBtn {
       background: black;
       color: white;
-    }
-    #addDecisionBtn {
-      max-width: 250px;
-      margin: 0 auto 20px auto;
+      border: none;
+      padding: 12px 25px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-bottom: 25px;
       display: block;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+      transition: background 0.3s;
     }
+
+    #addDecisionBtn:hover {
+      background: #333;
+    }
+
     .decision {
+      display: flex;
+      align-items: center;
       border: 1px solid black;
-      padding: 10px;
-      margin-top: 15px;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 15px;
       cursor: pointer;
       transition: background 0.2s;
     }
+
     .decision:hover {
       background: #f0f0f0;
     }
 
+    .decision img {
+      width: 120px;
+      height: 90px;
+      object-fit: cover;
+      border: 2px solid black;
+      border-radius: 6px;
+      margin-left: 20px;
+    }
+
+    .decision-details {
+      flex-grow: 1;
+    }
+
+    .decision-title {
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+
+    .decision-date {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 6px;
+    }
+
+    .decision-status {
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .approved {
+      color: green;
+    }
+
+    .not-approved {
+      color: red;
+    }
+
     /* Responsive */
     @media (max-width: 600px) {
-      body {
-        padding: 15px;
-        max-width: 100%;
+      .decision {
+        flex-direction: column;
+        align-items: flex-start;
       }
-      button, select, input, textarea {
-        font-size: 18px;
-        padding: 14px;
-      }
-      #addDecisionBtn {
-        max-width: 100%;
+      .decision img {
+        width: 100%;
+        height: auto;
+        margin: 0 0 10px 0;
       }
     }
   </style>
 </head>
 <body>
-  <h2>مرحباً بك يا الريّس في مجلس SCC</h2>
+  <h2>قرارات مجلس SCC</h2>
+  <button id="addDecisionBtn" onclick="goToAdd()">+ إضافة قرار جديد</button>
 
-  <button id="addDecisionBtn" onclick="goToAddDecision()">+ إضافة قرار جديد</button>
-
-  <hr />
-
-  <h3>القرارات:</h3>
   <div id="decisionsList"></div>
 
   <script>
-    if (localStorage.getItem('isPresident') !== 'true') {
+    if(localStorage.getItem('isPresident') !== 'true'){
       window.location.href = 'majlis-access.html';
     }
 
     let decisions = JSON.parse(localStorage.getItem('scc_decisions') || '[]');
 
-    function saveDecisions() {
-      localStorage.setItem('scc_decisions', JSON.stringify(decisions));
+    function goToAdd() {
+      window.location.href = 'add-decision.html';
     }
 
     function renderDecisions() {
-      const list = document.getElementById('decisionsList');
-      list.innerHTML = '';
+      const container = document.getElementById('decisionsList');
+      container.innerHTML = '';
+
+      if(decisions.length === 0) {
+        container.innerHTML = '<p style="text-align:center;">ما فيه قرارات حالياً</p>';
+        return;
+      }
+
       decisions.forEach((d, i) => {
         const div = document.createElement('div');
         div.className = 'decision';
-        div.textContent = `${d.title} - ${d.date} (${d.type})`;
         div.onclick = () => {
           window.location.href = `decision-details.html?id=${i}`;
         };
-        list.appendChild(div);
-      });
-    }
 
-    function goToAddDecision() {
-      window.location.href = 'add-decision.html';
+        const img = document.createElement('img');
+        img.src = d.image || 'https://via.placeholder.com/120x90?text=بدون+صورة';
+        img.alt = d.title;
+
+        const details = document.createElement('div');
+        details.className = 'decision-details';
+
+        const title = document.createElement('div');
+        title.className = 'decision-title';
+        title.textContent = d.title;
+
+        const date = document.createElement('div');
+        date.className = 'decision-date';
+        date.textContent = d.date;
+
+        const status = document.createElement('div');
+        status.className = 'decision-status ' + (d.approved ? 'approved' : 'not-approved');
+        status.textContent = d.approved ? 'تمت الموافقة' : 'لم تتم الموافقة';
+
+        details.appendChild(title);
+        details.appendChild(date);
+        details.appendChild(status);
+
+        div.appendChild(img);
+        div.appendChild(details);
+
+        container.appendChild(div);
+      });
     }
 
     renderDecisions();
