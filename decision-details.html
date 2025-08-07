@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <title>تفاصيل القرار | مجلس SCC</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <title>تفاصيل القرار - مجلس SCC</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'IBM Plex Sans Arabic', sans-serif;
@@ -12,39 +12,43 @@
       color: black;
       margin: 0;
       padding: 20px;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
     }
     .container {
-      border: 1px solid black;
-      border-radius: 10px;
-      padding: 25px;
-      box-sizing: border-box;
+      max-width: 700px;
+      margin: auto;
     }
     h2 {
       text-align: center;
       margin-bottom: 20px;
     }
-    p {
-      margin: 12px 0;
-      line-height: 1.5;
+    .decision-info {
+      background: #f5f5f5;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
     }
-    .label {
-      font-weight: bold;
+    .decision-info p {
+      margin: 8px 0;
+    }
+    .decision-image {
+      text-align: center;
+      margin: 20px 0;
+    }
+    .decision-image img {
+      max-width: 100%;
+      border-radius: 8px;
+      border: 1px solid #ccc;
     }
     button {
-      background: black;
-      color: white;
-      border: none;
+      display: block;
+      width: 100%;
       padding: 14px;
+      border: none;
+      background: #c62828;
+      color: white;
       font-size: 16px;
       border-radius: 8px;
       cursor: pointer;
-      display: block;
-      margin: 25px auto 0 auto;
-      width: 100%;
-      max-width: 300px;
     }
     button:hover {
       opacity: 0.9;
@@ -52,46 +56,54 @@
   </style>
 </head>
 <body>
-  <div class="container" id="decisionContainer">
-    <h2 id="title"></h2>
-    <p><span class="label">التاريخ:</span> <span id="date"></span></p>
-    <p><span class="label">الوصف:</span></p>
-    <p id="description"></p>
-    <p><span class="label">النص الكامل:</span></p>
-    <p id="content"></p>
-    <p><span class="label">الحالة:</span> <span id="status"></span></p>
-    <button id="approveBtn" style="display:none;" onclick="approve()">الموافقة على القرار</button>
+  <div class="container">
+    <h2>تفاصيل القرار</h2>
+    <div class="decision-info">
+      <p><strong>العنوان:</strong> <span id="decision-title"></span></p>
+      <p><strong>التاريخ:</strong> <span id="decision-date"></span></p>
+      <p><strong>الوصف المختصر:</strong></p>
+      <p id="decision-description"></p>
+      <p><strong>النص الكامل:</strong></p>
+      <p id="decision-content"></p>
+    </div>
+    <div class="decision-image" id="decision-image-container" style="display:none;">
+      <img id="decision-image" alt="صورة القرار">
+    </div>
+    <button onclick="deleteDecision()">حذف القرار</button>
   </div>
 
   <script>
-    if(localStorage.getItem('isPresident') !== 'true'){
-      window.location.href = 'majlis-access.html';
-    }
-
-    const params = new URLSearchParams(window.location.search);
-    const id = parseInt(params.get('id'));
+    // جلب القرارات
     let decisions = JSON.parse(localStorage.getItem('scc_decisions') || '[]');
 
-    if(isNaN(id) || id < 0 || id >= decisions.length) {
-      document.body.innerHTML = '<h2 style="text-align:center; margin-top:50px;">القرار غير موجود</h2>';
-    } else {
-      const decision = decisions[id];
-      document.getElementById('title').textContent = decision.title;
-      document.getElementById('date').textContent = decision.date;
-      document.getElementById('description').textContent = decision.description;
-      document.getElementById('content').textContent = decision.content;
-      document.getElementById('status').textContent = decision.approved ? '✅ تمت الموافقة' : '❌ لم تتم الموافقة';
+    // معرفة القرار المحدد من الرابط
+    const urlParams = new URLSearchParams(window.location.search);
+    const index = urlParams.get('id');
 
-      if(!decision.approved){
-        document.getElementById('approveBtn').style.display = 'block';
+    if (!index || !decisions[index]) {
+      alert('لم يتم العثور على القرار');
+      window.location.href = 'majlis-decisions.html';
+    } else {
+      const decision = decisions[index];
+      document.getElementById('decision-title').textContent = decision.title;
+      document.getElementById('decision-date').textContent = decision.date;
+      document.getElementById('decision-description').textContent = decision.description;
+      document.getElementById('decision-content').textContent = decision.content;
+
+      // إذا فيه صورة
+      if (decision.image) {
+        document.getElementById('decision-image').src = decision.image;
+        document.getElementById('decision-image-container').style.display = 'block';
       }
     }
 
-    function approve() {
-      decisions[id].approved = true;
-      localStorage.setItem('scc_decisions', JSON.stringify(decisions));
-      alert('تمت الموافقة على القرار');
-      location.reload();
+    function deleteDecision() {
+      if (confirm('هل أنت متأكد أنك تريد حذف هذا القرار؟')) {
+        decisions.splice(index, 1);
+        localStorage.setItem('scc_decisions', JSON.stringify(decisions));
+        alert('تم حذف القرار بنجاح');
+        window.location.href = 'majlis-decisions.html';
+      }
     }
   </script>
 </body>
