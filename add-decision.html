@@ -2,88 +2,113 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <title>إضافة قرار جديد | مجلس SCC</title>
+  <title>إضافة قرار جديد - مجلس SCC</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic&display=swap" rel="stylesheet" />
   <style>
     body {
-      background-color: white;
-      color: black;
       font-family: 'IBM Plex Sans Arabic', sans-serif;
-      padding: 30px;
+      background: white;
+      color: black;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
       max-width: 600px;
       margin: auto;
     }
     h2 {
       text-align: center;
+      margin-bottom: 30px;
+    }
+    .form-group {
       margin-bottom: 20px;
     }
-    input, textarea, select, button {
-      font-size: 16px;
-      border: 1px solid black;
-      border-radius: 5px;
-      padding: 10px;
-      margin: 10px 0;
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+    input, textarea {
       width: 100%;
-      box-sizing: border-box;
-      background: white;
-      color: black;
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      resize: vertical;
+    }
+    button {
+      background-color: black;
+      color: white;
+      border: none;
+      padding: 14px;
+      font-size: 16px;
+      border-radius: 8px;
       cursor: pointer;
-      transition: background 0.3s, color 0.3s;
+      width: 100%;
     }
     button:hover {
-      background: black;
-      color: white;
-    }
-    /* Responsive */
-    @media (max-width: 600px) {
-      body {
-        padding: 15px;
-        max-width: 100%;
-      }
-      input, textarea, select, button {
-        font-size: 18px;
-        padding: 14px;
-      }
+      opacity: 0.9;
     }
   </style>
 </head>
 <body>
-  <h2>إضافة قرار جديد</h2>
-  <input type="text" id="title" placeholder="عنوان القرار" />
-  <textarea id="description" placeholder="تفاصيل القرار الكامل"></textarea>
-  <input type="date" id="date" />
-  <select id="type">
-    <option>الرس</option>
-    <option>خميس مشيط</option>
-    <option>مشترك</option>
-  </select>
-  <button onclick="addDecision()">حفظ القرار</button>
+  <div class="container">
+    <h2>إضافة قرار جديد</h2>
+    <div class="form-group">
+      <label for="title">عنوان القرار</label>
+      <input type="text" id="title" placeholder="أدخل عنوان القرار" />
+    </div>
+    <div class="form-group">
+      <label for="date">تاريخ القرار</label>
+      <input type="date" id="date" />
+    </div>
+    <div class="form-group">
+      <label for="description">وصف مختصر</label>
+      <textarea id="description" rows="3" placeholder="أدخل وصفًا مختصرًا للقرار"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="content">نص القرار الكامل</label>
+      <textarea id="content" rows="6" placeholder="أدخل نص القرار بالكامل"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="image">رابط صورة القرار</label>
+      <input type="url" id="image" placeholder="https://example.com/image.jpg" />
+    </div>
+    <button onclick="saveDecision()">حفظ القرار</button>
+  </div>
 
   <script>
-    if (localStorage.getItem('isPresident') !== 'true') {
+    if(localStorage.getItem('isPresident') !== 'true'){
       window.location.href = 'majlis-access.html';
     }
 
-    let decisions = JSON.parse(localStorage.getItem('scc_decisions') || '[]');
-
-    function saveDecisions() {
-      localStorage.setItem('scc_decisions', JSON.stringify(decisions));
-    }
-
-    function addDecision() {
+    function saveDecision() {
       const title = document.getElementById('title').value.trim();
-      const description = document.getElementById('description').value.trim();
       const date = document.getElementById('date').value;
-      const type = document.getElementById('type').value;
+      const description = document.getElementById('description').value.trim();
+      const content = document.getElementById('content').value.trim();
+      const image = document.getElementById('image').value.trim();
 
-      if (!title || !description || !date) {
-        alert('الرجاء تعبئة جميع الحقول');
+      if (!title || !date || !description || !content) {
+        alert('رجاءً عبئ كل الحقول المطلوبة.');
         return;
       }
 
-      decisions.push({ title, description, date, type, approved: false });
-      saveDecisions();
-      alert('تم حفظ القرار بنجاح');
+      let decisions = JSON.parse(localStorage.getItem('scc_decisions') || '[]');
+
+      const newDecision = {
+        title,
+        date,
+        description,
+        content,
+        image,
+        approved: false
+      };
+
+      decisions.push(newDecision);
+      localStorage.setItem('scc_decisions', JSON.stringify(decisions));
+      alert('تم حفظ القرار بنجاح!');
       window.location.href = 'majlis-decisions.html';
     }
   </script>
