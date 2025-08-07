@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>القرارات - مجلس التنسيق الأعلى</title>
+  <style>
+    body {
+      background-color: white;
+      color: black;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 100px;
+    }
+    input {
+      padding: 10px;
+      width: 200px;
+      font-size: 16px;
+      margin: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <h2> مرحبا بك في مركز مجلس التنسيق الأعلى السري</h2>
+  <p>فضلاً أدخل الرقم السري (٦ أرقام)</p>
+  <input type="password" id="password" maxlength="6">
+  <br>
+  <button onclick="login()">دخول</button>
+  <p class="error" id="errorMsg"></p>
+
+  <script>
+    function login() {
+      const pass = document.getElementById("password").value;
+      const correctPass = "202013"; // الرقم السري
+      if (pass === correctPass) {
+        localStorage.setItem("isPresident", "true");
+        window.location.href = "scc-decisions.html";
+      } else {
+        document.getElementById("errorMsg").textContent = "الرقم السري غير صحيح.";
+      }
+    }
+  </script>
+</body>
+</html>
