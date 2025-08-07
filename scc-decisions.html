@@ -1,67 +1,98 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>القرارات - مجلس التنسيق الأعلى</title>
+  <meta charset="UTF-8" />
+  <title>مجلس القيادة SCC</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic&display=swap" rel="stylesheet" />
   <style>
     body {
       background-color: white;
       color: black;
-      font-family: Arial, sans-serif;
+      font-family: 'IBM Plex Sans Arabic', sans-serif;
       padding: 30px;
+      max-width: 900px;
+      margin: auto;
     }
-    h2 { text-align: center; }
-    input, textarea, select, button {
-      display: block;
-      width: 100%;
-      margin: 10px 0;
-      padding: 10px;
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    button, select, input, textarea {
       font-size: 16px;
+      border: 1px solid black;
+      border-radius: 5px;
+      padding: 10px;
+      margin: 10px 0;
+      width: 100%;
+      box-sizing: border-box;
+      background: white;
+      color: black;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+    }
+    button:hover {
+      background: black;
+      color: white;
+    }
+    #addDecisionBtn {
+      max-width: 250px;
+      margin: 0 auto 20px auto;
+      display: block;
     }
     .decision {
       border: 1px solid black;
       padding: 10px;
       margin-top: 15px;
       cursor: pointer;
+      transition: background 0.2s;
+    }
+    .decision:hover {
+      background: #f0f0f0;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      body {
+        padding: 15px;
+        max-width: 100%;
+      }
+      button, select, input, textarea {
+        font-size: 18px;
+        padding: 14px;
+      }
+      #addDecisionBtn {
+        max-width: 100%;
+      }
     }
   </style>
 </head>
 <body>
-
   <h2>مرحباً بك يا الريّس في مجلس SCC</h2>
 
-  <input type="text" id="title" placeholder="عنوان القرار">
-  <textarea id="description" placeholder="تفاصيل القرار الكامل"></textarea>
-  <input type="date" id="date">
-  <select id="type">
-    <option>الرس</option>
-    <option>خميس مشيط</option>
-    <option>مشترك</option>
-  </select>
-  <button onclick="addDecision()">إضافة القرار</button>
+  <button id="addDecisionBtn" onclick="goToAddDecision()">+ إضافة قرار جديد</button>
 
-  <hr>
+  <hr />
+
   <h3>القرارات:</h3>
   <div id="decisionsList"></div>
 
   <script>
-    // تحقق من الدخول
-    if (localStorage.getItem("isPresident") !== "true") {
-      window.location.href = "majlis-access.html";
+    if (localStorage.getItem('isPresident') !== 'true') {
+      window.location.href = 'majlis-access.html';
     }
 
-    let decisions = JSON.parse(localStorage.getItem("scc_decisions") || "[]");
+    let decisions = JSON.parse(localStorage.getItem('scc_decisions') || '[]');
 
     function saveDecisions() {
-      localStorage.setItem("scc_decisions", JSON.stringify(decisions));
+      localStorage.setItem('scc_decisions', JSON.stringify(decisions));
     }
 
     function renderDecisions() {
-      const list = document.getElementById("decisionsList");
-      list.innerHTML = "";
+      const list = document.getElementById('decisionsList');
+      list.innerHTML = '';
       decisions.forEach((d, i) => {
-        const div = document.createElement("div");
-        div.className = "decision";
+        const div = document.createElement('div');
+        div.className = 'decision';
         div.textContent = `${d.title} - ${d.date} (${d.type})`;
         div.onclick = () => {
           window.location.href = `decision-details.html?id=${i}`;
@@ -70,24 +101,8 @@
       });
     }
 
-    function addDecision() {
-      const title = document.getElementById("title").value.trim();
-      const description = document.getElementById("description").value.trim();
-      const date = document.getElementById("date").value;
-      const type = document.getElementById("type").value;
-
-      if (!title || !description || !date) {
-        alert("الرجاء تعبئة جميع الحقول");
-        return;
-      }
-
-      decisions.push({ title, description, date, type, approved: false });
-      saveDecisions();
-      renderDecisions();
-
-      document.getElementById("title").value = "";
-      document.getElementById("description").value = "";
-      document.getElementById("date").value = "";
+    function goToAddDecision() {
+      window.location.href = 'add-decision.html';
     }
 
     renderDecisions();
