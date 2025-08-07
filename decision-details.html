@@ -1,33 +1,63 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>تفاصيل القرار | SCC</title>
+  <meta charset="UTF-8" />
+  <title>تفاصيل القرار | مجلس SCC</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic&display=swap" rel="stylesheet" />
   <style>
     body {
       background-color: white;
       color: black;
-      font-family: Arial, sans-serif;
+      font-family: 'IBM Plex Sans Arabic', sans-serif;
       padding: 30px;
+      max-width: 700px;
+      margin: auto;
     }
     .box {
       border: 1px solid black;
       padding: 20px;
-      margin: 20px auto;
-      max-width: 600px;
+      border-radius: 8px;
+      box-sizing: border-box;
     }
-    h2 { text-align: center; }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    p {
+      margin: 8px 0;
+    }
     button {
-      padding: 10px 20px;
-      font-size: 16px;
       display: block;
-      margin: 20px auto;
+      margin: 25px auto 0 auto;
+      padding: 10px 25px;
+      font-size: 16px;
+      border: 1px solid black;
+      border-radius: 5px;
+      background: white;
+      color: black;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+    }
+    button:hover {
+      background: black;
+      color: white;
+    }
+    /* Responsive */
+    @media (max-width: 600px) {
+      body {
+        padding: 15px;
+        max-width: 100%;
+      }
+      button {
+        font-size: 18px;
+        padding: 14px 30px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <div class="box">
+  <div class="box" id="decisionBox">
     <h2 id="decisionTitle"></h2>
     <p><strong>التاريخ:</strong> <span id="decisionDate"></span></p>
     <p><strong>النوع:</strong> <span id="decisionType"></span></p>
@@ -38,30 +68,36 @@
   </div>
 
   <script>
+    if (localStorage.getItem('isPresident') !== 'true') {
+      window.location.href = 'majlis-access.html';
+    }
+
     const urlParams = new URLSearchParams(window.location.search);
-    const id = parseInt(urlParams.get("id"));
-    let decisions = JSON.parse(localStorage.getItem("scc_decisions") || "[]");
-    const decision = decisions[id];
+    const id = parseInt(urlParams.get('id'));
+    let decisions = JSON.parse(localStorage.getItem('scc_decisions') || '[]');
 
-    if (!decision) {
-      document.body.innerHTML = "<h2 style='text-align:center;'>القرار غير موجود</h2>";
+    if (!decisions[id]) {
+      document.body.innerHTML = '<h2 style="text-align:center;">القرار غير موجود</h2>';
     } else {
-      document.getElementById("decisionTitle").textContent = decision.title;
-      document.getElementById("decisionDate").textContent = decision.date;
-      document.getElementById("decisionType").textContent = decision.type;
-      document.getElementById("decisionDesc").textContent = decision.description;
-      document.getElementById("decisionStatus").textContent = decision.approved ? "✅ تمت الموافقة" : "❌ لم تتم الموافقة";
+      const decision = decisions[id];
+      document.getElementById('decisionTitle').textContent = decision.title;
+      document.getElementById('decisionDate').textContent = decision.date;
+      document.getElementById('decisionType').textContent = decision.type;
+      document.getElementById('decisionDesc').textContent = decision.description;
+      document.getElementById('decisionStatus').textContent = decision.approved ? '✅ تمت الموافقة' : '❌ لم تتم الموافقة';
 
-      if (localStorage.getItem("isPresident") === "true" && !decision.approved) {
-        document.getElementById("approveBtn").style.display = "block";
+      if (!decision.approved) {
+        document.getElementById('approveBtn').style.display = 'block';
       }
     }
 
     function approveDecision() {
       decisions[id].approved = true;
-      localStorage.setItem("scc_decisions", JSON.stringify(decisions));
+      localStorage.setItem('scc_decisions', JSON.stringify(decisions));
+      alert('تمت الموافقة على القرار');
       location.reload();
     }
   </script>
+
 </body>
 </html>
