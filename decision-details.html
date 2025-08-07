@@ -3,20 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <title>تفاصيل القرار | مجلس SCC</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic&display=swap" rel="stylesheet" />
   <style>
     body {
-      background-color: white;
-      color: black;
       font-family: 'IBM Plex Sans Arabic', sans-serif;
-      padding: 30px;
-      max-width: 700px;
-      margin: auto;
-    }
-    .box {
-      border: 1px solid black;
+      background: white;
+      color: black;
+      margin: 0;
       padding: 20px;
-      border-radius: 8px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .container {
+      border: 1px solid black;
+      border-radius: 10px;
+      padding: 25px;
       box-sizing: border-box;
     }
     h2 {
@@ -24,80 +27,72 @@
       margin-bottom: 20px;
     }
     p {
-      margin: 8px 0;
+      margin: 12px 0;
+      line-height: 1.5;
+    }
+    .label {
+      font-weight: bold;
     }
     button {
-      display: block;
-      margin: 25px auto 0 auto;
-      padding: 10px 25px;
-      font-size: 16px;
-      border: 1px solid black;
-      border-radius: 5px;
-      background: white;
-      color: black;
-      cursor: pointer;
-      transition: background 0.3s, color 0.3s;
-    }
-    button:hover {
       background: black;
       color: white;
+      border: none;
+      padding: 14px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: block;
+      margin: 25px auto 0 auto;
+      width: 100%;
+      max-width: 300px;
     }
-    /* Responsive */
-    @media (max-width: 600px) {
-      body {
-        padding: 15px;
-        max-width: 100%;
-      }
-      button {
-        font-size: 18px;
-        padding: 14px 30px;
-      }
+    button:hover {
+      opacity: 0.9;
     }
   </style>
 </head>
 <body>
-
-  <div class="box" id="decisionBox">
-    <h2 id="decisionTitle"></h2>
-    <p><strong>التاريخ:</strong> <span id="decisionDate"></span></p>
-    <p><strong>النوع:</strong> <span id="decisionType"></span></p>
-    <p><strong>الوصف الكامل:</strong></p>
-    <p id="decisionDesc"></p>
-    <p><strong>الحالة:</strong> <span id="decisionStatus"></span></p>
-    <button id="approveBtn" style="display:none;" onclick="approveDecision()">الموافقة على القرار</button>
+  <div class="container" id="decisionContainer">
+    <h2 id="title"></h2>
+    <p><span class="label">التاريخ:</span> <span id="date"></span></p>
+    <p><span class="label">الوصف:</span></p>
+    <p id="description"></p>
+    <p><span class="label">النص الكامل:</span></p>
+    <p id="content"></p>
+    <p><span class="label">الحالة:</span> <span id="status"></span></p>
+    <button id="approveBtn" style="display:none;" onclick="approve()">الموافقة على القرار</button>
   </div>
 
   <script>
-    if (localStorage.getItem('isPresident') !== 'true') {
+    if(localStorage.getItem('isPresident') !== 'true'){
       window.location.href = 'majlis-access.html';
     }
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const id = parseInt(urlParams.get('id'));
+    const params = new URLSearchParams(window.location.search);
+    const id = parseInt(params.get('id'));
     let decisions = JSON.parse(localStorage.getItem('scc_decisions') || '[]');
 
-    if (!decisions[id]) {
-      document.body.innerHTML = '<h2 style="text-align:center;">القرار غير موجود</h2>';
+    if(isNaN(id) || id < 0 || id >= decisions.length) {
+      document.body.innerHTML = '<h2 style="text-align:center; margin-top:50px;">القرار غير موجود</h2>';
     } else {
       const decision = decisions[id];
-      document.getElementById('decisionTitle').textContent = decision.title;
-      document.getElementById('decisionDate').textContent = decision.date;
-      document.getElementById('decisionType').textContent = decision.type;
-      document.getElementById('decisionDesc').textContent = decision.description;
-      document.getElementById('decisionStatus').textContent = decision.approved ? '✅ تمت الموافقة' : '❌ لم تتم الموافقة';
+      document.getElementById('title').textContent = decision.title;
+      document.getElementById('date').textContent = decision.date;
+      document.getElementById('description').textContent = decision.description;
+      document.getElementById('content').textContent = decision.content;
+      document.getElementById('status').textContent = decision.approved ? '✅ تمت الموافقة' : '❌ لم تتم الموافقة';
 
-      if (!decision.approved) {
+      if(!decision.approved){
         document.getElementById('approveBtn').style.display = 'block';
       }
     }
 
-    function approveDecision() {
+    function approve() {
       decisions[id].approved = true;
       localStorage.setItem('scc_decisions', JSON.stringify(decisions));
       alert('تمت الموافقة على القرار');
       location.reload();
     }
   </script>
-
 </body>
 </html>
