@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إضافة شخص للقائمة السوداء</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: white;
+            color: black;
+            font-family: 'IBM Plex Sans', sans-serif;
+            margin: 0;
+            padding: 20px;
+            direction: rtl;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input {
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px;
+            width: 100%;
+            border: none;
+            background: black;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        nav {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        nav a {
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            border: 1px solid black;
+            padding: 8px 12px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>إضافة شخص للقائمة السوداء</h1>
+    <nav>
+        <a href="blacklist.html">رجوع للقائمة</a>
+    </nav>
+
+    <form id="blacklistForm">
+        <label>الاسم (إجباري)</label>
+        <input type="text" id="name" required>
+
+        <label>الرقم (اختياري)</label>
+        <input type="text" id="number">
+
+        <label>الإيميل (اختياري)</label>
+        <input type="email" id="email">
+
+        <label>رابط الصورة (اختياري)</label>
+        <input type="url" id="image">
+
+        <button type="submit">إضافة</button>
+    </form>
+
+    <script>
+        document.getElementById('blacklistForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value.trim();
+            const number = document.getElementById('number').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const image = document.getElementById('image').value.trim();
+            const date = new Date().toLocaleDateString('ar-EG');
+
+            if (!name) {
+                alert('الاسم مطلوب');
+                return;
+            }
+
+            const person = { name, number, email, image, date };
+            let list = JSON.parse(localStorage.getItem('blacklist') || '[]');
+            list.push(person);
+            localStorage.setItem('blacklist', JSON.stringify(list));
+
+            alert('تمت الإضافة بنجاح');
+            window.location.href = 'blacklist.html';
+        });
+    </script>
+
+</body>
+</html>
