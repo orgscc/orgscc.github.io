@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>القائمة السوداء</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: white;
+            color: black;
+            font-family: 'IBM Plex Sans', sans-serif;
+            margin: 0;
+            padding: 20px;
+            direction: rtl;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .person-card {
+            background: #f5f5f5;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+        }
+        img {
+            max-width: 100px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .delete-btn {
+            background: red;
+            color: white;
+            border: none;
+            padding: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+        }
+        .clear-btn {
+            background: green;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        nav {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        nav a {
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            border: 1px solid black;
+            padding: 8px 12px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>القائمة السوداء</h1>
+    <nav>
+        <a href="add.html">إضافة شخص</a>
+    </nav>
+
+    <div id="blacklist-container"></div>
+
+    <button class="clear-btn" onclick="clearAll()">🟢 عفو للكل</button>
+
+    <script>
+        function loadBlacklist() {
+            const container = document.getElementById('blacklist-container');
+            container.innerHTML = '';
+            const list = JSON.parse(localStorage.getItem('blacklist') || '[]');
+
+            list.forEach((person, index) => {
+                const card = document.createElement('div');
+                card.className = 'person-card';
+                card.innerHTML = `
+                    <strong>الاسم:</strong> ${person.name} <br>
+                    ${person.number ? `<strong>الرقم:</strong> ${person.number}<br>` : ''}
+                    ${person.email ? `<strong>الإيميل:</strong> ${person.email}<br>` : ''}
+                    ${person.image ? `<img src="${person.image}" alt="صورة">` : ''}
+                    <br><strong>تاريخ الإضافة:</strong> ${person.date}<br>
+                    <button class="delete-btn" onclick="deletePerson(${index})">حذف</button>
+                `;
+                container.appendChild(card);
+            });
+
+            if (list.length === 0) {
+                container.innerHTML = '<p>لا يوجد أحد في القائمة السوداء.</p>';
+            }
+        }
+
+        function deletePerson(index) {
+            let list = JSON.parse(localStorage.getItem('blacklist') || '[]');
+            list.splice(index, 1);
+            localStorage.setItem('blacklist', JSON.stringify(list));
+            loadBlacklist();
+        }
+
+        function clearAll() {
+            const captcha = prompt("أدخل الكود: 1234 لعفو الكل");
+            if (captcha === "1234") {
+                localStorage.removeItem('blacklist');
+                loadBlacklist();
+            } else {
+                alert("الكابتشا غير صحيحة");
+            }
+        }
+
+        loadBlacklist();
+    </script>
+
+</body>
+</html>
