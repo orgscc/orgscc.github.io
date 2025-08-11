@@ -49,6 +49,10 @@
       font-size: 16px;
       border-radius: 8px;
       cursor: pointer;
+      margin-top: 10px;
+    }
+    .approve-btn {
+      background: #2e7d32;
     }
     button:hover {
       opacity: 0.9;
@@ -65,18 +69,17 @@
       <p id="decision-description"></p>
       <p><strong>النص الكامل:</strong></p>
       <p id="decision-content"></p>
+      <p><strong>حالة الموافقة:</strong> <span id="decision-status"></span></p>
     </div>
     <div class="decision-image" id="decision-image-container" style="display:none;">
       <img id="decision-image" alt="صورة القرار">
     </div>
+    <button class="approve-btn" onclick="approveDecision()">الموافقة على القرار</button>
     <button onclick="deleteDecision()">حذف القرار</button>
   </div>
 
   <script>
-    // جلب القرارات
     let decisions = JSON.parse(localStorage.getItem('scc_decisions') || '[]');
-
-    // معرفة القرار المحدد من الرابط
     const urlParams = new URLSearchParams(window.location.search);
     const index = urlParams.get('id');
 
@@ -89,11 +92,20 @@
       document.getElementById('decision-date').textContent = decision.date;
       document.getElementById('decision-description').textContent = decision.description;
       document.getElementById('decision-content').textContent = decision.content;
+      document.getElementById('decision-status').textContent = decision.approved ? "تمت الموافقة" : "لم تتم الموافقة";
 
-      // إذا فيه صورة
       if (decision.image) {
         document.getElementById('decision-image').src = decision.image;
         document.getElementById('decision-image-container').style.display = 'block';
+      }
+    }
+
+    function approveDecision() {
+      if (confirm('هل أنت متأكد أنك توافق على هذا القرار؟')) {
+        decisions[index].approved = true;
+        localStorage.setItem('scc_decisions', JSON.stringify(decisions));
+        document.getElementById('decision-status').textContent = "تمت الموافقة";
+        alert('تمت الموافقة على القرار بنجاح');
       }
     }
 
