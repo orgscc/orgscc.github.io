@@ -487,19 +487,19 @@
     </div>
 
     <script>
-let hidden = true;
+let hidden = false;
 
 function syncTimerVisibility() {
     document.getElementById('timerBox').style.display = hidden ? 'none' : 'block';
 }
 
 function showTimer() {
-    hidden = true;
+    hidden = false;
     syncTimerVisibility();
 }
 
 function hideTimer() {
-    hidden = false;
+    hidden = true;
     syncTimerVisibility();
 }
 
@@ -598,5 +598,6 @@ console.log("الفرق بالمللي ثانية:", endDate - now);
     </script>
 </body>
 </html>
+
 
 
