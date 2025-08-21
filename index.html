@@ -411,9 +411,9 @@
 <div class="timer-container" id="timerBox" style="display: none;">
     <!-- عنوان العداد في الأعلى داخل المربع الأسود -->
     <div class="timer-title">
-        افتتاح تطبيق نُسُق
+        انتهاء مهلة وزارة الت#### لنقل الرئيس للرس العامة
         <br>
-        21 يوليو 2025 : الساعة 4:30 م
+        23 يوليو 2025 الساعة 8:00 صباحاً
     </div>
 
     <div class="timer-content">
@@ -494,12 +494,12 @@ function syncTimerVisibility() {
 }
 
 function showTimer() {
-    hidden = false;
+    hidden = true;
     syncTimerVisibility();
 }
 
 function hideTimer() {
-    hidden = true;
+    hidden = false;
     syncTimerVisibility();
 }
 
@@ -519,7 +519,7 @@ syncTimerVisibility();
         const dayEl = document.getElementById('day');
 
         // انتهى العداد عند منتصف الليل لأول يوم من 26 مايو 2025
-        const endDate = new Date('2025-07-21T07:16:30').getTime();
+        const endDate = new Date('2025-07-23T07:08:00').getTime();
 const now = new Date().getTime();
 console.log("الفرق بالمللي ثانية:", endDate - now);
         function updateCountdown() {
@@ -598,4 +598,5 @@ console.log("الفرق بالمللي ثانية:", endDate - now);
     </script>
 </body>
 </html>
+
 
